@@ -181,12 +181,8 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
     case .failure(let err):
       var errorMessage = ""
 
-      if #available(iOS 11.3, *) {
-        if let errMsg = SecCopyErrorMessageString(err.status, nil) {
-          errorMessage = "Code: \(err.status), Message: \(errMsg)"
-        } else {
-          errorMessage = "Unknown security result code: \(err.status)"
-        }
+      if let errMsg = SecCopyErrorMessageString(err.status, nil) {
+        errorMessage = "Code: \(err.status), Message: \(errMsg)"
       } else {
         errorMessage = "Unknown security result code: \(err.status)"
       }
@@ -229,16 +225,13 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
         result(response.value)
       } else {
         var errorMessage = ""
-
-        if #available(iOS 11.3, *) {
-          if let errMsg = SecCopyErrorMessageString(status, nil) {
-            errorMessage = "Code: \(status), Message: \(errMsg)"
-          } else {
-            errorMessage = "Unknown security result code: \(status)"
-          }
+        
+        if let errMsg = SecCopyErrorMessageString(status, nil) {
+          errorMessage = "Code: \(status), Message: \(errMsg)"
         } else {
           errorMessage = "Unknown security result code: \(status)"
         }
+
         result(
           FlutterError.init(
             code: "Unexpected security result code", message: errorMessage, details: status))
