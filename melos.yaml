@@ -23,6 +23,10 @@ command:
       sdk: '>=3.4.0 <4.0.0'
       flutter: '>=3.22.0'
     dependencies:
-      win32: '^5.5.1'
+      ffi: ^2.0.0
+      path: ^1.8.0
+      path_provider: ^2.0.0
+      web: '>=0.5.0 <2.0.0'
+      win32: ^5.5.1
     dev_dependencies:
-      flutter_lints: '^5.0.0'
+      flutter_lints: ^5.0.0
