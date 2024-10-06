@@ -58,9 +58,7 @@ abstract class AppleOptions extends Options {
 
   @override
   Map<String, String> toMap() => <String, String>{
-        if (_accessibility != null)
-          // ignore: deprecated_member_use
-          'accessibility': describeEnum(_accessibility),
+        if (_accessibility != null) 'accessibility': _accessibility.name,
         if (_accountName != null) 'accountName': _accountName,
         if (_groupId != null) 'groupId': _groupId,
         'synchronizable': '$_synchronizable',
