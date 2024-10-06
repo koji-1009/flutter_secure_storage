@@ -1,3 +1,7 @@
+## 9.3.0
+
+ - **FEAT**: flutter_secure_storage_x. ([667cfeab](https://github.com/koji-1009/flutter_secure_storage/commit/667cfeab1a8c80c26cf9e31da37e5c98a22d5e39))
+
 ## 9.2.3
 * [iOS] Fix for issue #711: The specified item already exists in the keychain.
 

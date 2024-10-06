@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: flutter_secure_storage_x. ([667cfeab](https://github.com/koji-1009/flutter_secure_storage/commit/667cfeab1a8c80c26cf9e31da37e5c98a22d5e39))
+
 ## 3.1.2
 Reverts onCupertinoProtectedDataAvailabilityChanged and isCupertinoProtectedDataAvailable.
 
