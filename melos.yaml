@@ -1,15 +1,15 @@
-name: flutter_secure_storage
-repository: https://github.com/mogol/flutter_secure_storage
+name: flutter_secure_storage_x
+repository: https://github.com/koji-1009/flutter_secure_storage
 
 packages:
-  - flutter_secure_storage
-  - flutter_secure_storage/example
-  - flutter_secure_storage_linux
-  - flutter_secure_storage_macos
-  - flutter_secure_storage_platform_interface
-  - flutter_secure_storage_web
-  - flutter_secure_storage_windows
-  - flutter_secure_storage_windows/example
+  - flutter_secure_storage_x
+  - flutter_secure_storage_x/example
+  - flutter_secure_storage_x_linux
+  - flutter_secure_storage_x_macos
+  - flutter_secure_storage_x_platform_interface
+  - flutter_secure_storage_x_web
+  - flutter_secure_storage_x_windows
+  - flutter_secure_storage_x_windows/example
 
 command:
   version:

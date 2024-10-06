@@ -59,7 +59,7 @@ Please note that this table represents the functions implemented in this reposit
 If not present already, please call WidgetsFlutterBinding.ensureInitialized() in your main before you do anything with the MethodChannel. [Please see this issue  for more info.](https://github.com/mogol/flutter_secure_storage/issues/336)
 
 ```dart
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage_x.dart';
 
 // Create storage
 final storage = FlutterSecureStorage();
