@@ -5,16 +5,16 @@ updates:
     schedule:
       interval: "weekly"
     reviewers:
-      - "juliansteenbakker"
+      - "koji-1009"
   - package-ecosystem: gradle
     directory: "flutter_secure_storage/android"
     schedule:
       interval: "weekly"
     reviewers:
-      - "juliansteenbakker"
+      - "koji-1009"
   - package-ecosystem: gradle
     directory: "flutter_secure_storage/example/android"
     schedule:
       interval: "weekly"
     reviewers:
-      - "juliansteenbakker"
+      - "koji-1009"
