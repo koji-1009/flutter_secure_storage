@@ -61,7 +61,7 @@ class ItemsWidgetState extends State<ItemsWidget> {
       iOptions: _getIOSOptions(),
       aOptions: _getAndroidOptions(),
     );
-    _readAll();
+    await _readAll();
   }
 
   Future<void> _isProtectedDataAvailable() async {
@@ -83,7 +83,7 @@ class ItemsWidgetState extends State<ItemsWidget> {
       iOptions: _getIOSOptions(),
       aOptions: _getAndroidOptions(),
     );
-    _readAll();
+    await _readAll();
   }
 
   IOSOptions _getIOSOptions() => IOSOptions(
@@ -213,7 +213,7 @@ class ItemsWidgetState extends State<ItemsWidget> {
           iOptions: _getIOSOptions(),
           aOptions: _getAndroidOptions(),
         );
-        _readAll();
+        await _readAll();
       case _ItemActions.edit:
         if (!context.mounted) return;
         final String? result = await showDialog<String>(
@@ -227,7 +227,7 @@ class ItemsWidgetState extends State<ItemsWidget> {
             iOptions: _getIOSOptions(),
             aOptions: _getAndroidOptions(),
           );
-          _readAll();
+          await _readAll();
         }
       case _ItemActions.containsKey:
         final String key = await _displayTextInputDialog(context, item.key);
