@@ -3,16 +3,11 @@ part of '../flutter_secure_storage_x.dart';
 /// Specific options for iOS platform.
 class IOSOptions extends AppleOptions {
   const IOSOptions({
-    String? groupId,
-    String? accountName = AppleOptions.defaultAccountName,
-    KeychainAccessibility? accessibility = KeychainAccessibility.unlocked,
-    bool synchronizable = false,
-  }) : super(
-          groupId: groupId,
-          accountName: accountName,
-          accessibility: accessibility,
-          synchronizable: synchronizable,
-        );
+    super.groupId,
+    super.accountName,
+    super.accessibility,
+    super.synchronizable,
+  });
 
   static const IOSOptions defaultOptions = IOSOptions();
 
