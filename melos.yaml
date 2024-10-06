@@ -18,3 +18,9 @@ command:
 
   bootstrap:
     usePubspecOverrides: true
+
+    environment:
+      sdk: '>=3.4.0 <4.0.0'
+      flutter: '>=3.22.0'
+    dependencies:
+      win32: '^5.5.1'

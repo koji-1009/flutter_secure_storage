@@ -4,8 +4,8 @@ repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutte
 version: 2.0.0
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
-  flutter: ">=3.19.0"
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
 
 dependencies:
   flutter:
