@@ -1,4 +1,4 @@
-library flutter_secure_storage_x_platform_interface;
+library;
 
 import 'dart:io';
 

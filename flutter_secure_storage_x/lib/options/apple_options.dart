@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 part of '../flutter_secure_storage_x.dart';
 
 /// KeyChain accessibility attributes as defined here:

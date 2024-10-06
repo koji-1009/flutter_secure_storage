@@ -147,7 +147,7 @@ class FlutterSecureStorageWindows extends FlutterSecureStoragePlatform {
 
     if (options.useBackwardCompatibility) {
       // Clear old entry.
-      _backwardCompatible.delete(key: key, options: options);
+      await _backwardCompatible.delete(key: key, options: options);
     }
   }
 

@@ -1,4 +1,4 @@
-library flutter_secure_storage_x;
+library;
 
 import 'dart:io';
 
@@ -34,7 +34,7 @@ class FlutterSecureStorage {
     this.mOptions = MacOsOptions.defaultOptions,
   });
 
-  static const UNSUPPORTED_PLATFORM = 'unsupported_platform';
+  static const kUnsupportedPlatform = 'unsupported_platform';
 
   FlutterSecureStoragePlatform get _platform =>
       FlutterSecureStoragePlatform.instance;
@@ -322,7 +322,7 @@ class FlutterSecureStorage {
     } else if (Platform.isMacOS) {
       return mOptions?.params ?? this.mOptions.params;
     } else {
-      throw UnsupportedError(UNSUPPORTED_PLATFORM);
+      throw UnsupportedError(kUnsupportedPlatform);
     }
   }
 
