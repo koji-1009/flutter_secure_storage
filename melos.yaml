@@ -24,3 +24,5 @@ command:
       flutter: '>=3.22.0'
     dependencies:
       win32: '^5.5.1'
+    dev_dependencies:
+      flutter_lints: '^5.0.0'

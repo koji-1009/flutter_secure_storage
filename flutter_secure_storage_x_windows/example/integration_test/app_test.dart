@@ -24,9 +24,11 @@ void main() {
       directory
           .listSync(recursive: false, followLinks: false)
           .whereType<File>()
-          .where((f) =>
-              path.basename(f.path) == 'flutter_secure_storage.dat' ||
-              f.path.endsWith('.secure'))
+          .where(
+            (f) =>
+                path.basename(f.path) == 'flutter_secure_storage.dat' ||
+                f.path.endsWith('.secure'),
+          )
           .forEach((f) => f.deleteSync());
     }
 
