@@ -10,17 +10,16 @@ A Flutter plugin to store data in secure storage.
                        DESC
   s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'German Saprykin' => 'saprykin.h@gmail.com' }
+  s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.platform = :ios, '9.0'
-  s.ios.deployment_target = '9.0'
+  s.platform = :ios, '12.0'
 
-    # Flutter.framework does not contain a i386 slice.
-    s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
-    s.swift_version = '5.0'
-    s.resource_bundles = {'flutter_secure_storage_x' => ['Resources/PrivacyInfo.xcprivacy']}
+  # Flutter.framework does not contain a i386 slice.
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.swift_version = '5.0'
+
+  s.resource_bundles = {'flutter_secure_storage_x' => ['Resources/PrivacyInfo.xcprivacy']}
 end
 
