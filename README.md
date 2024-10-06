@@ -1,9 +1,8 @@
 # flutter_secure_storage
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
-[![pub package](https://img.shields.io/pub/v/flutter_secure_storage.svg)](https://pub.dev/packages/flutter_secure_storage)
-[![flutter_secure_storage](https://github.com/mogol/flutter_secure_storage/actions/workflows/flutter.yml/badge.svg)](https://github.com/mogol/flutter_secure_storage/actions/workflows/flutter.yml)
-[![flutter_secure_storage](https://github.com/mogol/flutter_secure_storage/actions/workflows/flutter_drive.yml/badge.svg)](https://github.com/mogol/flutter_secure_storage/actions/workflows/flutter_drive.yml)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/juliansteenbakker)](https://github.com/sponsors/juliansteenbakker)
+[![pub package](https://img.shields.io/pub/v/flutter_secure_storage.svg)](https://pub.dev/packages/flutter_secure_storage_x)
+[![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml)
+[![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml)
 
 A Flutter plugin to store data in secure storage:
 
@@ -59,7 +58,7 @@ Please note that this table represents the functions implemented in this reposit
 If not present already, please call WidgetsFlutterBinding.ensureInitialized() in your main before you do anything with the MethodChannel. [Please see this issue  for more info.](https://github.com/mogol/flutter_secure_storage/issues/336)
 
 ```dart
-import 'package:flutter_secure_storage/flutter_secure_storage_x.dart';
+import 'package:flutter_secure_storage_x/flutter_secure_storage_x.dart';
 
 // Create storage
 final storage = FlutterSecureStorage();
@@ -78,7 +77,6 @@ await storage.deleteAll();
 
 // Write value
 await storage.write(key: key, value: value);
-
 ```
 
 This allows us to be able to fetch secure values while the app is backgrounded, by specifying first_unlock or first_unlock_this_device. The default if not specified is unlocked.
