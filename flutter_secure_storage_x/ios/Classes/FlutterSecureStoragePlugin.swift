@@ -1,5 +1,5 @@
 //
-//  SwiftFlutterSecureStoragePlugin.swift
+//  FlutterSecureStoragePlugin.swift
 //  flutter_secure_storage
 //
 //  Created by Julian Steenbakker on 22/08/2022.
@@ -8,7 +8,7 @@
 import Flutter
 import UIKit
 
-public class SwiftFlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
+public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
 
     private let flutterSecureStorageManager: FlutterSecureStorage = FlutterSecureStorage()
     private var secStoreAvailabilitySink: FlutterEventSink?
@@ -16,7 +16,7 @@ public class SwiftFlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterSt
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "plugins.it_nomads.com/flutter_secure_storage", binaryMessenger: registrar.messenger())
         let eventChannel = FlutterEventChannel(name: "plugins.it_nomads.com/flutter_secure_storage/events", binaryMessenger: registrar.messenger())
-        let instance = SwiftFlutterSecureStoragePlugin()
+        let instance = FlutterSecureStoragePlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
         eventChannel.setStreamHandler(instance)
