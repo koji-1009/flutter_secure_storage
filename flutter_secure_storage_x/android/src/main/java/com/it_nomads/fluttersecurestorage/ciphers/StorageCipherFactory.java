@@ -4,50 +4,59 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
+import com.it_nomads.fluttersecurestorage.ciphers.deprecated.RSACipher18Implementation;
+import com.it_nomads.fluttersecurestorage.ciphers.deprecated.StorageCipher18Implementation;
+
 import java.util.Map;
 
 enum KeyCipherAlgorithm {
-    RSA_ECB_PKCS1Padding(RSACipher18Implementation::new, 1),
-    @SuppressWarnings({"UnusedDeclaration"})
-    RSA_ECB_OAEPwithSHA_256andMGF1Padding(RSACipherOAEPImplementation::new, Build.VERSION_CODES.M);
-    final KeyCipherFunction keyCipher;
+    RSA_ECB_PKCS1Padding(1),
+    RSA_ECB_OAEPwithSHA_256andMGF1Padding(Build.VERSION_CODES.M);
     final int minVersionCode;
 
-    KeyCipherAlgorithm(KeyCipherFunction keyCipher, int minVersionCode) {
-        this.keyCipher = keyCipher;
+    KeyCipherAlgorithm(int minVersionCode) {
         this.minVersionCode = minVersionCode;
+    }
+
+    KeyCipher get(Context context) throws Exception {
+        switch (this) {
+            case RSA_ECB_PKCS1Padding:
+                return new RSACipher18Implementation();
+            case RSA_ECB_OAEPwithSHA_256andMGF1Padding:
+                return new RSACipherOAEPImplementation(context);
+            default:
+                throw new IllegalStateException("Unsupported key cipher algorithm: " + this);
+        }
     }
 }
 
 enum StorageCipherAlgorithm {
-    AES_CBC_PKCS7Padding(StorageCipher18Implementation::new, 1),
-    @SuppressWarnings({"UnusedDeclaration"})
-    AES_GCM_NoPadding(StorageCipherGCMImplementation::new, Build.VERSION_CODES.M);
-    final StorageCipherFunction storageCipher;
+    AES_CBC_PKCS7Padding(1),
+    AES_GCM_NoPadding(Build.VERSION_CODES.M);
     final int minVersionCode;
 
-    StorageCipherAlgorithm(StorageCipherFunction storageCipher, int minVersionCode) {
-        this.storageCipher = storageCipher;
+    StorageCipherAlgorithm(int minVersionCode) {
         this.minVersionCode = minVersionCode;
     }
-}
 
-@FunctionalInterface
-interface StorageCipherFunction {
-    StorageCipher apply(Context context, KeyCipher keyCipher) throws Exception;
-}
-
-@FunctionalInterface
-interface KeyCipherFunction {
-    KeyCipher apply(Context context) throws Exception;
+    StorageCipher get(Context context, KeyCipher keyCipher) throws Exception {
+        switch (this) {
+            case AES_CBC_PKCS7Padding:
+                return new StorageCipher18Implementation();
+            case AES_GCM_NoPadding:
+                return new StorageCipherGCMImplementation(context, keyCipher);
+            default:
+                throw new IllegalStateException("Unsupported storage cipher algorithm: " + this);
+        }
+    }
 }
 
 public class StorageCipherFactory {
     private static final String ELEMENT_PREFERENCES_ALGORITHM_PREFIX = "FlutterSecureSAlgorithm";
     private static final String ELEMENT_PREFERENCES_ALGORITHM_KEY = ELEMENT_PREFERENCES_ALGORITHM_PREFIX + "Key";
     private static final String ELEMENT_PREFERENCES_ALGORITHM_STORAGE = ELEMENT_PREFERENCES_ALGORITHM_PREFIX + "Storage";
-    private static final KeyCipherAlgorithm DEFAULT_KEY_ALGORITHM = KeyCipherAlgorithm.RSA_ECB_PKCS1Padding;
-    private static final StorageCipherAlgorithm DEFAULT_STORAGE_ALGORITHM = StorageCipherAlgorithm.AES_CBC_PKCS7Padding;
+    private static final KeyCipherAlgorithm DEFAULT_KEY_ALGORITHM = KeyCipherAlgorithm.RSA_ECB_OAEPwithSHA_256andMGF1Padding;
+    private static final StorageCipherAlgorithm DEFAULT_STORAGE_ALGORITHM = StorageCipherAlgorithm.AES_GCM_NoPadding;
 
     private final KeyCipherAlgorithm savedKeyAlgorithm;
     private final StorageCipherAlgorithm savedStorageAlgorithm;
@@ -74,13 +83,13 @@ public class StorageCipherFactory {
     }
 
     public StorageCipher getSavedStorageCipher(Context context) throws Exception {
-        final KeyCipher keyCipher = savedKeyAlgorithm.keyCipher.apply(context);
-        return savedStorageAlgorithm.storageCipher.apply(context, keyCipher);
+        final KeyCipher keyCipher = savedKeyAlgorithm.get(context);
+        return savedStorageAlgorithm.get(context, keyCipher);
     }
 
     public StorageCipher getCurrentStorageCipher(Context context) throws Exception {
-        final KeyCipher keyCipher = currentKeyAlgorithm.keyCipher.apply(context);
-        return currentStorageAlgorithm.storageCipher.apply(context, keyCipher);
+        final KeyCipher keyCipher = currentKeyAlgorithm.get(context);
+        return currentStorageAlgorithm.get(context, keyCipher);
     }
 
     public void storeCurrentAlgorithms(SharedPreferences.Editor editor) {
