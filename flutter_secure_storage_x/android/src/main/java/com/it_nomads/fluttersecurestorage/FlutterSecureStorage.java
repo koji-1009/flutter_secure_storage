@@ -21,20 +21,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FlutterSecureStorage {
-
-    private final String TAG = "SecureStorageAndroid";
+    private static final String TAG = "SecureStorageAndroid";
     private final Charset charset = StandardCharsets.UTF_8;
     private final Context applicationContext;
-    protected String ELEMENT_PREFERENCES_KEY_PREFIX = "VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg";
-    protected Map<String, Object> options;
+    private String ELEMENT_PREFERENCES_KEY_PREFIX = "VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg";
+    private Map<String, Object> options;
     private String SHARED_PREFERENCES_NAME = "FlutterSecureStorage";
     private SharedPreferences preferences;
     private StorageCipher storageCipher;
     private StorageCipherFactory storageCipherFactory;
     private Boolean failedToUseEncryptedSharedPreferences = false;
 
-    public FlutterSecureStorage(Context context, Map<String, Object> options) {
-        this.options = options;
+    public FlutterSecureStorage(Context context) {
+        this.options = new HashMap<>();
         applicationContext = context.getApplicationContext();
     }
 
@@ -127,15 +126,20 @@ public class FlutterSecureStorage {
         editor.apply();
     }
 
-   protected void ensureOptions(){
-       if (options.containsKey("sharedPreferencesName") && !((String) options.get("sharedPreferencesName")).isEmpty()) {
-           SHARED_PREFERENCES_NAME = (String) options.get("sharedPreferencesName");
-       }
-
-       if (options.containsKey("preferencesKeyPrefix") && !((String) options.get("preferencesKeyPrefix")).isEmpty()) {
-           ELEMENT_PREFERENCES_KEY_PREFIX = (String) options.get("preferencesKeyPrefix");
-       }
+    public void setOptions(Map<String, Object> options) {
+        this.options = options;
     }
+
+    public void ensureOptions() {
+        if (options.containsKey("sharedPreferencesName") && !((String) options.get("sharedPreferencesName")).isEmpty()) {
+            SHARED_PREFERENCES_NAME = (String) options.get("sharedPreferencesName");
+        }
+
+        if (options.containsKey("preferencesKeyPrefix") && !((String) options.get("preferencesKeyPrefix")).isEmpty()) {
+            ELEMENT_PREFERENCES_KEY_PREFIX = (String) options.get("preferencesKeyPrefix");
+        }
+    }
+
     @SuppressWarnings({"ConstantConditions"})
     private void ensureInitialized() {
         // Check if already initialized.

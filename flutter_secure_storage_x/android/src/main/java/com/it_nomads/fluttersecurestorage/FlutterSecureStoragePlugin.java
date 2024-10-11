@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -22,7 +21,6 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 public class FlutterSecureStoragePlugin implements MethodCallHandler, FlutterPlugin {
-
     private static final String TAG = "FlutterSecureStoragePl";
     private MethodChannel channel;
     private FlutterSecureStorage secureStorage;
@@ -31,7 +29,7 @@ public class FlutterSecureStoragePlugin implements MethodCallHandler, FlutterPlu
 
     public void initInstance(BinaryMessenger messenger, Context context) {
         try {
-            secureStorage = new FlutterSecureStorage(context, new HashMap<>());
+            secureStorage = new FlutterSecureStorage(context);
 
             workerThread = new HandlerThread("com.it_nomads.fluttersecurestorage.worker");
             workerThread.start();
@@ -125,7 +123,7 @@ public class FlutterSecureStoragePlugin implements MethodCallHandler, FlutterPlu
         public void run() {
             boolean resetOnError = false;
             try {
-                secureStorage.options = (Map<String, Object>) ((Map<String, Object>) call.arguments).get("options");
+                secureStorage.setOptions((Map<String, Object>) ((Map<String, Object>) call.arguments).get("options"));
                 secureStorage.ensureOptions();
                 resetOnError = secureStorage.getResetOnError();
                 switch (call.method) {
@@ -180,7 +178,7 @@ public class FlutterSecureStoragePlugin implements MethodCallHandler, FlutterPlu
                         break;
                 }
             } catch (FileNotFoundException e) {
-                Log.i("Creating sharedPrefs", e.getLocalizedMessage());
+                Log.i("Creating sharedPrefs", e.getMessage());
             } catch (Exception e) {
                 if (resetOnError) {
                     try {
