@@ -71,12 +71,8 @@ class AndroidOptions extends Options {
   Map<String, String> toMap() => <String, String>{
         'encryptedSharedPreferences': '$_encryptedSharedPreferences',
         'resetOnError': '$_resetOnError',
-        // TODO: Update min SDK from 2.12 to 2.15 in new major version to fix this deprecation warning
-        // ignore: deprecated_member_use
-        'keyCipherAlgorithm': describeEnum(_keyCipherAlgorithm),
-        // TODO: Update min SDK from 2.12 to 2.15 in new major version to fix this deprecation warning
-        // ignore: deprecated_member_use
-        'storageCipherAlgorithm': describeEnum(_storageCipherAlgorithm),
+        'keyCipherAlgorithm': _keyCipherAlgorithm.name,
+        'storageCipherAlgorithm': _storageCipherAlgorithm.name,
         'sharedPreferencesName': sharedPreferencesName ?? '',
         'preferencesKeyPrefix': preferencesKeyPrefix ?? '',
       };
