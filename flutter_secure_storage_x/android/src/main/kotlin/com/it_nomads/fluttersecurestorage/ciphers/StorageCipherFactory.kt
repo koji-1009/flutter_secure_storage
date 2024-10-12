@@ -1,10 +1,9 @@
 package com.it_nomads.fluttersecurestorage.ciphers
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import com.it_nomads.fluttersecurestorage.ciphers.deprecated.RSACipher18Implementation
-import com.it_nomads.fluttersecurestorage.ciphers.deprecated.StorageCipher18Implementation
 
 private enum class KeyCipherAlgorithm(
   val value: String,
@@ -17,20 +16,10 @@ private enum class KeyCipherAlgorithm(
     value = "RSA_ECB_OAEPwithSHA_256andMGF1Padding",
     minVersionCode = Build.VERSION_CODES.M,
   ),
-
-  /**
-   * RSA_ECB_PKCS1Padding
-   */
-  TargetMinSDK1(
-    value = "RSA_ECB_PKCS1Padding",
-    minVersionCode = 1,
-  ),
   ;
 
   fun getCipher(context: Context): KeyCipher = when (this) {
     TargetMinSDK23 -> RSACipherOAEPImplementation(context)
-    TargetMinSDK1 -> RSACipher18Implementation()
-
   }
 }
 
@@ -45,23 +34,14 @@ private enum class StorageCipherAlgorithm(
     value = "AES_GCM_NoPadding",
     minVersionCode = Build.VERSION_CODES.M,
   ),
-
-  /**
-   * AES_CBC_PKCS7Padding
-   */
-  TargetMinSDK1(
-    value = "AES_CBC_PKCS7Padding",
-    minVersionCode = 1,
-  ),
   ;
 
   fun getStorageCipher(context: Context, keyCipher: KeyCipher): StorageCipher = when (this) {
     TargetMinSDK23 -> StorageCipherGCMImplementation(context, keyCipher)
-    TargetMinSDK1 -> StorageCipher18Implementation()
   }
 }
 
-internal class StorageCipherFactory(source: SharedPreferences, options: Map<String, String>) {
+internal class StorageCipherFactory(source: SharedPreferences) {
   private val savedKeyAlgorithm: KeyCipherAlgorithm by lazy {
     val savedKeyAlgorithmValue = source.getString(
       ELEMENT_PREFERENCES_ALGORITHM_KEY,
@@ -82,34 +62,22 @@ internal class StorageCipherFactory(source: SharedPreferences, options: Map<Stri
   }
 
   private val currentKeyAlgorithm: KeyCipherAlgorithm by lazy {
-    val currentKeyAlgorithmTmpValue = options["keyCipherAlgorithm"] ?: DEFAULT_KEY_ALGORITHM.value
-    val currentKeyAlgorithmTmp = KeyCipherAlgorithm.values().first {
-      it.value == currentKeyAlgorithmTmpValue
-    }
-
-    // TODO: remove this check
-    if (currentKeyAlgorithmTmp.minVersionCode <= Build.VERSION.SDK_INT) {
-      currentKeyAlgorithmTmp
+    @SuppressLint("ObsoleteSdkInt")
+    if (Build.VERSION.SDK_INT >= KeyCipherAlgorithm.TargetMinSDK23.minVersionCode) {
+      KeyCipherAlgorithm.TargetMinSDK23
     } else {
       DEFAULT_KEY_ALGORITHM
     }
   }
   private val currentStorageAlgorithm: StorageCipherAlgorithm by lazy {
-    val currentStorageAlgorithmTmpValue =
-      options["storageCipherAlgorithm"] ?: DEFAULT_STORAGE_ALGORITHM.value
-    val currentStorageAlgorithmTmp = StorageCipherAlgorithm.values().first {
-      it.value == currentStorageAlgorithmTmpValue
-    }
-
-    // TODO: remove this check
-    if (currentStorageAlgorithmTmp.minVersionCode <= Build.VERSION.SDK_INT) {
-      currentStorageAlgorithmTmp
+    @SuppressLint("ObsoleteSdkInt")
+    if (Build.VERSION.SDK_INT >= StorageCipherAlgorithm.TargetMinSDK23.minVersionCode) {
+      StorageCipherAlgorithm.TargetMinSDK23
     } else {
       DEFAULT_STORAGE_ALGORITHM
     }
   }
 
-  // TODO: remove this method
   fun requiresReEncryption(): Boolean {
     return savedKeyAlgorithm != currentKeyAlgorithm || savedStorageAlgorithm != currentStorageAlgorithm
   }
