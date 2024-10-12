@@ -165,7 +165,7 @@ class FlutterSecureStorage(private val applicationContext: Context) {
   }
 
   private fun initStorageCipher(source: SharedPreferences) {
-    storageCipherFactory = StorageCipherFactory(source, options.toMap())
+    storageCipherFactory = StorageCipherFactory(source)
     if (getUseEncryptedSharedPreferences()) {
       storageCipher = storageCipherFactory!!.getSavedStorageCipher(applicationContext)
     } else if (storageCipherFactory!!.requiresReEncryption()) {
@@ -181,9 +181,9 @@ class FlutterSecureStorage(private val applicationContext: Context) {
   ) {
     try {
       storageCipher = storageCipherFactory.getSavedStorageCipher(applicationContext)
-      val cache = mutableMapOf<String, String?>()
+      val cache = mutableMapOf<String, String>()
       for (entry in source.all.entries) {
-        val v: Any? = entry.value
+        val v = entry.value
         val key = entry.key
         if (v is String && key.contains(elementPreferencesKeyPrefix)) {
           val decodedValue = decodeRawValue(v)
@@ -193,7 +193,7 @@ class FlutterSecureStorage(private val applicationContext: Context) {
       storageCipher = storageCipherFactory.getCurrentStorageCipher(applicationContext)
       val editor = source.edit()
       for (entry in cache.entries) {
-        val result = storageCipher!!.encrypt(entry.value!!.toByteArray(charset))
+        val result = storageCipher!!.encrypt(entry.value.toByteArray(charset))
         editor.putString(entry.key, Base64.encodeToString(result, 0))
       }
       storageCipherFactory.storeCurrentAlgorithms(editor)
