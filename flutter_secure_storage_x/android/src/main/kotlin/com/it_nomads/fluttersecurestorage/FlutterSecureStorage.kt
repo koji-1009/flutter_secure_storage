@@ -15,7 +15,7 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
 class FlutterSecureStorage(private val applicationContext: Context) {
-  private var options = mutableMapOf<String, String>()
+  private var options = mapOf<String, String>()
 
   private var preferences: SharedPreferences? = null
   private var storageCipher: StorageCipher? = null
@@ -63,20 +63,22 @@ class FlutterSecureStorage(private val applicationContext: Context) {
   fun readAll(): Map<String, String> {
     ensureInitialized()
 
-    val raw = preferences!!.all as Map<String, String>
-
+    val raw = preferences!!.all
     val all = mutableMapOf<String, String>()
     for (entry in raw.entries) {
       val keyWithPrefix = entry.key
       if (keyWithPrefix.contains(elementPreferencesKeyPrefix)) {
         val key = entry.key.replaceFirst((elementPreferencesKeyPrefix + '_').toRegex(), "")
-        if (getUseEncryptedSharedPreferences()) {
-          all.put(key, entry.value)
-        } else {
-          val rawValue = entry.value
-          val value = decodeRawValue(rawValue)
+        val value = entry.value
+        if (value !is String) {
+          continue
+        }
 
+        if (getUseEncryptedSharedPreferences()) {
           all.put(key, value)
+        } else {
+          val decodeValue = decodeRawValue(value)
+          all.put(key, decodeValue)
         }
       }
     }
@@ -117,7 +119,7 @@ class FlutterSecureStorage(private val applicationContext: Context) {
   }
 
   fun setOptions(options: Map<String, String>) {
-    this.options = options.toMutableMap()
+    this.options = options
   }
 
   fun ensureOptions() {
@@ -207,7 +209,7 @@ class FlutterSecureStorage(private val applicationContext: Context) {
   private fun checkAndMigrateToEncrypted(source: SharedPreferences, target: SharedPreferences) {
     try {
       for (entry in source.all.entries) {
-        val v: Any? = entry.value
+        val v = entry.value
         val key = entry.key
         if (v is String && key.contains(elementPreferencesKeyPrefix)) {
           val decodedValue = decodeRawValue(v)
