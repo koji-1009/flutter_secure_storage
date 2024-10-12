@@ -102,7 +102,6 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
       var resetOnError = false
       try {
         secureStorage!!.setOptions((call.arguments as Map<String, *>)["options"] as Map<String, String>)
-        secureStorage!!.ensureOptions()
         resetOnError = secureStorage!!.getResetOnError()
         when (call.method) {
           "write" -> {

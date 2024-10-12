@@ -91,7 +91,8 @@ class ItemsWidgetState extends State<ItemsWidget> {
       );
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        encryptedSharedPreferences: true,
+        encryptedSharedPreferences: false,
+        dataStore: true,
         // sharedPreferencesName: 'Test2',
         // preferencesKeyPrefix: 'Test'
       );
