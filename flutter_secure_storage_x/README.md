@@ -1,28 +1,37 @@
 # flutter_secure_storage
 
 ## Note: usage of encryptedSharedPreference
+
+This feature is deprecated, and will be removed in the next major version of the plugin.
+If you are using this feature, please consider migrating to the new `dataStore` feature.
+
 When using the `encryptedSharedPreferences` parameter on Android, make sure to pass the option to the
 constructor instead of the function like so:
+
 ```dart
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
 final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
 ```
+
 This will prevent errors due to mixed usage of `encryptedSharedPreferences`.
 For more info, [see this issue](https://github.com/mogol/flutter_secure_storage/issues/487#issuecomment-1346244368).
 
 ## Info
+
 A Flutter plugin to store data in secure storage:
 
 - [Keychain](https://developer.apple.com/library/content/documentation/Security/Conceptual/keychainServConcepts/01introduction/introduction.html#//apple_ref/doc/uid/TP30000897-CH203-TP1) is used for iOS
 - AES encryption is used for Android. AES secret key is encrypted with RSA and RSA key is stored in [KeyStore](https://developer.android.com/training/articles/keystore.html)
 - With V5.0.0 we can use [EncryptedSharedPreferences](https://developer.android.com/topic/security/data) on Android by enabling it in the Android Options like so:
+
 ```dart
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
 ```
+
   For more information see the example app.
 - [`libsecret`](https://wiki.gnome.org/Projects/Libsecret) is used for Linux.
 
@@ -63,7 +72,7 @@ await storage.write(key: key, value: value, iOptions: options);
 
 ### Configure Android version
 
-In `[project]/android/app/build.gradle` set `minSdkVersion` to >= 18.
+In `[project]/android/app/build.gradle` set `minSdkVersion` to >= 23.
 
 ```
 android {
@@ -71,7 +80,7 @@ android {
 
     defaultConfig {
         ...
-        minSdkVersion 18
+        minSdkVersion 23
         ...
     }
 
