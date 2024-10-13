@@ -20,6 +20,7 @@ import java.lang.Exception
 class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   private var channel: MethodChannel? = null
   private var secureStorage: FlutterSecureStorage? = null
+  // TODO: Replace Kotlin Coroutines, when support for EncryptedSharedPreferences is dropped
   private var workerThread: HandlerThread? = null
   private var workerThreadHandler: Handler? = null
 
