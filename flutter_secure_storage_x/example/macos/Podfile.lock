@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
 
 SPEC CHECKSUMS:
-  flutter_secure_storage_x_macos: 0fc4dddb2c8b81355e2958a3397a173f034de570
+  flutter_secure_storage_x_macos: e2f801eb550ed481986735edb9ef7012fd67f973
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
 
