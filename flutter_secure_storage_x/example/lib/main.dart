@@ -6,33 +6,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage_x/flutter_secure_storage_x.dart';
 
 void main() {
-  runApp(const MaterialApp(home: ItemsWidget()));
+  runApp(
+    const MaterialApp(
+      home: ItemsWidget(),
+    ),
+  );
 }
 
-enum _Actions { deleteAll, isProtectedDataAvailable }
+enum _Actions {
+  deleteAll,
+  isProtectedDataAvailable,
+}
 
-enum _ItemActions { delete, edit, containsKey, read }
+enum _ItemActions {
+  delete,
+  edit,
+  containsKey,
+  read,
+}
 
 class ItemsWidget extends StatefulWidget {
   const ItemsWidget({super.key});
 
   @override
-  ItemsWidgetState createState() => ItemsWidgetState();
+  State<ItemsWidget> createState() => ItemsWidgetState();
 }
 
 class ItemsWidgetState extends State<ItemsWidget> {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
-  final TextEditingController _accountNameController =
-      TextEditingController(text: 'flutter_secure_storage_service');
+  final _storage = const FlutterSecureStorage();
 
-  final List<_SecItem> _items = [];
+  late final TextEditingController _accountNameController;
+  final _items = <_SecItem>[];
 
   @override
   void initState() {
     super.initState();
 
+    _accountNameController = TextEditingController(
+      text: 'flutter_secure_storage_service',
+    );
     _accountNameController.addListener(_readAll);
-    _readAll();
+    Future(() async {
+      await _readAll();
+    });
   }
 
   @override
@@ -44,14 +60,14 @@ class ItemsWidgetState extends State<ItemsWidget> {
   }
 
   Future<void> _readAll() async {
-    final Map<String, String> all = await _storage.readAll(
+    final all = await _storage.readAll(
       iOptions: _getIOSOptions(),
       aOptions: _getAndroidOptions(),
     );
     setState(() {
       _items
         ..clear()
-        ..addAll(all.entries.map((e) => _SecItem(e.key, e.value)))
+        ..addAll(all.entries.map((e) => (key: e.key, value: e.value)))
         ..sort((a, b) => int.parse(a.key).compareTo(int.parse(b.key)));
     });
   }
@@ -65,10 +81,10 @@ class ItemsWidgetState extends State<ItemsWidget> {
   }
 
   Future<void> _isProtectedDataAvailable() async {
-    final ScaffoldMessengerState scaffold = ScaffoldMessenger.of(context);
-    final bool? result = await _storage.isCupertinoProtectedDataAvailable();
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final result = await _storage.isCupertinoProtectedDataAvailable();
 
-    scaffold.showSnackBar(
+    scaffoldMessenger.showSnackBar(
       SnackBar(
         content: Text('Protected data available: $result'),
         backgroundColor: result != null && result ? Colors.green : Colors.red,
@@ -91,10 +107,7 @@ class ItemsWidgetState extends State<ItemsWidget> {
       );
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        // encryptedSharedPreferences: false,
         dataStore: true,
-        // sharedPreferencesName: 'Test2',
-        // preferencesKeyPrefix: 'Test'
       );
 
   String? _getAccountName() =>
@@ -105,23 +118,25 @@ class ItemsWidgetState extends State<ItemsWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Plugin example app'),
-        actions: <Widget>[
+        actions: [
           IconButton(
             key: const Key('add_random'),
-            onPressed: _addNewItem,
+            onPressed: () async {
+              await _addNewItem();
+            },
             icon: const Icon(Icons.add),
           ),
           PopupMenuButton<_Actions>(
             key: const Key('popup_menu'),
-            onSelected: (action) {
+            onSelected: (action) async {
               switch (action) {
                 case _Actions.deleteAll:
-                  _deleteAll();
+                  await _deleteAll();
                 case _Actions.isProtectedDataAvailable:
-                  _isProtectedDataAvailable();
+                  await _isProtectedDataAvailable();
               }
             },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<_Actions>>[
+            itemBuilder: (context) => [
               const PopupMenuItem(
                 key: Key('delete_all'),
                 value: _Actions.deleteAll,
@@ -136,64 +151,72 @@ class ItemsWidgetState extends State<ItemsWidget> {
           ),
         ],
       ),
-      body: Column(
-        children: [
+      body: CustomScrollView(
+        slivers: [
           if (!kIsWeb && Platform.isIOS)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                controller: _accountNameController,
-                decoration: const InputDecoration(labelText: 'kSecAttrService'),
+            SliverToBoxAdapter(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextFormField(
+                    controller: _accountNameController,
+                    decoration: const InputDecoration(
+                      labelText: 'kSecAttrService',
+                    ),
+                  ),
+                ),
               ),
             ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _items.length,
-              itemBuilder: (BuildContext context, int index) => ListTile(
-                trailing: PopupMenuButton(
-                  key: Key('popup_row_$index'),
-                  onSelected: (_ItemActions action) =>
-                      _performAction(action, _items[index], context),
-                  itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<_ItemActions>>[
-                    PopupMenuItem(
-                      value: _ItemActions.delete,
-                      child: Text(
-                        'Delete',
-                        key: Key('delete_row_$index'),
-                      ),
+          SliverList.builder(
+            itemCount: _items.length,
+            itemBuilder: (context, index) => ListTile(
+              trailing: PopupMenuButton(
+                key: Key('popup_row_$index'),
+                onSelected: (action) async {
+                  await _performAction(
+                    context: context,
+                    action: action,
+                    item: _items[index],
+                  );
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: _ItemActions.delete,
+                    child: Text(
+                      'Delete',
+                      key: Key('delete_row_$index'),
                     ),
-                    PopupMenuItem(
-                      value: _ItemActions.edit,
-                      child: Text(
-                        'Edit',
-                        key: Key('edit_row_$index'),
-                      ),
+                  ),
+                  PopupMenuItem(
+                    value: _ItemActions.edit,
+                    child: Text(
+                      'Edit',
+                      key: Key('edit_row_$index'),
                     ),
-                    PopupMenuItem(
-                      value: _ItemActions.containsKey,
-                      child: Text(
-                        'Contains Key',
-                        key: Key('contains_row_$index'),
-                      ),
+                  ),
+                  PopupMenuItem(
+                    value: _ItemActions.containsKey,
+                    child: Text(
+                      'Contains Key',
+                      key: Key('contains_row_$index'),
                     ),
-                    PopupMenuItem(
-                      value: _ItemActions.read,
-                      child: Text(
-                        'Read',
-                        key: Key('contains_row_$index'),
-                      ),
+                  ),
+                  PopupMenuItem(
+                    value: _ItemActions.read,
+                    child: Text(
+                      'Read',
+                      key: Key('contains_row_$index'),
                     ),
-                  ],
-                ),
-                title: Text(
-                  _items[index].value,
-                  key: Key('title_row_$index'),
-                ),
-                subtitle: Text(
-                  _items[index].key,
-                  key: Key('subtitle_row_$index'),
-                ),
+                  ),
+                ],
+              ),
+              title: Text(
+                _items[index].value,
+                key: Key('title_row_$index'),
+              ),
+              subtitle: Text(
+                _items[index].key,
+                key: Key('subtitle_row_$index'),
               ),
             ),
           ),
@@ -202,11 +225,11 @@ class ItemsWidgetState extends State<ItemsWidget> {
     );
   }
 
-  Future<void> _performAction(
-    _ItemActions action,
-    _SecItem item,
-    BuildContext context,
-  ) async {
+  Future<void> _performAction({
+    required BuildContext context,
+    required _ItemActions action,
+    required _SecItem item,
+  }) async {
     switch (action) {
       case _ItemActions.delete:
         await _storage.delete(
@@ -216,36 +239,50 @@ class ItemsWidgetState extends State<ItemsWidget> {
         );
         await _readAll();
       case _ItemActions.edit:
-        if (!context.mounted) return;
-        final String? result = await showDialog<String>(
+        final result = await showDialog<String>(
           context: context,
-          builder: (_) => _EditItemWidget(item.value),
+          builder: (context) => _EditItemWidget(item.value),
         );
-        if (result != null) {
-          await _storage.write(
-            key: item.key,
-            value: result,
-            iOptions: _getIOSOptions(),
-            aOptions: _getAndroidOptions(),
-          );
-          await _readAll();
+        if (result == null) {
+          return;
         }
+
+        await _storage.write(
+          key: item.key,
+          value: result,
+          iOptions: _getIOSOptions(),
+          aOptions: _getAndroidOptions(),
+        );
+        await _readAll();
       case _ItemActions.containsKey:
-        final String key = await _displayTextInputDialog(context, item.key);
-        final bool result = await _storage.containsKey(key: key);
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
+        final key = await _displayTextInputDialog(
+          context: context,
+          key: item.key,
+        );
+        final result = await _storage.containsKey(
+          key: key,
+          iOptions: _getIOSOptions(),
+          aOptions: _getAndroidOptions(),
+        );
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text('Contains Key: $result, key checked: $key'),
             backgroundColor: result ? Colors.green : Colors.red,
           ),
         );
       case _ItemActions.read:
-        final key = await _displayTextInputDialog(context, item.key);
-        final result =
-            await _storage.read(key: key, aOptions: _getAndroidOptions());
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
+        final key = await _displayTextInputDialog(
+          context: context,
+          key: item.key,
+        );
+        final result = await _storage.read(
+          key: key,
+          iOptions: _getIOSOptions(),
+          aOptions: _getAndroidOptions(),
+        );
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text('value: $result'),
           ),
@@ -253,41 +290,72 @@ class ItemsWidgetState extends State<ItemsWidget> {
     }
   }
 
-  Future<String> _displayTextInputDialog(
-    BuildContext context,
-    String key,
-  ) async {
-    final TextEditingController controller = TextEditingController(text: key);
-    await showDialog(
+  Future<String> _displayTextInputDialog({
+    required BuildContext context,
+    required String key,
+  }) async {
+    final controller = TextEditingController(
+      text: key,
+    );
+    await showDialog<void>(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
+      builder: (context) => AlertDialog(
         title: const Text('Check if key exists'),
         actions: [
           TextButton(
-            onPressed: Navigator.of(context).pop,
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text('OK'),
           ),
         ],
-        content: TextField(controller: controller),
+        content: TextField(
+          controller: controller,
+        ),
       ),
     );
-    return controller.text;
+    final result = controller.text;
+    controller.dispose();
+
+    return result;
   }
 
   String _randomValue() {
-    final Random rand = Random();
-    final List<int> codeUnits =
-        List.generate(20, (_) => rand.nextInt(26) + 65, growable: false);
+    final rand = Random();
+    final codeUnits = List<int>.generate(
+      20,
+      (_) => rand.nextInt(26) + 65,
+      growable: false,
+    );
 
     return String.fromCharCodes(codeUnits);
   }
 }
 
-class _EditItemWidget extends StatelessWidget {
-  _EditItemWidget(String text)
-      : _controller = TextEditingController(text: text);
+class _EditItemWidget extends StatefulWidget {
+  const _EditItemWidget(this.text);
 
-  final TextEditingController _controller;
+  final String text;
+
+  @override
+  State<_EditItemWidget> createState() => _EditItemWidgetState();
+}
+
+class _EditItemWidgetState extends State<_EditItemWidget> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+      text: widget.text,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +366,7 @@ class _EditItemWidget extends StatelessWidget {
         controller: _controller,
         autofocus: true,
       ),
-      actions: <Widget>[
+      actions: [
         TextButton(
           key: const Key('cancel'),
           onPressed: () => Navigator.of(context).pop(),
@@ -314,9 +382,7 @@ class _EditItemWidget extends StatelessWidget {
   }
 }
 
-class _SecItem {
-  const _SecItem(this.key, this.value);
-
-  final String key;
-  final String value;
-}
+typedef _SecItem = ({
+  String key,
+  String value,
+});
