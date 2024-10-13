@@ -11,6 +11,10 @@
 .vscode/
 migrate_working_dir/
 
+# Swift Package Manager
+.build/
+.swiftpm/
+
 # IntelliJ related
 *.iml
 *.ipr

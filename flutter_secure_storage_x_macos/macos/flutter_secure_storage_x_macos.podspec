@@ -7,17 +7,17 @@ Pod::Spec.new do |s|
   s.version          = '6.1.1'
   s.summary          = 'Flutter Secure Storage'
   s.description      = <<-DESC
-Flutter Secure Storage Plugin for MacOs
+Flutter Secure Storage Plugin for macOS
                        DESC
-  s.homepage         = 'https://github.com/mogol/flutter_secure_storage'
+  s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'German Saprykin' => 'saprykin.h@gmail.com' }
+  s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files     = 'Classes/**/*'
+  s.source_files     = 'flutter_secure_storage_x_macos/Sources/flutter_secure_storage_x_macos/**/*.swift'
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.14'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'
-  s.resource_bundles = {'flutter_secure_storage_x_macos' => ['Resources/PrivacyInfo.xcprivacy']}
+  s.resource_bundles = {'flutter_secure_storage_x_macos' => ['flutter_secure_storage_x_macos/Sources/flutter_secure_storage_x_macos/PrivacyInfo.xcprivacy']}
 end
