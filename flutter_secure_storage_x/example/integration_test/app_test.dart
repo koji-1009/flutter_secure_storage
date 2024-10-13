@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage_x_example/main.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,8 +22,12 @@ void main() {
     pageObject.hasNoRow(0);
 
     await pageObject.addRandom();
+    // Wait for the row to be added, as this action depends on the storage IO
+    await pumpUntilFound(tester, find.byKey(const Key('title_row_0')));
     pageObject.hasRow(0);
     await pageObject.addRandom();
+    // Wait for the row to be added, as this action depends on the storage IO
+    await pumpUntilFound(tester, find.byKey(const Key('title_row_1')));
     pageObject.hasRow(1);
 
     await pageObject.editRow('Row 0', 0);
@@ -88,11 +94,13 @@ class HomePageObject {
 
     await tester.enterText(textFieldFinder, title);
     await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 3));
 
     final saveButtonFinder = find.byKey(const Key('save'));
     expect(saveButtonFinder, findsOneWidget);
     await tester.tap(saveButtonFinder);
     await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 3));
   }
 
   void rowHasTitle(String title, int index) {
@@ -130,4 +138,25 @@ class HomePageObject {
     await tester.tap(_isProtectedDataAvailableButtonFinder);
     await tester.pumpAndSettle();
   }
+}
+
+Future<void> pumpUntilFound(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
+  bool timerDone = false;
+  final timer = Timer(
+    timeout,
+    () => throw TimeoutException('Pump until has timed out'),
+  );
+  while (timerDone != true) {
+    await tester.pump();
+
+    final found = tester.any(finder);
+    if (found) {
+      timerDone = true;
+    }
+  }
+  timer.cancel();
 }

@@ -26,6 +26,7 @@ jobs:
         with:
           channel: stable
           flutter-version: 3.24.x
+          cache: true
       - uses: actions/setup-java@v4
         with:
           distribution: "temurin"
@@ -55,7 +56,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        os-version: [17.0, 18.0]
+        simulator: [ {os: "17.0", model: "iPhone 15"}, {os: "18.0", model: "iPhone 15"} ]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -63,6 +64,7 @@ jobs:
         with:
           channel: stable
           flutter-version: 3.24.x
+          cache: true
       - name: Install melos
         run: |
           flutter pub global activate melos
@@ -73,7 +75,8 @@ jobs:
       - uses: futureware-tech/simulator-action@v3
         with:
           os: iOS
-          os_version: ${{ matrix.os-version }}
+          os_version: ${{ matrix.simulator.os }}
+          model: ${{ matrix.simulator.model }}
       - name: Run Flutter Integration tests
         working-directory: flutter_secure_storage_x/example
         run: flutter test integration_test -d iphone

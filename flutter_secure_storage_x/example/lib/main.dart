@@ -29,22 +29,21 @@ class ItemsWidget extends StatefulWidget {
   const ItemsWidget({super.key});
 
   @override
-  State<ItemsWidget> createState() => ItemsWidgetState();
+  State<ItemsWidget> createState() => _ItemsWidgetState();
 }
 
-class ItemsWidgetState extends State<ItemsWidget> {
+class _ItemsWidgetState extends State<ItemsWidget> {
   final _storage = const FlutterSecureStorage();
+  final _accountNameController = TextEditingController(
+    text: 'flutter_secure_storage_service',
+  );
 
-  late final TextEditingController _accountNameController;
   final _items = <_SecItem>[];
 
   @override
   void initState() {
     super.initState();
 
-    _accountNameController = TextEditingController(
-      text: 'flutter_secure_storage_service',
-    );
     _accountNameController.addListener(_readAll);
     Future(() async {
       await _readAll();
@@ -241,7 +240,7 @@ class ItemsWidgetState extends State<ItemsWidget> {
       case _ItemActions.edit:
         final result = await showDialog<String>(
           context: context,
-          builder: (context) => _EditItemWidget(item.value),
+          builder: (context) => _EditTextInputDialog(item.value),
         );
         if (result == null) {
           return;
@@ -256,10 +255,14 @@ class ItemsWidgetState extends State<ItemsWidget> {
         await _readAll();
       case _ItemActions.containsKey:
         final scaffoldMessenger = ScaffoldMessenger.of(context);
-        final key = await _displayTextInputDialog(
+        final key = await showDialog<String>(
           context: context,
-          key: item.key,
+          builder: (context) => _DisplayTextInputDialog(item.key),
         );
+        if (key == null) {
+          return;
+        }
+
         final result = await _storage.containsKey(
           key: key,
           iOptions: _getIOSOptions(),
@@ -273,10 +276,14 @@ class ItemsWidgetState extends State<ItemsWidget> {
         );
       case _ItemActions.read:
         final scaffoldMessenger = ScaffoldMessenger.of(context);
-        final key = await _displayTextInputDialog(
+        final key = await showDialog<String>(
           context: context,
-          key: item.key,
+          builder: (context) => _DisplayTextInputDialog(item.key),
         );
+        if (key == null) {
+          return;
+        }
+
         final result = await _storage.read(
           key: key,
           iOptions: _getIOSOptions(),
@@ -288,34 +295,6 @@ class ItemsWidgetState extends State<ItemsWidget> {
           ),
         );
     }
-  }
-
-  Future<String> _displayTextInputDialog({
-    required BuildContext context,
-    required String key,
-  }) async {
-    final controller = TextEditingController(
-      text: key,
-    );
-    await showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Check if key exists'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
-        content: TextField(
-          controller: controller,
-        ),
-      ),
-    );
-    final result = controller.text;
-    controller.dispose();
-
-    return result;
   }
 
   String _randomValue() {
@@ -330,29 +309,29 @@ class ItemsWidgetState extends State<ItemsWidget> {
   }
 }
 
-class _EditItemWidget extends StatefulWidget {
-  const _EditItemWidget(this.text);
+class _EditTextInputDialog extends StatefulWidget {
+  const _EditTextInputDialog(this.value);
 
-  final String text;
+  final String value;
 
   @override
-  State<_EditItemWidget> createState() => _EditItemWidgetState();
+  State<_EditTextInputDialog> createState() => _EditTextInputDialogState();
 }
 
-class _EditItemWidgetState extends State<_EditItemWidget> {
-  late final TextEditingController _controller;
+class _EditTextInputDialogState extends State<_EditTextInputDialog> {
+  late final TextEditingController _editTextDialogController;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(
-      text: widget.text,
+    _editTextDialogController = TextEditingController(
+      text: widget.value,
     );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _editTextDialogController.dispose();
 
     super.dispose();
   }
@@ -363,21 +342,74 @@ class _EditItemWidgetState extends State<_EditItemWidget> {
       title: const Text('Edit item'),
       content: TextField(
         key: const Key('title_field'),
-        controller: _controller,
+        controller: _editTextDialogController,
         autofocus: true,
       ),
       actions: [
         TextButton(
           key: const Key('cancel'),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           child: const Text('Cancel'),
         ),
         TextButton(
           key: const Key('save'),
-          onPressed: () => Navigator.of(context).pop(_controller.text),
+          onPressed: () {
+            final value = _editTextDialogController.text;
+            Navigator.of(context).pop(value);
+          },
           child: const Text('Save'),
         ),
       ],
+    );
+  }
+}
+
+class _DisplayTextInputDialog extends StatefulWidget {
+  const _DisplayTextInputDialog(this.value);
+
+  final String value;
+
+  @override
+  State<_DisplayTextInputDialog> createState() =>
+      _DisplayTextInputDialogState();
+}
+
+class _DisplayTextInputDialogState extends State<_DisplayTextInputDialog> {
+  late final TextEditingController _displayTextDialogController;
+
+  @override
+  void initState() {
+    super.initState();
+    _displayTextDialogController = TextEditingController(
+      text: widget.value,
+    );
+  }
+
+  @override
+  void dispose() {
+    _displayTextDialogController.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Check if key exists'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            final value = _displayTextDialogController.text;
+            Navigator.of(context).pop(value);
+          },
+          child: const Text('OK'),
+        ),
+      ],
+      content: TextField(
+        controller: _displayTextDialogController,
+      ),
     );
   }
 }
