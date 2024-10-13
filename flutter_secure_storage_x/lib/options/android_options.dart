@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, deprecated_member_use_from_same_package
 
 part of '../flutter_secure_storage_x.dart';
 
