@@ -20,6 +20,7 @@ import java.lang.Exception
 class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   private var channel: MethodChannel? = null
   private var secureStorage: FlutterSecureStorage? = null
+  // TODO: Replace Kotlin Coroutines, when support for EncryptedSharedPreferences is dropped
   private var workerThread: HandlerThread? = null
   private var workerThreadHandler: Handler? = null
 
@@ -102,7 +103,6 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
       var resetOnError = false
       try {
         secureStorage!!.setOptions((call.arguments as Map<String, *>)["options"] as Map<String, String>)
-        secureStorage!!.ensureOptions()
         resetOnError = secureStorage!!.getResetOnError()
         when (call.method) {
           "write" -> {
