@@ -61,11 +61,7 @@ class HomePageObject {
 
     expect(_deleteAllButtonFinder, findsOneWidget);
     await tester.tap(_deleteAllButtonFinder);
-    await tester.pumpAndSettle(
-      const Duration(
-        seconds: 5,
-      ),
-    );
+    await tester.pumpAndSettle();
   }
 
   Future<void> addRandom() async {
@@ -96,11 +92,7 @@ class HomePageObject {
     final saveButtonFinder = find.byKey(const Key('save'));
     expect(saveButtonFinder, findsOneWidget);
     await tester.tap(saveButtonFinder);
-    await tester.pumpAndSettle(
-      const Duration(
-        seconds: 5,
-      ),
-    );
+    await tester.pumpAndSettle();
   }
 
   void rowHasTitle(String title, int index) {
@@ -122,11 +114,7 @@ class HomePageObject {
     final deleteRow = find.byKey(Key('delete_row_$index'));
     expect(deleteRow, findsOneWidget);
     await tester.tap(deleteRow);
-    await tester.pumpAndSettle(
-      const Duration(
-        seconds: 5,
-      ),
-    );
+    await tester.pumpAndSettle();
   }
 
   void hasNoRow(int index) {
