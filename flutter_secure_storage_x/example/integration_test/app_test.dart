@@ -41,13 +41,17 @@ void main() {
 }
 
 class HomePageObject {
-  HomePageObject(this.tester);
+  const HomePageObject(this.tester);
 
   final WidgetTester tester;
-  final _addRandomButtonFinder = find.byKey(const Key('add_random'));
-  final _deleteAllButtonFinder = find.byKey(const Key('delete_all'));
-  final _popUpMenuButtonFinder = find.byKey(const Key('popup_menu'));
-  final _isProtectedDataAvailableButtonFinder =
+
+  Finder get _addRandomButtonFinder => find.byKey(const Key('add_random'));
+
+  Finder get _deleteAllButtonFinder => find.byKey(const Key('delete_all'));
+
+  Finder get _popUpMenuButtonFinder => find.byKey(const Key('popup_menu'));
+
+  Finder get _isProtectedDataAvailableButtonFinder =>
       find.byKey(const Key('is_protected_data_available'));
 
   Future<void> deleteAll() async {
@@ -57,15 +61,17 @@ class HomePageObject {
 
     expect(_deleteAllButtonFinder, findsOneWidget);
     await tester.tap(_deleteAllButtonFinder);
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(
+      const Duration(
+        seconds: 5,
+      ),
+    );
   }
 
   Future<void> addRandom() async {
     expect(_addRandomButtonFinder, findsOneWidget);
     await tester.tap(_addRandomButtonFinder);
-    await tester.pumpAndSettle(
-      const Duration(seconds: 1),
-    );
+    await tester.pumpAndSettle();
   }
 
   Future<void> editRow(String title, int index) async {
@@ -92,13 +98,13 @@ class HomePageObject {
     await tester.tap(saveButtonFinder);
     await tester.pumpAndSettle(
       const Duration(
-        seconds: 3,
+        seconds: 5,
       ),
     );
   }
 
   void rowHasTitle(String title, int index) {
-    final Finder titleRow = find.byKey(Key('title_row_$index'));
+    final titleRow = find.byKey(Key('title_row_$index'));
     expect(titleRow, findsOneWidget);
     expect((titleRow.evaluate().single.widget as Text).data, equals(title));
   }
@@ -108,15 +114,19 @@ class HomePageObject {
   }
 
   Future<void> deleteRow(int index) async {
-    final Finder popupRow = find.byKey(Key('popup_row_$index'));
+    final popupRow = find.byKey(Key('popup_row_$index'));
     expect(popupRow, findsOneWidget);
     await tester.tap(popupRow);
     await tester.pumpAndSettle();
 
-    final Finder deleteRow = find.byKey(Key('delete_row_$index'));
+    final deleteRow = find.byKey(Key('delete_row_$index'));
     expect(deleteRow, findsOneWidget);
     await tester.tap(deleteRow);
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(
+      const Duration(
+        seconds: 5,
+      ),
+    );
   }
 
   void hasNoRow(int index) {
