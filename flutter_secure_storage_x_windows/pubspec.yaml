@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x_windows
 description: Windows implementation of flutter_secure_storage. Please use flutter_secure_storage instead of this package.
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_windows
-version: 3.3.0
+version: 3.3.1
 
 environment:
   sdk: ">=3.4.0 <4.0.0"

@@ -1,3 +1,22 @@
+## 10.0.0
+
+ - Change minimum Android SDK version to 23 and iOS version to 12.0. Android supports DataStore, iOS supports Swift Package Manager.
+
+ - **REFACTOR**: minor fix. ([9f30fe4a](https://github.com/koji-1009/flutter_secure_storage/commit/9f30fe4adbd295b45da34f38d0c40b43760b3512))
+ - **REFACTOR**: Code cleanup. ([6cbcd5da](https://github.com/koji-1009/flutter_secure_storage/commit/6cbcd5da2152bf73b03b84fff1952be681c016f7))
+ - **REFACTOR**: Fix todo. ([29cf145d](https://github.com/koji-1009/flutter_secure_storage/commit/29cf145dde3ad152f9830456468d4861fabc365a))
+ - **REFACTOR**: Remove unncessary if block ([#15](https://github.com/koji-1009/flutter_secure_storage/issues/15)). ([3f6ad6e9](https://github.com/koji-1009/flutter_secure_storage/commit/3f6ad6e91e927d5abcf974368151d0be8c867128))
+ - **FIX**: integration test. ([e05ba8c6](https://github.com/koji-1009/flutter_secure_storage/commit/e05ba8c6c6b7b7c6c8a0a8216190e4d62c42deeb))
+ - **FIX**: Fix deprecated members. ([8d9e5f41](https://github.com/koji-1009/flutter_secure_storage/commit/8d9e5f411af101cca97a119ca05d505e8c9424c8))
+ - **FEAT**: Swift Package Manager. ([a9c0ec14](https://github.com/koji-1009/flutter_secure_storage/commit/a9c0ec14f88586523e0ce3289da10992bd453d23))
+ - **FEAT**: DataStore. ([852e696a](https://github.com/koji-1009/flutter_secure_storage/commit/852e696a45f209cca18d201a18cb8e754fc038fc))
+ - **FEAT**: Move kotlin dir. ([3d4402ec](https://github.com/koji-1009/flutter_secure_storage/commit/3d4402ecb56f41f4be1c26b1ac5d49ebe6b7599b))
+ - **FEAT**: Convert to kotlin (plugin). ([71e4d46e](https://github.com/koji-1009/flutter_secure_storage/commit/71e4d46e954de9922ade0254c3c8d1e8d8b93e3b))
+ - **FEAT**: Convert to kotlin (ciphers). ([5adb8964](https://github.com/koji-1009/flutter_secure_storage/commit/5adb8964f1199e3830b4b4246007ab9218ca0c99))
+ - **FEAT**: Set min sdk 23. ([0417be2b](https://github.com/koji-1009/flutter_secure_storage/commit/0417be2be197e2427279f297c96b3eba4a0073aa))
+ - **FEAT**: Update gradle files. ([5cfdb803](https://github.com/koji-1009/flutter_secure_storage/commit/5cfdb8033a17933cc51950b324d38ab4c0b4574c))
+ - **FEAT**: Update example project by flutter 3.24. ([e0159fac](https://github.com/koji-1009/flutter_secure_storage/commit/e0159facf8129cfbb7ef86317afd8ca34aa1ee1c))
+
 ## 9.4.0
 
 > Note: This release has breaking changes.

@@ -1,3 +1,8 @@
+## 3.3.1
+
+ - **REFACTOR**: Fix todo. ([29cf145d](https://github.com/koji-1009/flutter_secure_storage/commit/29cf145dde3ad152f9830456468d4861fabc365a))
+ - **FIX**: Fix deprecated members. ([8d9e5f41](https://github.com/koji-1009/flutter_secure_storage/commit/8d9e5f411af101cca97a119ca05d505e8c9424c8))
+
 ## 3.3.0
 
 > Note: This release has breaking changes.
