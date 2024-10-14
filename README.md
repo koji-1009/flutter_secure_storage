@@ -1,7 +1,7 @@
 # flutter_secure_storage
 
 [![style: lint](https://img.shields.io/badge/style-flutter_lints-4BC0F5.svg)](https://pub.dev/packages/flutter_lints)
-[![pub package](https://img.shields.io/pub/v/flutter_secure_storage.svg)](https://pub.dev/packages/flutter_secure_storage_x)
+[![pub package](https://img.shields.io/pub/v/flutter_secure_storage_x.svg)](https://pub.dev/packages/flutter_secure_storage_x)
 [![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml)
 [![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml)
 
@@ -9,40 +9,56 @@ A Flutter plugin to store data in secure storage:
 
 - [Keychain](https://developer.apple.com/library/content/documentation/Security/Conceptual/keychainServConcepts/01introduction/introduction.html#//apple_ref/doc/uid/TP30000897-CH203-TP1) is used for iOS
 - AES encryption is used for Android. AES secret key is encrypted with RSA and RSA key is stored in [KeyStore](https://developer.android.com/training/articles/keystore.html).
-  By default following algorithms are used for AES and secret key encryption: AES/CBC/PKCS7Padding and RSA/ECB/PKCS1Padding
-  From Android 6 you can use newer, recommended algoritms:
-  AES/GCM/NoPadding and RSA/ECB/OAEPWithSHA-256AndMGF1Padding
-  You can set them in Android options like so:
-```dart
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-         keyCipherAlgorithm: KeyCipherAlgorithm.RSA_ECB_OAEPwithSHA_256andMGF1Padding,
-         storageCipherAlgorithm: StorageCipherAlgorithm.AES_GCM_NoPadding,
-      );
-```
-On devices running Android with version less than 6, plugin will fall back to default implementation. You can change the algorithm, even if you already have some encrypted preferences - they will be re-encrypted using selected algorithms.
-Choosing algorithm is irrelevant if you are using EncryptedSharedPreferences as described below.
-- With v5.0.0 we can use [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) on Android by enabling it in the Android Options like so:
-```dart
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  encryptedSharedPreferences: true,
-);
-```
+
 For more information see the example app.
 - [`libsecret`](https://wiki.gnome.org/Projects/Libsecret) is used for Linux.
 
-_Note_ KeyStore was introduced in Android 4.3 (API level 18). The plugin wouldn't work for earlier versions.
+## Important notice for Android
+
+- With v5.0.0 we can use [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) on Android by enabling it in the Android Options like so:
+
+```dart
+AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  encryptedSharedPreferences: true,
+);
+```
+
+But [Jetpack security crypto library is deprecated.](https://developer.android.com/privacy-and-security/cryptography#jetpack_security_crypto_library) So, we recommend using the default implementation or DataStore.
+
+DataStore support has been available since v10.0.0. When using DataStore, set the options as follows.
+
+```dart
+AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  dataStore: true,
+);
+```
+
+If you want to stop using EncryptedSharedPreferences, use the following option to migrate from EncryptedSharedPreferencs to DataStore. As previous implementations did not envisage migration from EncryptedSharedPreferences to SharedPreferencs, only the migration option to DataStore is implemented.
+
+```dart
+AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  encryptedSharedPreferences: true,
+  dataStore: true,
+);
+```
+
+Note:  that support for EncryptedSharedPreferences is planned to be removed in v11.
+
 ## Important notice for Web
+
 flutter_secure_storage only works on HTTPS or localhost environments. [Please see this issue for more information.](https://github.com/mogol/flutter_secure_storage/issues/320#issuecomment-976308930)
 
 ### WASM support
-You can opt-in into the new WASM compatible version of flutter_secure_storage_web by adding the following override in your pubspec.yaml:
+
+Supported from v2.0.0.
 
 ```yaml
 dependency_overrides:
-  flutter_secure_storage_web: ^2.0.0-beta.1
+  flutter_secure_storage_x_web: ^2.0.0
 ```
 
 ## Platform Implementation
+
 Please note that this table represents the functions implemented in this repository and it is possible that changes haven't yet been released on pub.dev
 
 |         | read               | write              | delete             | containsKey        | readAll            | deleteAll          | isCupertinoProtectedDataAvailable | onCupertinoProtectedDataAvailabilityChanged |
@@ -84,13 +100,19 @@ This allows us to be able to fetch secure values while the app is backgrounded, 
 An example:
 
 ```dart
-final options = IOSOptions(accessibility: KeychainAccessibility.first_unlock);
-await storage.write(key: key, value: value, iOptions: options);
+final options = IOSOptions(
+  accessibility: KeychainAccessibility.first_unlock,
+);
+await storage.write(
+  key: key,
+  value: value,
+  iOptions: options,
+);
 ```
 
 ### Configure Android version
 
-In `[project]/android/app/build.gradle` set `minSdkVersion` to >= 18.
+In `[project]/android/app/build.gradle` set `minSdkVersion` to >= 23.
 
 ```
 android {
@@ -98,7 +120,7 @@ android {
 
     defaultConfig {
         ...
-        minSdkVersion 18
+        minSdkVersion 23
         ...
     }
 
@@ -158,7 +180,7 @@ parts:
 
 Apart from `libsecret` you also need a keyring service, for that you need either `gnome-keyring` (for Gnome users) or `ksecretsservice` (for KDE users) or other light provider like [`secret-service`](https://github.com/yousefvand/secret-service).
 
-### Configure MacOS Version
+### Configure macOS Version
 
 You also need to add Keychain Sharing as capability to your macOS runner. To achieve this, please add the following in *both* your `macos/Runner/DebugProfile.entitlements` *and* `macos/Runner/Release.entitlements` (you need to change both files).
 
@@ -193,8 +215,10 @@ flutter drive --target=test_driver/app.dart
 ## Contributing
 
 If you want to contribute, you need to initialise the workspace after cloning the repo with `melos` like this:
+
 ```
 flutter pub get
 melos bootstrap
+
 ```
 After that, everything should be set up and working!
