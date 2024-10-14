@@ -1,4 +1,4 @@
-# flutter_secure_storage
+# flutter_secure_storage_x
 
 [![style: lint](https://img.shields.io/badge/style-flutter_lints-4BC0F5.svg)](https://pub.dev/packages/flutter_lints)
 [![pub package](https://img.shields.io/pub/v/flutter_secure_storage_x.svg)](https://pub.dev/packages/flutter_secure_storage_x)
@@ -114,7 +114,7 @@ await storage.write(
 
 In `[project]/android/app/build.gradle` set `minSdkVersion` to >= 23.
 
-```
+```groovy
 android {
     ...
 
@@ -184,14 +184,14 @@ Apart from `libsecret` you also need a keyring service, for that you need either
 
 You also need to add Keychain Sharing as capability to your macOS runner. To achieve this, please add the following in *both* your `macos/Runner/DebugProfile.entitlements` *and* `macos/Runner/Release.entitlements` (you need to change both files).
 
-```
+```xml
 <key>keychain-access-groups</key>
 <array/>
 ```
 
 If you have set your application up to use App Groups then you will need to add the name of the App Group to the `keychain-access-groups` argument above. Failure to do so will result in values appearing to be written successfully but never actually being written at all. For example if your app has an App Group named "aoeu" then your value for above would instead read:
 
-```
+```xml
 <key>keychain-access-groups</key>
 <array>
 	<string>$(AppIdentifierPrefix)aoeu</string>
@@ -208,7 +208,7 @@ You need the C++ ATL libraries installed along with the rest of Visual Studio Bu
 
 Run the following command from `example` directory
 
-```
+```shell
 flutter drive --target=test_driver/app.dart
 ```
 
@@ -216,9 +216,9 @@ flutter drive --target=test_driver/app.dart
 
 If you want to contribute, you need to initialise the workspace after cloning the repo with `melos` like this:
 
-```
+```shell
 flutter pub get
 melos bootstrap
-
 ```
+
 After that, everything should be set up and working!
