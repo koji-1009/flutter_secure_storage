@@ -94,13 +94,13 @@ class HomePageObject {
 
     await tester.enterText(textFieldFinder, title);
     await tester.pumpAndSettle();
-    await tester.pump(const Duration(seconds: 3));
+    expect(find.text(title), findsOneWidget);
 
     final saveButtonFinder = find.byKey(const Key('save'));
     expect(saveButtonFinder, findsOneWidget);
     await tester.tap(saveButtonFinder);
     await tester.pumpAndSettle();
-    await tester.pump(const Duration(seconds: 3));
+    await tester.pump(const Duration(seconds: 10));
   }
 
   void rowHasTitle(String title, int index) {
@@ -123,6 +123,7 @@ class HomePageObject {
     expect(deleteRow, findsOneWidget);
     await tester.tap(deleteRow);
     await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 10));
   }
 
   void hasNoRow(int index) {
