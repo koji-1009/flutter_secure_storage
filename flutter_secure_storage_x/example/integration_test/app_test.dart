@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage_x_example/main.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,8 +22,12 @@ void main() {
     pageObject.hasNoRow(0);
 
     await pageObject.addRandom();
+    // Wait for the row to be added, as this action depends on the storage IO
+    await pumpUntilFound(tester, find.byKey(const Key('title_row_0')));
     pageObject.hasRow(0);
     await pageObject.addRandom();
+    // Wait for the row to be added, as this action depends on the storage IO
+    await pumpUntilFound(tester, find.byKey(const Key('title_row_1')));
     pageObject.hasRow(1);
 
     await pageObject.editRow('Row 0', 0);
@@ -41,13 +47,17 @@ void main() {
 }
 
 class HomePageObject {
-  HomePageObject(this.tester);
+  const HomePageObject(this.tester);
 
   final WidgetTester tester;
-  final _addRandomButtonFinder = find.byKey(const Key('add_random'));
-  final _deleteAllButtonFinder = find.byKey(const Key('delete_all'));
-  final _popUpMenuButtonFinder = find.byKey(const Key('popup_menu'));
-  final _isProtectedDataAvailableButtonFinder =
+
+  Finder get _addRandomButtonFinder => find.byKey(const Key('add_random'));
+
+  Finder get _deleteAllButtonFinder => find.byKey(const Key('delete_all'));
+
+  Finder get _popUpMenuButtonFinder => find.byKey(const Key('popup_menu'));
+
+  Finder get _isProtectedDataAvailableButtonFinder =>
       find.byKey(const Key('is_protected_data_available'));
 
   Future<void> deleteAll() async {
@@ -63,9 +73,7 @@ class HomePageObject {
   Future<void> addRandom() async {
     expect(_addRandomButtonFinder, findsOneWidget);
     await tester.tap(_addRandomButtonFinder);
-    await tester.pumpAndSettle(
-      const Duration(seconds: 1),
-    );
+    await tester.pumpAndSettle();
   }
 
   Future<void> editRow(String title, int index) async {
@@ -86,19 +94,17 @@ class HomePageObject {
 
     await tester.enterText(textFieldFinder, title);
     await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 3));
 
     final saveButtonFinder = find.byKey(const Key('save'));
     expect(saveButtonFinder, findsOneWidget);
     await tester.tap(saveButtonFinder);
-    await tester.pumpAndSettle(
-      const Duration(
-        seconds: 3,
-      ),
-    );
+    await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 3));
   }
 
   void rowHasTitle(String title, int index) {
-    final Finder titleRow = find.byKey(Key('title_row_$index'));
+    final titleRow = find.byKey(Key('title_row_$index'));
     expect(titleRow, findsOneWidget);
     expect((titleRow.evaluate().single.widget as Text).data, equals(title));
   }
@@ -108,12 +114,12 @@ class HomePageObject {
   }
 
   Future<void> deleteRow(int index) async {
-    final Finder popupRow = find.byKey(Key('popup_row_$index'));
+    final popupRow = find.byKey(Key('popup_row_$index'));
     expect(popupRow, findsOneWidget);
     await tester.tap(popupRow);
     await tester.pumpAndSettle();
 
-    final Finder deleteRow = find.byKey(Key('delete_row_$index'));
+    final deleteRow = find.byKey(Key('delete_row_$index'));
     expect(deleteRow, findsOneWidget);
     await tester.tap(deleteRow);
     await tester.pumpAndSettle();
@@ -132,4 +138,25 @@ class HomePageObject {
     await tester.tap(_isProtectedDataAvailableButtonFinder);
     await tester.pumpAndSettle();
   }
+}
+
+Future<void> pumpUntilFound(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
+  bool timerDone = false;
+  final timer = Timer(
+    timeout,
+    () => throw TimeoutException('Pump until has timed out'),
+  );
+  while (timerDone != true) {
+    await tester.pump();
+
+    final found = tester.any(finder);
+    if (found) {
+      timerDone = true;
+    }
+  }
+  timer.cancel();
 }
