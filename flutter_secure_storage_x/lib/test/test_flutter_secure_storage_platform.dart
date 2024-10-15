@@ -43,11 +43,4 @@ class TestFlutterSecureStoragePlatform extends FlutterSecureStoragePlatform {
     required Map<String, String> options,
   }) async =>
       data[key] = value;
-
-// @override
-// Future<bool> isCupertinoProtectedDataAvailable() => Future.value(true);
-//
-// @override
-// Stream<bool> get onCupertinoProtectedDataAvailabilityChanged =>
-//     Stream.value(true);
 }
