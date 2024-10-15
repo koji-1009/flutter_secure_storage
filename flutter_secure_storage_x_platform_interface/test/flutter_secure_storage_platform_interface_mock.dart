@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage_x_platform_interface/flutter_secure_storage_x_platform_interface.dart';
 import 'package:mockito/mockito.dart';
-
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockMethodChannel extends Mock implements MethodChannel {}
@@ -50,11 +49,4 @@ class ExtendsFlutterSecureStoragePlatform extends FlutterSecureStoragePlatform {
     required Map<String, String> options,
   }) =>
       Future<void>.value();
-
-  // @override
-  // Future<bool> isCupertinoProtectedDataAvailable() => Future.value(true);
-  //
-  // @override
-  // Stream<bool> get onCupertinoProtectedDataAvailabilityChanged =>
-  //     Stream.value(true);
 }
