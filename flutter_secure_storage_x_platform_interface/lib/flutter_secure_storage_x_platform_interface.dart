@@ -1,9 +1,8 @@
 library;
 
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:platform/platform.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 part './src/method_channel_flutter_secure_storage.dart';
