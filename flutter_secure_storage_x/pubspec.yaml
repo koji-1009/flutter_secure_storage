@@ -27,6 +27,7 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
+  platform: ^3.0.0
 
   flutter_secure_storage_x_linux: ^1.4.1
   flutter_secure_storage_x_macos: ^3.4.1
