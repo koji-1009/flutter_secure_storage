@@ -1,3 +1,8 @@
+## 1.4.0
+
+ - **REFACTOR**: Code cleanup. ([00105189](https://github.com/koji-1009/flutter_secure_storage/commit/00105189eed63fd852a69a9383ac260db05b5696))
+ - **FEAT**: Support WASM. ([1bc3da1c](https://github.com/koji-1009/flutter_secure_storage/commit/1bc3da1cba448761aa4a01fd2e9133eacd0dd7b1))
+
 ## 1.3.1
 
  - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))

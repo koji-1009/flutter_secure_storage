@@ -15,6 +15,53 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_secure_storage_x` - `v10.1.0`](#flutter_secure_storage_x---v1010)
+ - [`flutter_secure_storage_x_platform_interface` - `v1.4.0`](#flutter_secure_storage_x_platform_interface---v140)
+ - [`flutter_secure_storage_x_web` - `v2.1.2`](#flutter_secure_storage_x_web---v212)
+ - [`flutter_secure_storage_x_windows` - `v3.3.3`](#flutter_secure_storage_x_windows---v333)
+ - [`flutter_secure_storage_x_linux` - `v1.4.2`](#flutter_secure_storage_x_linux---v142)
+ - [`flutter_secure_storage_x_macos` - `v3.4.2`](#flutter_secure_storage_x_macos---v342)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x_linux` - `v1.4.2`
+ - `flutter_secure_storage_x_macos` - `v3.4.2`
+
+---
+
+#### `flutter_secure_storage_x` - `v10.1.0`
+
+ - **REFACTOR**: Code cleanup. ([00105189](https://github.com/koji-1009/flutter_secure_storage/commit/00105189eed63fd852a69a9383ac260db05b5696))
+ - **FEAT**: Support WASM. ([1bc3da1c](https://github.com/koji-1009/flutter_secure_storage/commit/1bc3da1cba448761aa4a01fd2e9133eacd0dd7b1))
+
+#### `flutter_secure_storage_x_platform_interface` - `v1.4.0`
+
+ - **REFACTOR**: Code cleanup. ([00105189](https://github.com/koji-1009/flutter_secure_storage/commit/00105189eed63fd852a69a9383ac260db05b5696))
+ - **FEAT**: Support WASM. ([1bc3da1c](https://github.com/koji-1009/flutter_secure_storage/commit/1bc3da1cba448761aa4a01fd2e9133eacd0dd7b1))
+
+#### `flutter_secure_storage_x_web` - `v2.1.2`
+
+ - **REFACTOR**: Code cleanup. ([e13f3982](https://github.com/koji-1009/flutter_secure_storage/commit/e13f39824bb0bee6125a2cd731e0da1cade44bac))
+
+#### `flutter_secure_storage_x_windows` - `v3.3.3`
+
+ - **REFACTOR**: Code cleanup. ([00105189](https://github.com/koji-1009/flutter_secure_storage/commit/00105189eed63fd852a69a9383ac260db05b5696))
+
+
+## 2024-10-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_secure_storage_x` - `v10.0.1`](#flutter_secure_storage_x---v1001)
  - [`flutter_secure_storage_x_linux` - `v1.4.1`](#flutter_secure_storage_x_linux---v141)
  - [`flutter_secure_storage_x_macos` - `v3.4.1`](#flutter_secure_storage_x_macos---v341)
