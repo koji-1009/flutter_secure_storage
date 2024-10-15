@@ -25,10 +25,9 @@ class FlutterSecureStorageWeb extends FlutterSecureStoragePlatform {
   Future<bool> containsKey({
     required String key,
     required Map<String, String> options,
-  }) =>
-      Future.value(
-        web.window.localStorage.has('${options[_publicKey]!}.$key'),
-      );
+  }) async {
+    return web.window.localStorage.has('${options[_publicKey]!}.$key');
+  }
 
   /// Deletes associated value for the given [key].
   ///
@@ -73,7 +72,7 @@ class FlutterSecureStorageWeb extends FlutterSecureStoragePlatform {
   }) async {
     final value = web.window.localStorage['${options[_publicKey]!}.$key'];
 
-    return _decryptValue(value, options);
+    return await _decryptValue(value, options);
   }
 
   /// Decrypts and returns all keys with associated values.
@@ -257,13 +256,6 @@ class FlutterSecureStorageWeb extends FlutterSecureStoragePlatform {
 
     return plainText;
   }
-
-// @override
-// Future<bool> isCupertinoProtectedDataAvailable() => Future.value(false);
-//
-// @override
-// Stream<bool> get onCupertinoProtectedDataAvailabilityChanged =>
-//     Stream.empty();
 }
 
 extension on List<String> {
