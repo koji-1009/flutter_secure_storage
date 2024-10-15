@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_secure_storage_x` - `v10.0.1`](#flutter_secure_storage_x---v1001)
+ - [`flutter_secure_storage_x_linux` - `v1.4.1`](#flutter_secure_storage_x_linux---v141)
+ - [`flutter_secure_storage_x_macos` - `v3.4.1`](#flutter_secure_storage_x_macos---v341)
+ - [`flutter_secure_storage_x_platform_interface` - `v1.3.1`](#flutter_secure_storage_x_platform_interface---v131)
+ - [`flutter_secure_storage_x_web` - `v2.1.1`](#flutter_secure_storage_x_web---v211)
+ - [`flutter_secure_storage_x_windows` - `v3.3.2`](#flutter_secure_storage_x_windows---v332)
+
+---
+
+#### `flutter_secure_storage_x` - `v10.0.1`
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
+#### `flutter_secure_storage_x_linux` - `v1.4.1`
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
+#### `flutter_secure_storage_x_macos` - `v3.4.1`
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
+#### `flutter_secure_storage_x_platform_interface` - `v1.3.1`
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
+#### `flutter_secure_storage_x_web` - `v2.1.1`
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
+#### `flutter_secure_storage_x_windows` - `v3.3.2`
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
+
+## 2024-10-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_secure_storage_x` - `v10.0.0`](#flutter_secure_storage_x---v1000)
  - [`flutter_secure_storage_x_macos` - `v3.4.0`](#flutter_secure_storage_x_macos---v340)
  - [`flutter_secure_storage_x_windows` - `v3.3.1`](#flutter_secure_storage_x_windows---v331)

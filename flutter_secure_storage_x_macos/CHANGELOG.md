@@ -1,3 +1,7 @@
+## 3.4.1
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
 ## 3.4.0
 
  - **FEAT**: Swift Package Manager. ([a9c0ec14](https://github.com/koji-1009/flutter_secure_storage/commit/a9c0ec14f88586523e0ce3289da10992bd453d23))

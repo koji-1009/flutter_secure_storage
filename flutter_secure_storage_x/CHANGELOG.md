@@ -1,3 +1,7 @@
+## 10.0.1
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
 ## 10.0.0
 
  - Change minimum Android SDK version to 23 and iOS version to 12.0. Android supports DataStore, iOS supports Swift Package Manager.

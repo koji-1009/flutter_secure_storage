@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **DOCS**: Update README. ([06b8b28a](https://github.com/koji-1009/flutter_secure_storage/commit/06b8b28a8f787a5dbaa1ce21922161e2a5b70fee))
+
 ## 1.4.0
 
 > Note: This release has breaking changes.
