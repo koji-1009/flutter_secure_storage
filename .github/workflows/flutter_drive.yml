@@ -107,3 +107,28 @@ jobs:
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: flutter test integration_test -d windows
+  drive_web:
+    name: Web
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        option: [ "", "--wasm" ]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Run flutter doctor
+        run: flutter doctor
+      - uses: bluefireteam/melos-action@v3
+
+      - name: Setup chromedriver
+        run: |
+          npx @puppeteer/browsers install chromedriver@stable
+          chromedriver --port=4444 &
+      - name: Run Flutter Integration tests
+        working-directory: flutter_secure_storage_x/example
+        run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server ${{ matrix.option }} \
