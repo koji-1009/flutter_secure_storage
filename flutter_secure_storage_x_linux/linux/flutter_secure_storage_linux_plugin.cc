@@ -1,4 +1,4 @@
-#include "include/flutter_secure_storage_x_linux/flutter_secure_storage_x_linux_plugin.h"
+#include "include/flutter_secure_storage_x_linux/flutter_secure_storage_linux_plugin.h"
 #include "include/Secret.hpp"
 #include "include/json.hpp"
 
