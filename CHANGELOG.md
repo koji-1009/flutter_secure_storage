@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-11-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x_linux` - `v1.4.3`](#flutter_secure_storage_x_linux---v143)
+ - [`flutter_secure_storage_x` - `v10.1.1`](#flutter_secure_storage_x---v1011)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x` - `v10.1.1`
+
+---
+
+#### `flutter_secure_storage_x_linux` - `v1.4.3`
+
+ - **FIX**: linux plugin. ([0b73d9c7](https://github.com/koji-1009/flutter_secure_storage/commit/0b73d9c7c72de15e7019a1aba017518f258a4d17))
+
+
 ## 2024-10-15
 
 ### Changes

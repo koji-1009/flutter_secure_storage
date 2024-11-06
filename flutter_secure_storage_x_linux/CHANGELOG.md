@@ -1,3 +1,7 @@
+## 1.4.3
+
+ - **FIX**: linux plugin. ([0b73d9c7](https://github.com/koji-1009/flutter_secure_storage/commit/0b73d9c7c72de15e7019a1aba017518f258a4d17))
+
 ## 1.4.2
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 10.1.1
+
+ - Update a dependency to the latest release.
+
 ## 10.1.0
 
  - **REFACTOR**: Code cleanup. ([00105189](https://github.com/koji-1009/flutter_secure_storage/commit/00105189eed63fd852a69a9383ac260db05b5696))
