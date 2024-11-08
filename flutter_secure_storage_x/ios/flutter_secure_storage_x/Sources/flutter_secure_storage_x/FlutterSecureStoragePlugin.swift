@@ -12,6 +12,8 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
 
   private let flutterSecureStorageManager: FlutterSecureStorage = FlutterSecureStorage()
   private var secStoreAvailabilitySink: FlutterEventSink?
+  private let serialQueue = DispatchQueue(
+    label: "plugins.it_nomads.com/flutter_secure_storage_queue")
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
@@ -32,7 +34,7 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
       }
     }
 
-    DispatchQueue.global(qos: .userInitiated).async {
+    serialQueue.async {
       switch call.method {
       case "read":
         self.read(call, handleResult)
@@ -225,7 +227,7 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
         result(response.value)
       } else {
         var errorMessage = ""
-        
+
         if let errMsg = SecCopyErrorMessageString(status, nil) {
           errorMessage = "Code: \(status), Message: \(errMsg)"
         } else {
