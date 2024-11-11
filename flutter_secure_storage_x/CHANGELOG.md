@@ -1,3 +1,11 @@
+## 9.4.1
+
+> Note: This release has no breaking changes.
+
+ - **FEAT**: Update default algorithms. ([206b8f](https://github.com/koji-1009/flutter_secure_storage/commit/206b8f17372265de7001ad23fcde56c2c29dcad4))
+ - **FEAT**: Use serial queue . ([14808a7](https://github.com/koji-1009/flutter_secure_storage/commit/14808a7d6863776173e93f5d3d2eb11a59fe3183))
+ - **REFACTOR**: Check by whether the value can be retrieved . ([a5065e1](https://github.com/koji-1009/flutter_secure_storage/commit/a5065e1822ff3f230c0227beb354505fa19a42a9))
+
 ## 9.4.0
 
 > Note: This release has breaking changes.
