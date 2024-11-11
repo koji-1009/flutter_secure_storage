@@ -170,21 +170,10 @@ class FlutterSecureStorage {
     }
 
     internal func write(key: String, value: String, groupId: String?, accountName: String?, synchronizable: Bool?, accessibility: String?) -> FlutterSecureStorageResponse {
-        var keyExists: Bool = false
-
-        // Check if the key exists but without accessibility.
-        // This parameter has no effect on the uniqueness of the key.
-    	switch containsKey(key: key, groupId: groupId, accountName: accountName) {
-            case .success(let exists):
-                keyExists = exists
-                break;
-            case .failure(let err):
-                return FlutterSecureStorageResponse(status: err.status, value: nil)
-        }
-
         var keychainQuery = baseQuery(key: key, groupId: groupId, accountName: accountName, synchronizable: synchronizable, accessibility: accessibility, returnData: nil)
 
-        if (keyExists) {
+        let result = read(key: key, groupId: groupId, accountName: accountName)
+        if result.status == errSecSuccess && result.value != nil {
             // Entry exists, try to update it. Change of kSecAttrAccessible not possible via update.
             let update: [CFString: Any?] = [
                 kSecValueData: value.data(using: String.Encoding.utf8),
@@ -199,7 +188,7 @@ class FlutterSecureStorage {
 
             // Update failed, possibly due to different kSecAttrAccessible.
             // Delete the entry and create a new one in the next step.
-            delete(key: key, groupId: groupId, accountName: accountName)
+            _ = delete(key: key, groupId: groupId, accountName: accountName)
         }
 
         // Entry does not exist or was deleted, create a new entry.
