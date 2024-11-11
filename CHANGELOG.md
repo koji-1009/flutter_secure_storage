@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-11-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v10.2.0`](#flutter_secure_storage_x---v1020)
+
+---
+
+#### `flutter_secure_storage_x` - `v10.2.0`
+
+ - **REFACTOR**: Simplify nil check. ([5a0ad611](https://github.com/koji-1009/flutter_secure_storage/commit/5a0ad61156cb98ab10da68566beb26c734d88c81))
+ - **REFACTOR**: Check by whether the value can be retrieved. ([d063698d](https://github.com/koji-1009/flutter_secure_storage/commit/d063698d0a18fbeaa6183020d01c1c0761c8372a))
+ - **FEAT**: Use serial queue. ([0aeec0c7](https://github.com/koji-1009/flutter_secure_storage/commit/0aeec0c776e58188b72ae7889156973644e0a7df))
+
+
 ## 2024-11-06
 
 ### Changes
