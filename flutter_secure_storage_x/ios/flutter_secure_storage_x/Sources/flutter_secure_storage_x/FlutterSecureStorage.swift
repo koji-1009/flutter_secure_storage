@@ -8,11 +8,7 @@
 import Foundation
 
 class FlutterSecureStorage {
-  private func parseAccessibleAttr(accessibility: String?) -> CFString {
-    guard let accessibility = accessibility else {
-      return kSecAttrAccessibleWhenUnlocked
-    }
-
+  private func parseAccessibleAttr(accessibility: String) -> CFString {
     switch accessibility {
     case "passcode":
       return kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
@@ -37,27 +33,29 @@ class FlutterSecureStorage {
       kSecClass: kSecClassGenericPassword
     ]
 
-    if accessibility != nil {
-      keychainQuery[kSecAttrAccessible] = parseAccessibleAttr(accessibility: accessibility)
+    if let accessibility = accessibility {
+      keychainQuery[kSecAttrAccessible] = parseAccessibleAttr(
+        accessibility: accessibility
+      )
     }
 
-    if key != nil {
+    if let key = key {
       keychainQuery[kSecAttrAccount] = key
     }
 
-    if groupId != nil {
+    if let groupId = groupId {
       keychainQuery[kSecAttrAccessGroup] = groupId
     }
 
-    if accountName != nil {
+    if let accountName = accountName {
       keychainQuery[kSecAttrService] = accountName
     }
 
-    if synchronizable != nil {
+    if let synchronizable = synchronizable {
       keychainQuery[kSecAttrSynchronizable] = synchronizable
     }
 
-    if returnData != nil {
+    if let returnData = returnData {
       keychainQuery[kSecReturnData] = returnData
     }
     return keychainQuery
@@ -103,10 +101,7 @@ class FlutterSecureStorage {
     keychainQuery[kSecReturnAttributes] = true
 
     var ref: AnyObject?
-    let status = SecItemCopyMatching(
-      keychainQuery as CFDictionary,
-      &ref
-    )
+    let status = SecItemCopyMatching(keychainQuery as CFDictionary, &ref)
 
     if status == errSecItemNotFound {
       // readAll() returns all elements, so return nil if the items does not exist
