@@ -7,7 +7,7 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 set(PLUGIN_NAME "flutter_secure_storage_x_windows_plugin")
 
 add_library(${PLUGIN_NAME} SHARED
-  "flutter_secure_storage_x_windows_plugin.cpp"
+  "flutter_secure_storage_windows_plugin.cpp"
 )
 apply_standard_settings(${PLUGIN_NAME})
 set_target_properties(${PLUGIN_NAME} PROPERTIES

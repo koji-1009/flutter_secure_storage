@@ -1,4 +1,4 @@
-#include "include/flutter_secure_storage_x_windows/flutter_secure_storage_x_windows_plugin.h"
+#include "include/flutter_secure_storage_x_windows/flutter_secure_storage_windows_plugin.h"
 
 // This must be included before many other Windows headers.
 #include <windows.h>
