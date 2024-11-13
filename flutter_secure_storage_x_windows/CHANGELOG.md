@@ -1,3 +1,7 @@
+## 3.3.4
+
+ - Bump "flutter_secure_storage_x_windows" to `3.3.4`.
+
 ## 3.3.3
 
  - **REFACTOR**: Code cleanup. ([00105189](https://github.com/koji-1009/flutter_secure_storage/commit/00105189eed63fd852a69a9383ac260db05b5696))

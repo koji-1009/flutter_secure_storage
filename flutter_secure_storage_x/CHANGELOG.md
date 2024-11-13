@@ -1,3 +1,7 @@
+## 10.2.1
+
+ - Update a dependency to the latest release.
+
 ## 10.2.0
 
  - **REFACTOR**: Simplify nil check. ([5a0ad611](https://github.com/koji-1009/flutter_secure_storage/commit/5a0ad61156cb98ab10da68566beb26c734d88c81))

@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-11-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x_windows` - `v3.3.4`](#flutter_secure_storage_x_windows---v334)
+ - [`flutter_secure_storage_x` - `v10.2.1`](#flutter_secure_storage_x---v1021)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x` - `v10.2.1`
+
+---
+
+#### `flutter_secure_storage_x_windows` - `v3.3.4`
+
+ - Bump "flutter_secure_storage_x_windows" to `3.3.4`.
+
+
 ## 2024-11-11
 
 ### Changes
