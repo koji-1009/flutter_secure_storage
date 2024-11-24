@@ -57,7 +57,9 @@ public:
     }
   }
 
-  bool deleteKeyring() { return this->storeToKeyring(nlohmann::json()); }
+  bool deleteKeyring() { 
+    return this->storeToKeyring(nlohmann::json()); 
+  }
 
   bool storeToKeyring(nlohmann::json value) {
     const std::string output = value.dump(0);
@@ -113,6 +115,10 @@ private:
     bool success = secret_password_storev_sync(
         NULL, attributes.getGHashTable(), nullptr, dummy_label,
         "The meaning of life", nullptr, &err);
+
+    if (err) {
+      throw err->message;
+    }
 
     if (!success) {
       throw "Failed to unlock the keyring";
