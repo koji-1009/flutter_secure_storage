@@ -117,7 +117,7 @@ jobs:
       matrix:
         option: [ 
           "",
-          # "--wasm"
+          "--wasm"
           ]
       fail-fast: false
     steps:
