@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-11-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v10.2.2`](#flutter_secure_storage_x---v1022)
+ - [`flutter_secure_storage_x_linux` - `v1.4.4`](#flutter_secure_storage_x_linux---v144)
+ - [`flutter_secure_storage_x_platform_interface` - `v1.4.1`](#flutter_secure_storage_x_platform_interface---v141)
+ - [`flutter_secure_storage_x_macos` - `v3.4.3`](#flutter_secure_storage_x_macos---v343)
+ - [`flutter_secure_storage_x_windows` - `v3.3.5`](#flutter_secure_storage_x_windows---v335)
+ - [`flutter_secure_storage_x_web` - `v2.1.3`](#flutter_secure_storage_x_web---v213)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x_macos` - `v3.4.3`
+ - `flutter_secure_storage_x_windows` - `v3.3.5`
+ - `flutter_secure_storage_x_web` - `v2.1.3`
+
+---
+
+#### `flutter_secure_storage_x` - `v10.2.2`
+
+ - **FIX**: Fix linux implementation to pass test. ([869eddbc](https://github.com/koji-1009/flutter_secure_storage/commit/869eddbc09f200be104aa63f03aa196bb1040f8f))
+
+#### `flutter_secure_storage_x_linux` - `v1.4.4`
+
+ - **FIX**: Fix linux implementation to pass test. ([869eddbc](https://github.com/koji-1009/flutter_secure_storage/commit/869eddbc09f200be104aa63f03aa196bb1040f8f))
+
+#### `flutter_secure_storage_x_platform_interface` - `v1.4.1`
+
+ - **FIX**: Fix linux implementation to pass test. ([869eddbc](https://github.com/koji-1009/flutter_secure_storage/commit/869eddbc09f200be104aa63f03aa196bb1040f8f))
+
+
 ## 2024-11-14
 
 ### Changes

@@ -1,3 +1,7 @@
+## 3.3.5
+
+ - Update a dependency to the latest release.
+
 ## 3.3.4
 
  - Bump "flutter_secure_storage_x_windows" to `3.3.4`.

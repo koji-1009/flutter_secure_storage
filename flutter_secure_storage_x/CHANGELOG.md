@@ -1,3 +1,7 @@
+## 10.2.2
+
+ - **FIX**: Fix linux implementation to pass test. ([869eddbc](https://github.com/koji-1009/flutter_secure_storage/commit/869eddbc09f200be104aa63f03aa196bb1040f8f))
+
 ## 10.2.1
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 1.4.4
+
+ - **FIX**: Fix linux implementation to pass test. ([869eddbc](https://github.com/koji-1009/flutter_secure_storage/commit/869eddbc09f200be104aa63f03aa196bb1040f8f))
+
 ## 1.4.3
 
  - **FIX**: linux plugin. ([0b73d9c7](https://github.com/koji-1009/flutter_secure_storage/commit/0b73d9c7c72de15e7019a1aba017518f258a4d17))

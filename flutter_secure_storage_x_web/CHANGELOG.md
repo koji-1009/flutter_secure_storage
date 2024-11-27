@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - Update a dependency to the latest release.
+
 ## 2.1.2
 
  - **REFACTOR**: Code cleanup. ([e13f3982](https://github.com/koji-1009/flutter_secure_storage/commit/e13f39824bb0bee6125a2cd731e0da1cade44bac))
