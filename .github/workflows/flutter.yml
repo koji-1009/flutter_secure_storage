@@ -5,9 +5,6 @@ on:
     branches:
       - main
   pull_request:
-defaults:
-  run:
-    shell: bash
 env:
   PUB_ENVIRONMENT: bot.github
 
@@ -20,17 +17,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: 3.24.x
           cache: true
-      - name: Version
+      - name: flutter doctor
         run: flutter doctor -v
-      - name: Install melos
-        run: |
-          flutter pub global activate melos
-          echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-          echo "$HOME/AppData/Local/Pub/Cache/bin" >> $GITHUB_PATH
-      - name: Initialize workspace through melos
-        run: melos bootstrap
+      - uses: bluefireteam/melos-action@v3
       - name: Linter
         run: melos analyze
       - name: Format
