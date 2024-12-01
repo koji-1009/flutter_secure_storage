@@ -37,7 +37,7 @@ jobs:
           cache: true
       - name: Run flutter doctor
         run: flutter doctor
-      - uses: bluefireteam/melos-action@v3      
+      - uses: bluefireteam/melos-action@v3
       - name: Run flutter integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -51,7 +51,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        simulator: [ {os: "17.0", model: "iPhone 15"} ]
+        simulator: [{os: "17.0", model: "iPhone 15"}]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -115,10 +115,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        option: [ 
-          "",
-          "--wasm"
-          ]
+        option: ["", "--wasm"]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -129,7 +126,6 @@ jobs:
       - name: Run flutter doctor
         run: flutter doctor
       - uses: bluefireteam/melos-action@v3
-
       - name: Setup chromedriver
         run: |
           npx @puppeteer/browsers install chromedriver@stable
