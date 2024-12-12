@@ -68,6 +68,9 @@ jobs:
           os: iOS
           os_version: ${{ matrix.simulator.os }}
           model: ${{ matrix.simulator.model }}
+      - name: Pre-build the app
+        working-directory: flutter_secure_storage_x/example
+        run: flutter build ios --simulator --target=integration_test/app_test.dart
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: flutter test integration_test -d iphone
