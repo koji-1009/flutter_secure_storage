@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **FIX**: Deprecated api. ([ef8d9487](https://github.com/koji-1009/flutter_secure_storage/commit/ef8d9487460a8fd327fc57f59cf79547b62e7193))
+
 ## 2.1.3
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.3.6
+
+ - **FIX**: ignore deprecated member use warning. ([ea0f58d8](https://github.com/koji-1009/flutter_secure_storage/commit/ea0f58d88d35478552cc52ab03c278c2a72a9d2e))
+
 ## 3.3.5
 
  - Update a dependency to the latest release.

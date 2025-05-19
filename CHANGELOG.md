@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-05-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x_web` - `v2.1.4`](#flutter_secure_storage_x_web---v214)
+ - [`flutter_secure_storage_x_windows` - `v3.3.6`](#flutter_secure_storage_x_windows---v336)
+ - [`flutter_secure_storage_x` - `v10.2.3`](#flutter_secure_storage_x---v1023)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x` - `v10.2.3`
+
+---
+
+#### `flutter_secure_storage_x_web` - `v2.1.4`
+
+ - **FIX**: Deprecated api. ([ef8d9487](https://github.com/koji-1009/flutter_secure_storage/commit/ef8d9487460a8fd327fc57f59cf79547b62e7193))
+
+#### `flutter_secure_storage_x_windows` - `v3.3.6`
+
+ - **FIX**: ignore deprecated member use warning. ([ea0f58d8](https://github.com/koji-1009/flutter_secure_storage/commit/ea0f58d88d35478552cc52ab03c278c2a72a9d2e))
+
+
 ## 2024-11-27
 
 ### Changes
