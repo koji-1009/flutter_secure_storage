@@ -55,7 +55,6 @@ android {
 
     dependencies {
         implementation("androidx.datastore:datastore-preferences:1.1.1")
-        implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")

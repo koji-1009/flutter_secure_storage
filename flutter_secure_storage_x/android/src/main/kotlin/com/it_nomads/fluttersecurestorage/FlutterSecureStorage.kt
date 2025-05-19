@@ -2,16 +2,12 @@ package com.it_nomads.fluttersecurestorage
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
+import androidx.core.content.edit
 import com.it_nomads.fluttersecurestorage.ciphers.StorageCipher
 import com.it_nomads.fluttersecurestorage.ciphers.StorageCipherFactory
 import com.it_nomads.fluttersecurestorage.storage.DataStoreStorage
-import java.lang.Exception
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
@@ -23,7 +19,6 @@ class FlutterSecureStorage(
   private var storageCipherFactory: StorageCipherFactory? = null
 
   private var resetOnError = false
-  private var useEncryptedSharedPreferences = false
   private var useDataStore = false
 
   fun setOptions(options: Map<String, String>) {
@@ -38,7 +33,6 @@ class FlutterSecureStorage(
     }
 
     resetOnError = options["resetOnError"] == "true"
-    useEncryptedSharedPreferences = options["encryptedSharedPreferences"] == "true"
     useDataStore = options["dataStore"] == "true"
   }
 
@@ -49,17 +43,9 @@ class FlutterSecureStorage(
   private var elementPreferencesKeyPrefix: String =
     "VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg"
   private var sharedPreferencesName: String = "FlutterSecureStorage"
-  private var failedToUseEncryptedSharedPreferences = false
 
   fun getResetOnError(): Boolean {
     return resetOnError
-  }
-
-  private fun getUseEncryptedSharedPreferences(): Boolean {
-    if (failedToUseEncryptedSharedPreferences) {
-      return false
-    }
-    return useEncryptedSharedPreferences
   }
 
   private fun getUseDataStore(): Boolean {
@@ -95,9 +81,6 @@ class FlutterSecureStorage(
       return null
     }
 
-    if (getUseEncryptedSharedPreferences()) {
-      return rawValue
-    }
     return decodeRawValue(rawValue)
   }
 
@@ -127,12 +110,8 @@ class FlutterSecureStorage(
           continue
         }
 
-        if (getUseEncryptedSharedPreferences()) {
-          all.put(key, value)
-        } else {
-          val decodeValue = decodeRawValue(value)
-          all.put(key, decodeValue)
-        }
+        val decodeValue = decodeRawValue(value)
+        all.put(key, decodeValue)
       }
     }
     return all
@@ -147,13 +126,8 @@ class FlutterSecureStorage(
     }
 
     val editor = preferences!!.edit()
-
-    if (getUseEncryptedSharedPreferences()) {
-      editor.putString(key, value)
-    } else {
-      val encodeValue = encodeRawValue(value)
-      editor.putString(key, encodeValue)
-    }
+    val encodeValue = encodeRawValue(value)
+    editor.putString(key, encodeValue)
     editor.apply()
   }
 
@@ -178,9 +152,7 @@ class FlutterSecureStorage(
 
     val editor = preferences!!.edit()
     editor.clear()
-    if (!getUseEncryptedSharedPreferences()) {
-      storageCipherFactory!!.storeCurrentAlgorithms(editor)
-    }
+    storageCipherFactory!!.storeCurrentAlgorithms(editor)
     editor.apply()
   }
 
@@ -201,18 +173,7 @@ class FlutterSecureStorage(
       }
     }
 
-    if (getUseEncryptedSharedPreferences()) {
-      try {
-        preferences = initializeEncryptedSharedPreferencesManager(applicationContext)
-        checkAndMigrateToEncrypted(nonEncryptedPreferences, preferences!!)
-      } catch (e: Exception) {
-        Log.e(TAG, "EncryptedSharedPreferences initialization failed", e)
-        preferences = nonEncryptedPreferences
-        failedToUseEncryptedSharedPreferences = true
-      }
-    } else {
-      preferences = nonEncryptedPreferences
-    }
+    preferences = nonEncryptedPreferences
 
     if (getUseDataStore()) {
       val entries = preferences!!.all
@@ -232,12 +193,7 @@ class FlutterSecureStorage(
           continue
         }
 
-        if (getUseEncryptedSharedPreferences()) {
-          val encodeValue = encodeRawValue(value)
-          dataStoreStorage.write(key, encodeValue)
-        } else {
-          values[key] = value
-        }
+        values[key] = value
       }
 
       dataStoreStorage.writeAll(values)
@@ -250,8 +206,6 @@ class FlutterSecureStorage(
     storageCipherFactory = StorageCipherFactory(source)
     if (getUseDataStore()) {
       storageCipher = storageCipherFactory!!.getCurrentStorageCipher(applicationContext)
-    } else if (getUseEncryptedSharedPreferences()) {
-      storageCipher = storageCipherFactory!!.getSavedStorageCipher(applicationContext)
     } else if (storageCipherFactory!!.requiresReEncryption()) {
       reEncryptPreferences(storageCipherFactory!!, source)
     } else {
@@ -286,46 +240,6 @@ class FlutterSecureStorage(
       Log.e(TAG, "re-encryption failed", e)
       storageCipher = storageCipherFactory.getSavedStorageCipher(applicationContext)
     }
-  }
-
-  private fun checkAndMigrateToEncrypted(source: SharedPreferences, target: SharedPreferences) {
-    try {
-      for (entry in source.all.entries) {
-        val v = entry.value
-        val key = entry.key
-        if (v is String && key.contains(elementPreferencesKeyPrefix)) {
-          val decodeValue = decodeRawValue(v)
-          target.edit().putString(key, (decodeValue)).apply()
-          source.edit().remove(key).apply()
-        }
-      }
-      val sourceEditor = source.edit()
-      storageCipherFactory!!.removeCurrentAlgorithms(sourceEditor)
-      sourceEditor.apply()
-    } catch (e: Exception) {
-      Log.e(TAG, "Data migration failed", e)
-    }
-  }
-
-  private fun initializeEncryptedSharedPreferencesManager(context: Context): SharedPreferences {
-    val key = MasterKey.Builder(context)
-      .setKeyGenParameterSpec(
-        KeyGenParameterSpec.Builder(
-          MasterKey.DEFAULT_MASTER_KEY_ALIAS,
-          KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-        )
-          .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-          .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-          .setKeySize(256).build()
-      )
-      .build()
-    return EncryptedSharedPreferences.create(
-      context,
-      sharedPreferencesName,
-      key,
-      EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-      EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
   }
 
   private fun encodeRawValue(value: String): String {

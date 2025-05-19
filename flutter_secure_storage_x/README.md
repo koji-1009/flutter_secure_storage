@@ -10,16 +10,6 @@ For more information see the example app.
 
 ## Important notice for Android
 
-- With v5.0.0 we can use [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) on Android by enabling it in the Android Options like so:
-
-```dart
-AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  encryptedSharedPreferences: true,
-);
-```
-
-But [Jetpack security crypto library is deprecated.](https://developer.android.com/privacy-and-security/cryptography#jetpack_security_crypto_library) So, we recommend using the default implementation or DataStore.
-
 DataStore support has been available since v10.0.0. When using DataStore, set the options as follows.
 
 ```dart
@@ -27,17 +17,6 @@ AndroidOptions _getAndroidOptions() => const AndroidOptions(
   dataStore: true,
 );
 ```
-
-If you want to stop using EncryptedSharedPreferences, use the following option to migrate from EncryptedSharedPreferencs to DataStore. As previous implementations did not envisage migration from EncryptedSharedPreferences to SharedPreferencs, only the migration option to DataStore is implemented.
-
-```dart
-AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  encryptedSharedPreferences: true,
-  dataStore: true,
-);
-```
-
-Note:  that support for EncryptedSharedPreferences is planned to be removed in v11.
 
 ## Important notice for Web
 

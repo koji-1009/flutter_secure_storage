@@ -4,22 +4,15 @@ part of '../flutter_secure_storage_x.dart';
 
 class AndroidOptions extends Options {
   const AndroidOptions({
-    @Deprecated('Use dataStore instead')
-    this.encryptedSharedPreferences = false,
     this.dataStore = false,
     this.resetOnError = false,
     this.sharedPreferencesName,
     this.preferencesKeyPrefix,
   });
 
-  /// Deprecated: Use [dataStore] instead.
-  /// EncryptedSharedPreferences is only available on API 23 and greater
-  final bool encryptedSharedPreferences;
-
   /// Use DataStore instead of SharedPreferences. This feature is default in future releases.
   ///
   /// At the first run, data migration from the previous SharedPreferences to DataStore will be done.
-  /// If you were using EncryptedSharedPreferences, set [encryptedSharedPreferences] to true.
   final bool dataStore;
 
   /// When an error is detected, automatically reset all data. This will prevent
@@ -48,7 +41,6 @@ class AndroidOptions extends Options {
 
   @override
   Map<String, String> toMap() => <String, String>{
-        'encryptedSharedPreferences': '$encryptedSharedPreferences',
         'dataStore': '$dataStore',
         'resetOnError': '$resetOnError',
         'sharedPreferencesName': sharedPreferencesName ?? '',
@@ -56,15 +48,12 @@ class AndroidOptions extends Options {
       };
 
   AndroidOptions copyWith({
-    bool? encryptedSharedPreferences,
     bool? dataStore,
     bool? resetOnError,
     String? preferencesKeyPrefix,
     String? sharedPreferencesName,
   }) =>
       AndroidOptions(
-        encryptedSharedPreferences:
-            encryptedSharedPreferences ?? this.encryptedSharedPreferences,
         dataStore: dataStore ?? this.dataStore,
         resetOnError: resetOnError ?? this.resetOnError,
         sharedPreferencesName:
