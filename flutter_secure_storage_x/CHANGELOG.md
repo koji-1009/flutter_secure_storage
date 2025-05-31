@@ -1,3 +1,9 @@
+## 11.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Remove EncryptedSharedPreferences. ([54b48c7b](https://github.com/koji-1009/flutter_secure_storage/commit/54b48c7b726965d0c52a9784492a397edbf8ec1d))
+
 ## 10.2.3
 
  - Update a dependency to the latest release.

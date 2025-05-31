@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_secure_storage_x` - `v11.0.0`](#flutter_secure_storage_x---v1100)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_secure_storage_x` - `v11.0.0`
+
+ - **BREAKING** **FEAT**: Remove EncryptedSharedPreferences. ([54b48c7b](https://github.com/koji-1009/flutter_secure_storage/commit/54b48c7b726965d0c52a9784492a397edbf8ec1d))
+
+
 ## 2025-05-19
 
 ### Changes
