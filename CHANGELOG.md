@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v11.1.0`](#flutter_secure_storage_x---v1110)
+
+---
+
+#### `flutter_secure_storage_x` - `v11.1.0`
+
+ - **FEAT**: DataStore v1.1.7. ([2786c155](https://github.com/koji-1009/flutter_secure_storage/commit/2786c155575ea0816c07f1e73193ce293393c480))
+
+
 ## 2025-05-31
 
 ### Changes
