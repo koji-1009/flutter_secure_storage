@@ -56,7 +56,7 @@ class FlutterSecureStorage(
     return elementPreferencesKeyPrefix + "_" + key
   }
 
-  fun containsKey(key: String): Boolean {
+  suspend fun containsKey(key: String): Boolean {
     ensureInitialized()
     if (getUseDataStore()) {
       return dataStoreStorage.containsKey(key)
@@ -65,7 +65,7 @@ class FlutterSecureStorage(
     return preferences!!.contains(key)
   }
 
-  fun read(key: String): String? {
+  suspend fun read(key: String): String? {
     ensureInitialized()
     if (getUseDataStore()) {
       val value = dataStoreStorage.read(key)
@@ -84,7 +84,7 @@ class FlutterSecureStorage(
     return decodeRawValue(rawValue)
   }
 
-  fun readAll(): Map<String, String> {
+  suspend fun readAll(): Map<String, String> {
     ensureInitialized()
     if (getUseDataStore()) {
       val values = dataStoreStorage.readAll()
@@ -117,7 +117,7 @@ class FlutterSecureStorage(
     return all
   }
 
-  fun write(key: String, value: String) {
+  suspend fun write(key: String, value: String) {
     ensureInitialized()
     if (getUseDataStore()) {
       val encodeValue = encodeRawValue(value)
@@ -131,7 +131,7 @@ class FlutterSecureStorage(
     editor.apply()
   }
 
-  fun delete(key: String) {
+  suspend fun delete(key: String) {
     ensureInitialized()
     if (getUseDataStore()) {
       dataStoreStorage.delete(key)
@@ -143,7 +143,7 @@ class FlutterSecureStorage(
     editor.apply()
   }
 
-  fun deleteAll() {
+  suspend fun deleteAll() {
     ensureInitialized()
     if (getUseDataStore()) {
       dataStoreStorage.deleteAll()
@@ -156,7 +156,7 @@ class FlutterSecureStorage(
     editor.apply()
   }
 
-  private fun ensureInitialized() {
+  private suspend fun ensureInitialized() {
     // Check if already initialized.
     // TODO: Disable for now because this will break mixed usage of secureSharedPreference
 //        if (preferences != null) return;
