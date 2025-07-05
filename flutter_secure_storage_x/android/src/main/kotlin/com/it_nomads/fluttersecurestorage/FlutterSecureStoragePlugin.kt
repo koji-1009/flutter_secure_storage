@@ -1,36 +1,28 @@
 package com.it_nomads.fluttersecurestorage
 
 import android.content.Context
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
 import android.util.Log
-import com.it_nomads.fluttersecurestorage.FlutterSecureStoragePlugin.MethodResultWrapper
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
-import java.io.PrintWriter
-import java.io.StringWriter
-import java.lang.Exception
 
 class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   private var channel: MethodChannel? = null
   private var secureStorage: FlutterSecureStorage? = null
-  // TODO: Replace Kotlin Coroutines, when support for EncryptedSharedPreferences is dropped
-  private var workerThread: HandlerThread? = null
-  private var workerThreadHandler: Handler? = null
+  private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
   fun initInstance(messenger: BinaryMessenger, context: Context) {
     try {
       secureStorage = FlutterSecureStorage(context)
-
-      workerThread = HandlerThread("com.it_nomads.fluttersecurestorage.worker")
-      workerThread!!.start()
-      workerThreadHandler = Handler(workerThread!!.getLooper())
 
       channel = MethodChannel(messenger, "plugins.it_nomads.com/flutter_secure_storage")
       channel!!.setMethodCallHandler(this)
@@ -44,20 +36,18 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   }
 
   override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
+    coroutineScope.cancel()
     if (channel != null) {
-      workerThread!!.quitSafely()
-      workerThread = null
-
       channel!!.setMethodCallHandler(null)
       channel = null
     }
     secureStorage = null
   }
 
-  override fun onMethodCall(call: MethodCall, rawResult: MethodChannel.Result) {
-    val result = MethodResultWrapper(rawResult)
-    // Run all method calls inside the worker thread instead of the platform thread.
-    workerThreadHandler!!.post(MethodRunner(call, result))
+  override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
+    coroutineScope.launch {
+      handle(call = call, result = result)
+    }
   }
 
   private fun getKeyFromCall(call: MethodCall): String {
@@ -70,109 +60,66 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
     return arguments["value"] as String
   }
 
-  /**
-   * MethodChannel.Result wrapper that responds on the platform thread.
-   */
-  private class MethodResultWrapper(
-    private val methodResult: MethodChannel.Result,
-  ) : MethodChannel.Result {
-    private val handler = Handler(Looper.getMainLooper())
-
-    override fun success(result: Any?) {
-      handler.post(Runnable { methodResult.success(result) })
-    }
-
-    override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
-      handler.post(Runnable { methodResult.error(errorCode, errorMessage, errorDetails) })
-    }
-
-    override fun notImplemented() {
-      handler.post(Runnable { methodResult.notImplemented() })
-    }
-  }
-
-  /**
-   * Wraps the functionality of onMethodCall() in a Runnable for execution in the worker thread.
-   */
-  private inner class MethodRunner(
-    private val call: MethodCall,
-    private val result: MethodChannel.Result,
-  ) : Runnable {
-
-    override fun run() {
-      var resetOnError = false
-      try {
-        secureStorage!!.setOptions((call.arguments as Map<String, *>)["options"] as Map<String, String>)
-        resetOnError = secureStorage!!.getResetOnError()
-        when (call.method) {
-          "write" -> {
-            val key = getKeyFromCall(call)
-            val value = getValueFromCall(call)
-
-            secureStorage!!.write(key, value)
-            result.success(null)
-          }
-
-          "read" -> {
-            val key = getKeyFromCall(call)
-
-            if (secureStorage!!.containsKey(key)) {
-              val value = secureStorage!!.read(key)
-              result.success(value)
-            } else {
-              result.success(null)
-            }
-          }
-
-          "readAll" -> {
-            result.success(secureStorage!!.readAll())
-          }
-
-          "containsKey" -> {
-            val key = getKeyFromCall(call)
-
-            val containsKey = secureStorage!!.containsKey(key)
-            result.success(containsKey)
-          }
-
-          "delete" -> {
-            val key = getKeyFromCall(call)
-
-            secureStorage!!.delete(key)
-            result.success(null)
-          }
-
-          "deleteAll" -> {
-            secureStorage!!.deleteAll()
-            result.success(null)
-          }
-
-          else -> result.notImplemented()
+  private suspend fun handle(call: MethodCall, result: MethodChannel.Result) {
+    var resetOnError = false
+    try {
+      secureStorage!!.setOptions((call.arguments as Map<String, *>)["options"] as Map<String, String>)
+      resetOnError = secureStorage!!.getResetOnError()
+      when (call.method) {
+        "write" -> {
+          val key = getKeyFromCall(call)
+          val value = getValueFromCall(call)
+          secureStorage!!.write(key, value)
+          result.success(null)
         }
-      } catch (e: FileNotFoundException) {
-        Log.i("Creating sharedPrefs", e.message!!)
-      } catch (e: Exception) {
-        if (resetOnError) {
-          try {
-            secureStorage!!.deleteAll()
-            result.success("Data has been reset")
-          } catch (ex: Exception) {
-            handleException(ex)
-          }
-        } else {
-          handleException(e)
+
+        "read" -> {
+          val key = getKeyFromCall(call)
+          val value = secureStorage!!.read(key)
+          result.success(value)
         }
+
+        "readAll" -> {
+          val value = secureStorage!!.readAll()
+          result.success(value)
+        }
+
+        "containsKey" -> {
+          val key = getKeyFromCall(call)
+          val value = secureStorage!!.containsKey(key)
+          result.success(value)
+        }
+
+        "delete" -> {
+          val key = getKeyFromCall(call)
+          secureStorage!!.delete(key)
+          result.success(null)
+        }
+
+        "deleteAll" -> {
+          secureStorage!!.deleteAll()
+          result.success(null)
+        }
+
+        else -> result.notImplemented()
       }
-    }
-
-    private fun handleException(e: Exception) {
-      val stringWriter = StringWriter()
-      e.printStackTrace(PrintWriter(stringWriter))
-      result.error("Exception encountered", call.method, stringWriter.toString())
+    } catch (e: FileNotFoundException) {
+      Log.i("Creating sharedPrefs", e.message!!)
+    } catch (e: Exception) {
+      if (resetOnError) {
+        try {
+          secureStorage!!.deleteAll()
+          result.success("Data has been reset")
+        } catch (ex: Exception) {
+          result.error("Exception encountered", "${call.method}: ${ex.message}", ex.stackTrace)
+        }
+      } else {
+        result.error("Exception encountered", "${call.method}: ${e.message}", e.stackTrace)
+      }
     }
   }
 
   companion object {
-    private const val TAG = "FlutterSecureStoragePl"
+    private const val TAG = "FlutterSecureStorage"
   }
 }
