@@ -111,10 +111,18 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
           secureStorage!!.deleteAll()
           result.success("Data has been reset")
         } catch (ex: Exception) {
-          result.error("Exception encountered", "${call.method}: ${ex.message}", ex.stackTrace)
+          result.error(
+            "Exception encountered",
+            "${call.method}: ${ex.message}",
+            ex.stackTraceToString()
+          )
         }
       } else {
-        result.error("Exception encountered", "${call.method}: ${e.message}", e.stackTrace)
+        result.error(
+          "Exception encountered",
+          "${call.method}: ${e.message}",
+          e.stackTraceToString()
+        )
       }
     }
   }
