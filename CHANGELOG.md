@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v11.2.0`](#flutter_secure_storage_x---v1120)
+
+---
+
+#### `flutter_secure_storage_x` - `v11.2.0`
+
+ - **FIX**: Use stackTraceToString. ([69088e35](https://github.com/koji-1009/flutter_secure_storage/commit/69088e35ad087acfb3e9a2a4f6aa28a80d9eeb74))
+ - **FEAT**: Kotlin Coroutines. ([55fe402f](https://github.com/koji-1009/flutter_secure_storage/commit/55fe402f9d0ef3f8c0ea4a95fc35df28892ea470))
+ - **FEAT**: TargetSDK 35. ([139c723a](https://github.com/koji-1009/flutter_secure_storage/commit/139c723ab6ac25fa0736b372245113cf8c56f635))
+
+
 ## 2025-06-26
 
 ### Changes
