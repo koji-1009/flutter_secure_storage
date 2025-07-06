@@ -3,7 +3,6 @@ package com.it_nomads.fluttersecurestorage
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
-import android.util.Log
 import androidx.core.content.edit
 import com.it_nomads.fluttersecurestorage.ciphers.StorageCipher
 import com.it_nomads.fluttersecurestorage.ciphers.StorageCipherFactory
@@ -22,27 +21,26 @@ class FlutterSecureStorage(
   private var useDataStore = false
 
   fun setOptions(options: Map<String, String>) {
-    val name = options["sharedPreferencesName"]
+    val name = options[OPTION_SHARED_PREFERENCES_NAME]
     if (!name.isNullOrEmpty()) {
       sharedPreferencesName = name
     }
 
-    val prefix = options["preferencesKeyPrefix"]
+    val prefix = options[OPTION_PREFERENCES_KEY_PREFIX]
     if (!prefix.isNullOrEmpty()) {
       elementPreferencesKeyPrefix = prefix
     }
 
-    resetOnError = options["resetOnError"] == "true"
-    useDataStore = options["dataStore"] == "true"
+    resetOnError = options[OPTION_RESET_ON_ERROR] == OPTION_VALUE_TRUE
+    useDataStore = options[OPTION_DATA_STORE] == OPTION_VALUE_TRUE
   }
 
   private val dataStoreStorage: DataStoreStorage by lazy {
     DataStoreStorage(applicationContext)
   }
 
-  private var elementPreferencesKeyPrefix: String =
-    "VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg"
-  private var sharedPreferencesName: String = "FlutterSecureStorage"
+  private var elementPreferencesKeyPrefix: String = DEFAULT_ELEMENT_PREFERENCES_KEY_PREFIX
+  private var sharedPreferencesName: String = DEFAULT_SHARED_PREFERENCES_NAME
 
   fun getResetOnError(): Boolean {
     return resetOnError
@@ -53,22 +51,29 @@ class FlutterSecureStorage(
   }
 
   fun addPrefixToKey(key: String): String {
-    return elementPreferencesKeyPrefix + "_" + key
+    return elementPreferencesKeyPrefix + KEY_SEPARATOR + key
+  }
+
+  private fun removePrefixFromKey(keyWithPrefix: String): String {
+    val prefixWithSeparator = elementPreferencesKeyPrefix + KEY_SEPARATOR
+    return keyWithPrefix.replaceFirst(prefixWithSeparator.toRegex(), "")
   }
 
   suspend fun containsKey(key: String): Boolean {
     ensureInitialized()
+    val keyWithPrefix = addPrefixToKey(key)
     if (getUseDataStore()) {
-      return dataStoreStorage.containsKey(key)
+      return dataStoreStorage.containsKey(keyWithPrefix)
     }
 
-    return preferences!!.contains(key)
+    return preferences!!.contains(keyWithPrefix)
   }
 
   suspend fun read(key: String): String? {
     ensureInitialized()
+    val keyWithPrefix = addPrefixToKey(key)
     if (getUseDataStore()) {
-      val value = dataStoreStorage.read(key)
+      val value = dataStoreStorage.read(keyWithPrefix)
       if (value.isNullOrEmpty()) {
         return null
       }
@@ -76,7 +81,7 @@ class FlutterSecureStorage(
       return decodeRawValue(value)
     }
 
-    val rawValue = preferences!!.getString(key, null)
+    val rawValue = preferences!!.getString(keyWithPrefix, null)
     if (rawValue == null) {
       return null
     }
@@ -89,10 +94,10 @@ class FlutterSecureStorage(
     if (getUseDataStore()) {
       val values = dataStoreStorage.readAll()
       val result = mutableMapOf<String, String>()
-      for ((key, value) in values) {
-        if (key.contains(elementPreferencesKeyPrefix)) {
-          val key = key.replaceFirst((elementPreferencesKeyPrefix + '_').toRegex(), "")
-          result[key] = decodeRawValue(value)
+      for ((keyWithPrefix, value) in values) {
+        if (keyWithPrefix.startsWith(elementPreferencesKeyPrefix + KEY_SEPARATOR)) {
+          val cleanKey = removePrefixFromKey(keyWithPrefix)
+          result[cleanKey] = decodeRawValue(value)
         }
       }
 
@@ -103,15 +108,15 @@ class FlutterSecureStorage(
     val all = mutableMapOf<String, String>()
     for (entry in raw.entries) {
       val keyWithPrefix = entry.key
-      if (keyWithPrefix.contains(elementPreferencesKeyPrefix)) {
-        val key = entry.key.replaceFirst((elementPreferencesKeyPrefix + '_').toRegex(), "")
+      if (keyWithPrefix.startsWith(elementPreferencesKeyPrefix + KEY_SEPARATOR)) {
+        val key = removePrefixFromKey(keyWithPrefix)
         val value = entry.value
         if (value !is String) {
           continue
         }
 
         val decodeValue = decodeRawValue(value)
-        all.put(key, decodeValue)
+        all[key] = decodeValue
       }
     }
     return all
@@ -119,28 +124,30 @@ class FlutterSecureStorage(
 
   suspend fun write(key: String, value: String) {
     ensureInitialized()
+    val keyWithPrefix = addPrefixToKey(key)
     if (getUseDataStore()) {
       val encodeValue = encodeRawValue(value)
-      dataStoreStorage.write(key, encodeValue)
+      dataStoreStorage.write(keyWithPrefix, encodeValue)
       return
     }
 
-    val editor = preferences!!.edit()
-    val encodeValue = encodeRawValue(value)
-    editor.putString(key, encodeValue)
-    editor.apply()
+    preferences!!.edit {
+      val encodeValue = encodeRawValue(value)
+      putString(keyWithPrefix, encodeValue)
+    }
   }
 
   suspend fun delete(key: String) {
     ensureInitialized()
+    val keyWithPrefix = addPrefixToKey(key)
     if (getUseDataStore()) {
-      dataStoreStorage.delete(key)
+      dataStoreStorage.delete(keyWithPrefix)
       return
     }
 
-    val editor = preferences!!.edit()
-    editor.remove(key)
-    editor.apply()
+    preferences!!.edit {
+      remove(keyWithPrefix)
+    }
   }
 
   suspend fun deleteAll() {
@@ -150,30 +157,23 @@ class FlutterSecureStorage(
       return
     }
 
-    val editor = preferences!!.edit()
-    editor.clear()
-    storageCipherFactory!!.storeCurrentAlgorithms(editor)
-    editor.apply()
+    preferences!!.edit {
+      clear()
+      storageCipherFactory!!.storeCurrentAlgorithms(this)
+    }
   }
 
   private suspend fun ensureInitialized() {
-    // Check if already initialized.
-    // TODO: Disable for now because this will break mixed usage of secureSharedPreference
-//        if (preferences != null) return;
-
-    val nonEncryptedPreferences = applicationContext.getSharedPreferences(
+    // SharedPreferences name can be set via options, so we initialize it here.
+    val newPreferences = applicationContext.getSharedPreferences(
       sharedPreferencesName,
       Context.MODE_PRIVATE,
     )
     if (storageCipher == null) {
-      try {
-        initStorageCipher(nonEncryptedPreferences)
-      } catch (e: Exception) {
-        Log.e(TAG, "StorageCipher initialization failed", e)
-      }
+      initStorageCipher(newPreferences)
     }
 
-    preferences = nonEncryptedPreferences
+    preferences = newPreferences
 
     if (getUseDataStore()) {
       val entries = preferences!!.all
@@ -197,7 +197,7 @@ class FlutterSecureStorage(
       }
 
       dataStoreStorage.writeAll(values)
-      preferences!!.edit().clear().apply()
+      preferences!!.edit { clear() }
       return
     }
   }
@@ -229,15 +229,14 @@ class FlutterSecureStorage(
         }
       }
       storageCipher = storageCipherFactory.getCurrentStorageCipher(applicationContext)
-      val editor = source.edit()
-      for (entry in cache.entries) {
-        val decodeValue = decodeRawValue(entry.value)
-        editor.putString(entry.key, decodeValue)
+      source.edit {
+        for (entry in cache.entries) {
+          val decodeValue = decodeRawValue(entry.value)
+          putString(entry.key, decodeValue)
+        }
+        storageCipherFactory.storeCurrentAlgorithms(this)
       }
-      storageCipherFactory.storeCurrentAlgorithms(editor)
-      editor.apply()
-    } catch (e: Exception) {
-      Log.e(TAG, "re-encryption failed", e)
+    } catch (_: Exception) {
       storageCipher = storageCipherFactory.getSavedStorageCipher(applicationContext)
     }
   }
@@ -257,7 +256,17 @@ class FlutterSecureStorage(
   }
 
   companion object {
-    private const val TAG = "SecureStorageAndroid"
+    private const val OPTION_SHARED_PREFERENCES_NAME = "sharedPreferencesName"
+    private const val OPTION_PREFERENCES_KEY_PREFIX = "preferencesKeyPrefix"
+    private const val OPTION_RESET_ON_ERROR = "resetOnError"
+    private const val OPTION_DATA_STORE = "dataStore"
+
+    private const val OPTION_VALUE_TRUE = "true"
+
+    private const val DEFAULT_SHARED_PREFERENCES_NAME = "FlutterSecureStorage"
+    private const val DEFAULT_ELEMENT_PREFERENCES_KEY_PREFIX =
+      "VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg"
+    private const val KEY_SEPARATOR = "_"
 
     private val charset: Charset = StandardCharsets.UTF_8
   }
