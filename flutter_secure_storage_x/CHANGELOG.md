@@ -1,3 +1,8 @@
+## 11.3.0
+
+ - **REFACTOR**: Code cleanup and improve error handling. ([16702f78](https://github.com/koji-1009/flutter_secure_storage/commit/16702f7825bb4f9b071f52d2fe6f1d9a49e5046f))
+ - **FEAT**: Use Dispatchers.Main. ([c4c4b68f](https://github.com/koji-1009/flutter_secure_storage/commit/c4c4b68f19f5b71020a49923d4c2282e320a71f8))
+
 ## 11.2.0
 
  - **FIX**: Use stackTraceToString. ([69088e35](https://github.com/koji-1009/flutter_secure_storage/commit/69088e35ad087acfb3e9a2a4f6aa28a80d9eeb74))
