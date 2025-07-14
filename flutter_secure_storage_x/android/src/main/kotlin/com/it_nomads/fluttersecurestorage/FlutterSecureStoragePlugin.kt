@@ -20,7 +20,7 @@ import javax.crypto.NoSuchPaddingException
 class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   private var channel: MethodChannel? = null
   private var secureStorage: FlutterSecureStorage? = null
-  private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+  private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
   override fun onAttachedToEngine(binding: FlutterPluginBinding) {
     channel = MethodChannel(binding.binaryMessenger, METHOD_CHANNEL_NAME).apply {
