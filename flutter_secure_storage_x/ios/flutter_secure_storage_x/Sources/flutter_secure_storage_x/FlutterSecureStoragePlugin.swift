@@ -8,26 +8,34 @@
 import Flutter
 import UIKit
 
-public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
+public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
+  FlutterStreamHandler
+{
 
-  private let flutterSecureStorageManager: FlutterSecureStorage = FlutterSecureStorage()
+  private let flutterSecureStorageManager: FlutterSecureStorage =
+    FlutterSecureStorage()
   private var secStoreAvailabilitySink: FlutterEventSink?
   private let serialQueue = DispatchQueue(
-    label: "plugins.it_nomads.com/flutter_secure_storage_queue")
+    label: "plugins.it_nomads.com/flutter_secure_storage_queue"
+  )
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
-      name: "plugins.it_nomads.com/flutter_secure_storage", binaryMessenger: registrar.messenger())
+      name: "plugins.it_nomads.com/flutter_secure_storage",
+      binaryMessenger: registrar.messenger()
+    )
     let eventChannel = FlutterEventChannel(
       name: "plugins.it_nomads.com/flutter_secure_storage/events",
-      binaryMessenger: registrar.messenger())
+      binaryMessenger: registrar.messenger()
+    )
     let instance = FlutterSecureStoragePlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
     registrar.addApplicationDelegate(instance)
     eventChannel.setStreamHandler(instance)
   }
 
-  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult)
+  {
     func handleResult(_ value: Any?) {
       DispatchQueue.main.async {
         result(value)
@@ -59,7 +67,9 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
     }
   }
 
-  public func applicationProtectedDataDidBecomeAvailable(_ application: UIApplication) {
+  public func applicationProtectedDataDidBecomeAvailable(
+    _ application: UIApplication
+  ) {
     guard let sink = secStoreAvailabilitySink else {
       return
     }
@@ -67,7 +77,9 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
     sink(true)
   }
 
-  public func applicationProtectedDataWillBecomeUnavailable(_ application: UIApplication) {
+  public func applicationProtectedDataWillBecomeUnavailable(
+    _ application: UIApplication
+  ) {
     guard let sink = secStoreAvailabilitySink else {
       return
     }
@@ -88,25 +100,42 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
     return nil
   }
 
-  private func read(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+  private func read(
+    _ call: FlutterMethodCall,
+    _ result: @escaping FlutterResult
+  ) {
     let values = parseCall(call)
     if values.key == nil {
       result(
         FlutterError.init(
-          code: "Missing Parameter", message: "write requires key parameter", details: nil))
+          code: "Missing Parameter",
+          message: "write requires key parameter",
+          details: nil
+        )
+      )
       return
     }
 
     let response = flutterSecureStorageManager.read(
-      key: values.key!, groupId: values.groupId, accountName: values.accountName)
+      key: values.key!,
+      groupId: values.groupId,
+      accountName: values.accountName
+    )
     handleResponse(response, result)
   }
 
-  private func write(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+  private func write(
+    _ call: FlutterMethodCall,
+    _ result: @escaping FlutterResult
+  ) {
     if !((call.arguments as! [String: Any?])["value"] is String) {
       result(
         FlutterError.init(
-          code: "Invalid Parameter", message: "key parameter must be String", details: nil))
+          code: "Invalid Parameter",
+          message: "key parameter must be String",
+          details: nil
+        )
+      )
       return
     }
 
@@ -114,67 +143,110 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
     if values.key == nil {
       result(
         FlutterError.init(
-          code: "Missing Parameter", message: "write requires key parameter", details: nil))
+          code: "Missing Parameter",
+          message: "write requires key parameter",
+          details: nil
+        )
+      )
       return
     }
 
     if values.value == nil {
       result(
         FlutterError.init(
-          code: "Missing Parameter", message: "write requires value parameter", details: nil))
+          code: "Missing Parameter",
+          message: "write requires value parameter",
+          details: nil
+        )
+      )
       return
     }
 
     let response = flutterSecureStorageManager.write(
-      key: values.key!, value: values.value!, groupId: values.groupId,
-      accountName: values.accountName, synchronizable: values.synchronizable,
-      accessibility: values.accessibility)
+      key: values.key!,
+      value: values.value!,
+      groupId: values.groupId,
+      accountName: values.accountName,
+      synchronizable: values.synchronizable,
+      accessibility: values.accessibility
+    )
 
     handleResponse(response, result)
   }
 
-  private func delete(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+  private func delete(
+    _ call: FlutterMethodCall,
+    _ result: @escaping FlutterResult
+  ) {
     let values = parseCall(call)
     if values.key == nil {
       result(
         FlutterError.init(
-          code: "Missing Parameter", message: "delete requires key parameter", details: nil))
+          code: "Missing Parameter",
+          message: "delete requires key parameter",
+          details: nil
+        )
+      )
       return
     }
 
     let response = flutterSecureStorageManager.delete(
-      key: values.key!, groupId: values.groupId, accountName: values.accountName)
+      key: values.key!,
+      groupId: values.groupId,
+      accountName: values.accountName
+    )
 
     handleResponse(response, result)
   }
 
-  private func deleteAll(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+  private func deleteAll(
+    _ call: FlutterMethodCall,
+    _ result: @escaping FlutterResult
+  ) {
     let values = parseCall(call)
     let response = flutterSecureStorageManager.deleteAll(
-      groupId: values.groupId, accountName: values.accountName)
+      groupId: values.groupId,
+      accountName: values.accountName
+    )
 
     handleResponse(response, result)
   }
 
-  private func readAll(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+  private func readAll(
+    _ call: FlutterMethodCall,
+    _ result: @escaping FlutterResult
+  ) {
     let values = parseCall(call)
     let response = flutterSecureStorageManager.readAll(
-      groupId: values.groupId, accountName: values.accountName,
-      synchronizable: values.synchronizable, accessibility: values.accessibility)
+      groupId: values.groupId,
+      accountName: values.accountName,
+      synchronizable: values.synchronizable,
+      accessibility: values.accessibility
+    )
 
     handleResponse(response, result)
   }
 
-  private func containsKey(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+  private func containsKey(
+    _ call: FlutterMethodCall,
+    _ result: @escaping FlutterResult
+  ) {
     let values = parseCall(call)
     if values.key == nil {
       result(
         FlutterError.init(
-          code: "Missing Parameter", message: "containsKey requires key parameter", details: nil))
+          code: "Missing Parameter",
+          message: "containsKey requires key parameter",
+          details: nil
+        )
+      )
     }
 
     let response = flutterSecureStorageManager.containsKey(
-      key: values.key!, groupId: values.groupId, accountName: values.accountName)
+      key: values.key!,
+      groupId: values.groupId,
+      accountName: values.accountName
+    )
 
     switch response {
     case .success(let exists):
@@ -190,12 +262,18 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
       }
       result(
         FlutterError.init(
-          code: "Unexpected security result code", message: errorMessage, details: err.status))
+          code: "Unexpected security result code",
+          message: errorMessage,
+          details: err.status
+        )
+      )
       break
     }
   }
 
-  private func parseCall(_ call: FlutterMethodCall) -> FlutterSecureStorageRequest {
+  private func parseCall(_ call: FlutterMethodCall)
+    -> FlutterSecureStorageRequest
+  {
     let arguments = call.arguments as! [String: Any?]
     let options = arguments["options"] as! [String: Any?]
 
@@ -203,7 +281,8 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
     let groupId = options["groupId"] as? String
     let synchronizableString = options["synchronizable"] as? String
 
-    let synchronizable: Bool = synchronizableString != nil ? Bool(synchronizableString!)! : false
+    let synchronizable: Bool =
+      synchronizableString != nil ? Bool(synchronizableString!)! : false
 
     let key = arguments["key"] as? String
     let accessibility = options["accessibility"] as? String
@@ -220,7 +299,8 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
   }
 
   private func handleResponse(
-    _ response: FlutterSecureStorageResponse, _ result: @escaping FlutterResult
+    _ response: FlutterSecureStorageResponse,
+    _ result: @escaping FlutterResult
   ) {
     if let status = response.status {
       if status == noErr {
@@ -236,7 +316,11 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin, FlutterStreamH
 
         result(
           FlutterError.init(
-            code: "Unexpected security result code", message: errorMessage, details: status))
+            code: "Unexpected security result code",
+            message: errorMessage,
+            details: status
+          )
+        )
       }
     } else {
       result(response.value)
