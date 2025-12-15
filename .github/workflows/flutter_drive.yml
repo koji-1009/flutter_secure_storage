@@ -5,11 +5,6 @@ on:
     branches:
       - main
   pull_request:
-defaults:
-  run:
-    shell: bash
-env:
-  PUB_ENVIRONMENT: bot.github
 
 jobs:
   drive_android:
@@ -21,8 +16,8 @@ jobs:
         api-level: [29]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
           distribution: "temurin"
           java-version: "17"
@@ -31,38 +26,34 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: stable
           cache: true
-      - name: Run flutter doctor
-        run: flutter doctor
-      - uses: bluefireteam/melos-action@v3
-      - name: Run flutter integration tests
-        uses: reactivecircus/android-emulator-runner@v2
+      - uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf # v3.4.0
+      - uses: reactivecircus/android-emulator-runner@b530d96654c385303d652368551fb075bc2f0b6b # v2.35.0
         with:
           api-level: ${{ matrix.api-level }}
           arch: x86_64
           script: flutter test integration_test -d android
           working-directory: flutter_secure_storage_x/example
+
   drive_ios:
     name: iOS
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
     strategy:
       matrix:
         simulator: [{os: "18.6", model: "iPhone SE (3rd generation)"}]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: stable
           cache: true
-      - name: Run flutter doctor
-        run: flutter doctor
-      - uses: bluefireteam/melos-action@v3
-      - uses: futureware-tech/simulator-action@v4
+      - uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf # v3.4.0
+      - uses: futureware-tech/simulator-action@dab10d813144ef59b48d401cd95da151222ef8cd # v4
         with:
           wait_for_boot: true
           os: iOS
@@ -74,61 +65,62 @@ jobs:
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: flutter test integration_test -d iphone
+
   drive_linux:
     name: Linux
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Install linux dependencies
         run: |
           sudo apt update -y
           sudo apt install -y ninja-build libgtk-3-dev libsecret-1-dev
       - name: Unlock Keyring
-        uses: t1m0thyj/unlock-keyring@v1.1.0
-      - uses: subosito/flutter-action@v2
+        uses: t1m0thyj/unlock-keyring@728cc718a07b5e7b62c269fc89295e248b24cba7 # v1.1.0
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: stable
           cache: true
-      - name: Run flutter doctor
-        run: flutter doctor
-      - uses: bluefireteam/melos-action@v3
+      - uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf # v3.4.0
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: xvfb-run flutter test integration_test -d linux
+
   drive_windows:
     name: Windows
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: stable
           cache: true
       - name: Run flutter doctor
         run: flutter doctor
-      - uses: bluefireteam/melos-action@v3
+      - uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf # v3.4.0
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: flutter test integration_test -d windows
+
   drive_web:
     name: Web
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
     strategy:
       matrix:
         option: ["", "--wasm"]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: stable
           cache: true
       - name: Run flutter doctor
         run: flutter doctor
-      - uses: bluefireteam/melos-action@v3
+      - uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf # v3.4.0
       - name: Setup chromedriver
         run: |
           npx @puppeteer/browsers install chromedriver@stable
