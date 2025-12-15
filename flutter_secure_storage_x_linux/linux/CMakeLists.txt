@@ -11,6 +11,8 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 # not be changed.
 set(PLUGIN_NAME "flutter_secure_storage_x_linux_plugin")
 
+add_definitions(-DAPPLICATION_ID="${APPLICATION_ID}")
+
 # Any new source files that you add to the plugin should be added here.
 list(APPEND PLUGIN_SOURCES
   "flutter_secure_storage_x_linux_plugin.cc"
