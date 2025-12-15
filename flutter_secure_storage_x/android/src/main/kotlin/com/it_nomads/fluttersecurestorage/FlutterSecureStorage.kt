@@ -14,8 +14,12 @@ class FlutterSecureStorage(
   private val applicationContext: Context,
 ) {
   private var preferences: SharedPreferences? = null
-  private var storageCipher: StorageCipher? = null
-  private var storageCipherFactory: StorageCipherFactory? = null
+  private val storageCipherFactory: StorageCipherFactory by lazy {
+    StorageCipherFactory()
+  }
+  private val storageCipher: StorageCipher by lazy {
+    storageCipherFactory.getCurrentStorageCipher(applicationContext)
+  }
 
   private var resetOnError = false
   private var useDataStore = false
@@ -81,10 +85,7 @@ class FlutterSecureStorage(
       return decodeRawValue(value)
     }
 
-    val rawValue = preferences!!.getString(keyWithPrefix, null)
-    if (rawValue == null) {
-      return null
-    }
+    val rawValue = preferences!!.getString(keyWithPrefix, null) ?: return null
 
     return decodeRawValue(rawValue)
   }
@@ -159,7 +160,7 @@ class FlutterSecureStorage(
 
     preferences!!.edit {
       clear()
-      storageCipherFactory!!.storeCurrentAlgorithms(this)
+      storageCipherFactory.storeCurrentAlgorithms(this)
     }
   }
 
@@ -169,9 +170,6 @@ class FlutterSecureStorage(
       sharedPreferencesName,
       Context.MODE_PRIVATE,
     )
-    if (storageCipher == null) {
-      initStorageCipher(newPreferences)
-    }
 
     preferences = newPreferences
 
@@ -202,55 +200,16 @@ class FlutterSecureStorage(
     }
   }
 
-  private fun initStorageCipher(source: SharedPreferences) {
-    storageCipherFactory = StorageCipherFactory(source)
-    if (getUseDataStore()) {
-      storageCipher = storageCipherFactory!!.getCurrentStorageCipher(applicationContext)
-    } else if (storageCipherFactory!!.requiresReEncryption()) {
-      reEncryptPreferences(storageCipherFactory!!, source)
-    } else {
-      storageCipher = storageCipherFactory!!.getCurrentStorageCipher(applicationContext)
-    }
-  }
-
-  private fun reEncryptPreferences(
-    storageCipherFactory: StorageCipherFactory,
-    source: SharedPreferences,
-  ) {
-    try {
-      storageCipher = storageCipherFactory.getSavedStorageCipher(applicationContext)
-      val cache = mutableMapOf<String, String>()
-      for (entry in source.all.entries) {
-        val v = entry.value
-        val key = entry.key
-        if (v is String && key.contains(elementPreferencesKeyPrefix)) {
-          val decodeValue = decodeRawValue(v)
-          cache.put(key, decodeValue)
-        }
-      }
-      storageCipher = storageCipherFactory.getCurrentStorageCipher(applicationContext)
-      source.edit {
-        for (entry in cache.entries) {
-          val decodeValue = decodeRawValue(entry.value)
-          putString(entry.key, decodeValue)
-        }
-        storageCipherFactory.storeCurrentAlgorithms(this)
-      }
-    } catch (_: Exception) {
-      storageCipher = storageCipherFactory.getSavedStorageCipher(applicationContext)
-    }
-  }
-
   private fun encodeRawValue(value: String): String {
     val data = value.toByteArray(charset)
-    val result = storageCipher!!.encrypt(data)
+    val result = storageCipher.encrypt(data)
 
     return Base64.encodeToString(result, 0)
   }
 
   private fun decodeRawValue(value: String): String {
     val data = Base64.decode(value, 0)
-    val result = storageCipher!!.decrypt(data)
+    val result = storageCipher.decrypt(data)
 
     return String(result, charset)
   }
