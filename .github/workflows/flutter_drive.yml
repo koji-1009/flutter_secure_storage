@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        api-level: [23]
+        api-level: [29]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        simulator: [{os: "17.0", model: "iPhone 15"}]
+        simulator: [{os: "18.6", model: "iPhone SE (3rd generation)"}]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
