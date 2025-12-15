@@ -97,7 +97,7 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
         }
 
         is NoSuchAlgorithmException,
-        is NoSuchPaddingException
+        is NoSuchPaddingException,
           -> {
           // Cipher algorithm or padding not supported on this device
           result.error(
@@ -166,7 +166,7 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
 
     companion object {
       fun fromString(methodName: String): Method? {
-        return values().find { it.methodName == methodName }
+        return entries.find { it.methodName == methodName }
       }
     }
   }
@@ -246,7 +246,9 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
       "FlutterSecureStorage is not properly initialized"
     private const val ERROR_MESSAGE_OPTIONS_REQUIRED = "Options must be provided"
     private const val ERROR_MESSAGE_INVALID_PARAMETER = "Invalid parameter"
-    private const val ERROR_MESSAGE_CIPHER_UNAVAILABLE = "Cipher algorithm or padding not supported on this device"
-    private const val ERROR_MESSAGE_CIPHER_OPERATION_FAILED = "Cipher encryption/decryption operation failed"
+    private const val ERROR_MESSAGE_CIPHER_UNAVAILABLE =
+      "Cipher algorithm or padding not supported on this device"
+    private const val ERROR_MESSAGE_CIPHER_OPERATION_FAILED =
+      "Cipher encryption/decryption operation failed"
   }
 }
