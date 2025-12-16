@@ -109,7 +109,7 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
       result(
         FlutterError.init(
           code: "Missing Parameter",
-          message: "write requires key parameter",
+          message: "read requires key parameter",
           details: nil
         )
       )
@@ -132,7 +132,7 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
       result(
         FlutterError.init(
           code: "Invalid Parameter",
-          message: "key parameter must be String",
+          message: "value parameter must be String",
           details: nil
         )
       )
@@ -232,18 +232,19 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
     _ result: @escaping FlutterResult
   ) {
     let values = parseCall(call)
-    if values.key == nil {
+    guard let key = values.key else {
       result(
-        FlutterError.init(
+        FlutterError(
           code: "Missing Parameter",
           message: "containsKey requires key parameter",
           details: nil
         )
       )
+      return
     }
 
     let response = flutterSecureStorageManager.containsKey(
-      key: values.key!,
+      key: key,
       groupId: values.groupId,
       accountName: values.accountName
     )
