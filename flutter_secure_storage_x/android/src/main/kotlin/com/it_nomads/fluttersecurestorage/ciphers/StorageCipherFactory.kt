@@ -49,16 +49,16 @@ internal class StorageCipherFactory() {
     return currentStorageAlgorithm.getStorageCipher(context, keyCipher)
   }
 
-  fun storeCurrentAlgorithms(editor: SharedPreferences.Editor) {
-    editor.putString(ELEMENT_PREFERENCES_ALGORITHM_KEY, currentKeyAlgorithm.value)
-    editor.putString(ELEMENT_PREFERENCES_ALGORITHM_STORAGE, currentStorageAlgorithm.value)
+  fun isFinishKeyStoreMigration(prefs: SharedPreferences): Boolean {
+    return prefs.getBoolean(KEY_FINISH_KEY_STORE_MIGRATION, false)
+  }
+
+  fun setFinishKeyStoreMigration(editor: SharedPreferences.Editor) {
+    editor.putBoolean(KEY_FINISH_KEY_STORE_MIGRATION, true)
   }
 
   companion object {
-    private const val ELEMENT_PREFERENCES_ALGORITHM_PREFIX = "FlutterSecureSAlgorithm"
-    private const val ELEMENT_PREFERENCES_ALGORITHM_KEY =
-      ELEMENT_PREFERENCES_ALGORITHM_PREFIX + "Key"
-    private const val ELEMENT_PREFERENCES_ALGORITHM_STORAGE =
-      ELEMENT_PREFERENCES_ALGORITHM_PREFIX + "Storage"
+    private const val KEY_FINISH_KEY_STORE_MIGRATION = "KeyFinishKeyStoreMigration"
+
   }
 }
