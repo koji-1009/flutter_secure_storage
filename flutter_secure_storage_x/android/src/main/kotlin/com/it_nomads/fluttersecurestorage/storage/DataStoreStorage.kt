@@ -9,27 +9,40 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+enum class StoreType {
+  PREVIOUS,
+  KEY_STORE,
+}
+
+private val Context.dataStorePrefs: DataStore<Preferences> by preferencesDataStore(
   name = "FlutterSecureStorage",
 )
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+  name = "FlutterSecureStorageX",
+)
 
-internal class DataStoreStorage(
-  private val context: Context,
-) {
+internal class DataStoreStorage(context: Context, type: StoreType) {
+  private val dataStore: DataStore<Preferences> by lazy {
+    when (type) {
+      StoreType.PREVIOUS -> context.dataStorePrefs
+      StoreType.KEY_STORE -> context.dataStore
+    }
+  }
+
   suspend fun containsKey(key: String): Boolean {
-    return context.dataStore.data.map { pref ->
+    return dataStore.data.map { pref ->
       pref.contains(stringPreferencesKey(key))
     }.firstOrNull() ?: false
   }
 
   suspend fun read(key: String): String? {
-    return context.dataStore.data.map { pref ->
+    return dataStore.data.map { pref ->
       pref[stringPreferencesKey(key)]
     }.firstOrNull()
   }
 
   suspend fun readAll(): Map<String, String> {
-    val entries = context.dataStore.data.map { pref ->
+    val entries = dataStore.data.map { pref ->
       pref.asMap()
     }.firstOrNull()
 
@@ -42,13 +55,13 @@ internal class DataStoreStorage(
   }
 
   suspend fun write(key: String, value: String) {
-    context.dataStore.edit { pref ->
+    dataStore.edit { pref ->
       pref[stringPreferencesKey(key)] = value
     }
   }
 
   suspend fun writeAll(data: Map<String, String>) {
-    context.dataStore.edit { pref ->
+    dataStore.edit { pref ->
       data.forEach { (key, value) ->
         pref[stringPreferencesKey(key)] = value
       }
@@ -56,13 +69,13 @@ internal class DataStoreStorage(
   }
 
   suspend fun delete(key: String) {
-    context.dataStore.edit { pref ->
+    dataStore.edit { pref ->
       pref.remove(stringPreferencesKey(key))
     }
   }
 
   suspend fun deleteAll() {
-    context.dataStore.edit { pref ->
+    dataStore.edit { pref ->
       pref.clear()
     }
   }
