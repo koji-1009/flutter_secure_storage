@@ -8,9 +8,11 @@
 import FlutterMacOS
 
 public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
-
   private let flutterSecureStorageManager: FlutterSecureStorage =
     FlutterSecureStorage()
+  private let serialQueue = DispatchQueue(
+    label: "plugins.it_nomads.com/flutter_secure_storage_queue"
+  )
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
@@ -23,30 +25,38 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult)
   {
-    switch call.method {
-    case "read":
-      read(call, result)
-    case "write":
-      write(call, result)
-    case "delete":
-      delete(call, result)
-    case "deleteAll":
-      deleteAll(call, result)
-    case "readAll":
-      readAll(call, result)
-    case "containsKey":
-      containsKey(call, result)
-    case "isProtectedDataAvailable":
-      // NSApplication is not thread safe
+    func handleResult(_ value: Any?) {
       DispatchQueue.main.async {
-        if #available(macOS 12.0, *) {
-          result(NSApplication.shared.isProtectedDataAvailable)
-        } else {
-          result(true)
-        }
+        result(value)
       }
-    default:
-      result(FlutterMethodNotImplemented)
+    }
+
+    serialQueue.async {
+      switch call.method {
+      case "read":
+        self.read(call, handleResult)
+      case "write":
+        self.write(call, handleResult)
+      case "delete":
+        self.delete(call, handleResult)
+      case "deleteAll":
+        self.deleteAll(call, handleResult)
+      case "readAll":
+        self.readAll(call, handleResult)
+      case "containsKey":
+        self.containsKey(call, handleResult)
+      case "isProtectedDataAvailable":
+        // NSApplication is not thread safe
+        DispatchQueue.main.async {
+          if #available(macOS 12.0, *) {
+            result(NSApplication.shared.isProtectedDataAvailable)
+          } else {
+            result(true)
+          }
+        }
+      default:
+        handleResult(FlutterMethodNotImplemented)
+      }
     }
   }
 
@@ -59,7 +69,7 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
       result(
         FlutterError.init(
           code: "Missing Parameter",
-          message: "write requires key parameter",
+          message: "read requires key parameter",
           details: nil
         )
       )
@@ -85,7 +95,7 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
       result(
         FlutterError.init(
           code: "Invalid Parameter",
-          message: "key parameter must be String",
+          message: "value parameter must be String",
           details: nil
         )
       )
@@ -193,18 +203,19 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
     _ result: @escaping FlutterResult
   ) {
     let values = parseCall(call)
-    if values.key == nil {
+    guard let key = values.key else {
       result(
-        FlutterError.init(
+        FlutterError(
           code: "Missing Parameter",
           message: "containsKey requires key parameter",
           details: nil
         )
       )
+      return
     }
 
     let response = flutterSecureStorageManager.containsKey(
-      key: values.key!,
+      key: key,
       groupId: values.groupId,
       accountName: values.accountName,
       synchronizable: values.synchronizable,
@@ -305,5 +316,4 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
     var key: String?
     var value: String?
   }
-
 }
