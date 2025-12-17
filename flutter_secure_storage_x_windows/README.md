@@ -1,6 +1,6 @@
 # flutter_secure_storage_x_windows
 
-The windows implementation of [`flutter_secure_storage`][1].
+The windows implementation of [`flutter_secure_storage_x`][1].
 
 ## Usage
 

@@ -5,9 +5,9 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_secure_storage_x_macos'
   s.version          = '6.1.1'
-  s.summary          = 'Flutter Secure Storage'
+  s.summary          = 'flutter_secure_storage_x'
   s.description      = <<-DESC
-Flutter Secure Storage Plugin for macOS
+flutter_secure_storage_x Plugin for macOS
                        DESC
   s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }

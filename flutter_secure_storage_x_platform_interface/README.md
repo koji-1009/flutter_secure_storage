@@ -11,7 +11,7 @@ same interface.
 To implement a new platform-specific implementation of `flutter_secure_storage_x`, extend
 [`FlutterSecureStoragePlatform`][2] with an implementation that performs the
 platform-specific behavior, and when you register your plugin, set the default
-`FlutterSecureStorageLoader` by calling the `FlutterSecureStoragePlatform.loader` setter.
+instance by calling `FlutterSecureStoragePlatform.instance = YourPlatformImplementation();`.
 
 # Note on breaking changes
 
