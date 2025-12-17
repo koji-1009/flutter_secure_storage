@@ -7,12 +7,12 @@
 
 This package is a fork of the popular [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) package. The original project aims to provide a comprehensive set of features and options to cover a wide range of needs.
 
-In contrast, this fork takes a more focused approach. The philosophy is to ensure long-term stability and maintainability by offering a minimal, robust API for the most common encrypted storage use cases. This pragmatic direction provides a simple and reliable solution for developers who prioritize these aspects.
+This fork builds upon the original work with a more focused approach. The philosophy is to ensure long-term stability and maintainability by offering a minimal, robust API for the most common encrypted storage use cases. This pragmatic direction provides a simple and reliable solution for developers who prioritize these aspects.
 
 The plugin utilizes platform-specific secure storage mechanisms:
 
 - On iOS, [Keychain](https://developer.apple.com/library/content/documentation/Security/Conceptual/keychainServConcepts/01introduction/introduction.html#//apple_ref/doc/uid/TP30000897-CH203-TP1) is used.
-- On Android, AES encryption is employed, with the AES secret key encrypted by RSA and the RSA key stored in [KeyStore](https://developer.android.com/training/articles/keystore.html).
+- On Android, AES encryption with [KeyStore](https://developer.android.com/training/articles/keystore.html) is used.
 - For Linux, [`libsecret`](https://wiki.gnome.org/Projects/Libsecret) is utilized.
 
 For more detailed information and usage examples, please refer to the example app.
@@ -38,8 +38,7 @@ If not present already, please call `WidgetsFlutterBinding.ensureInitialized()` 
 import 'package:flutter_secure_storage_x/flutter_secure_storage_x.dart';
 
 // Create storage
-// Note: The class name was changed from FlutterSecureStorage to FlutterSecureStorageX.
-final storage = FlutterSecureStorageX();
+final storage = FlutterSecureStorage();
 
 // Read value
 String? value = await storage.read(key: key);
@@ -134,11 +133,6 @@ Please see:
 #### WASM support
 
 Supported from v2.0.0.
-
-```yaml
-dependency_overrides:
-  flutter_secure_storage_x_web: ^2.0.0
-```
 
 #### application-specific key option
 
