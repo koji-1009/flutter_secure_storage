@@ -1,10 +1,10 @@
 part of '../flutter_secure_storage_x_platform_interface.dart';
 
 const MethodChannel _channel =
-    MethodChannel('plugins.it_nomads.com/flutter_secure_storage');
+    MethodChannel('plugins.dr1009.com/flutter_secure_storage');
 
 const EventChannel _eventChannel =
-    EventChannel('plugins.it_nomads.com/flutter_secure_storage/events');
+    EventChannel('plugins.dr1009.com/flutter_secure_storage/events');
 
 class MethodChannelFlutterSecureStorage extends FlutterSecureStoragePlatform {
   Stream<bool> get onCupertinoProtectedDataAvailabilityChanged => _eventChannel
