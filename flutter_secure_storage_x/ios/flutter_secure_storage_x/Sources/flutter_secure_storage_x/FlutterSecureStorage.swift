@@ -103,8 +103,8 @@ class FlutterSecureStorage {
       key: nil,
       groupId: groupId,
       accountName: accountName,
-      synchronizable: synchronizable,
-      accessibility: accessibility,
+      synchronizable: nil,
+      accessibility: nil,
       returnData: true
     )
 
@@ -217,7 +217,16 @@ class FlutterSecureStorage {
     synchronizable: Bool?,
     accessibility: String?
   ) -> FlutterSecureStorageResponse {
-    var keychainQuery = baseQuery(
+    guard let valueData = value.data(using: .utf8) else {
+      return FlutterSecureStorageResponse(status: errSecParam, value: nil)
+    }
+
+    let deleteResult = delete(key: key, groupId: groupId, accountName: accountName)
+    if let status = deleteResult.status, status != errSecSuccess {
+      return deleteResult
+    }
+    
+    var createQuery = baseQuery(
       key: key,
       groupId: groupId,
       accountName: accountName,
@@ -225,19 +234,10 @@ class FlutterSecureStorage {
       accessibility: accessibility,
       returnData: nil
     )
+    createQuery[kSecValueData] = valueData
 
-    let result = read(key: key, groupId: groupId, accountName: accountName)
-    if result.status == errSecSuccess && result.value != nil {
-      // Delete the entry and create a new one in the next step.
-      _ = delete(key: key, groupId: groupId, accountName: accountName)
-    }
-
-    // Entry does not exist or was deleted, create a new entry.
-    keychainQuery[kSecValueData] = value.data(using: String.Encoding.utf8)
-
-    let status = SecItemAdd(keychainQuery as CFDictionary, nil)
-
-    return FlutterSecureStorageResponse(status: status, value: nil)
+    let addStatus = SecItemAdd(createQuery as CFDictionary, nil)
+    return FlutterSecureStorageResponse(status: addStatus, value: nil)
   }
 }
 
