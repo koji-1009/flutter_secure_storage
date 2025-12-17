@@ -22,13 +22,14 @@ class KeyStoreCipher {
     load(null)
   }
 
+  private val secretKey: SecretKey by lazy {
+    getOrCreateSecretKey()
+  }
 
   fun encrypt(plainText: String): String {
     if (plainText.isEmpty()) return ""
 
     val cipher = Cipher.getInstance(TRANSFORMATION)
-    val secretKey = getSecretKey()
-
     cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
     val iv = cipher.iv
@@ -53,8 +54,6 @@ class KeyStoreCipher {
       val encryptedBytes = Base64.decode(parts[1], Base64.NO_WRAP)
 
       val cipher = Cipher.getInstance(TRANSFORMATION)
-      val secretKey = getSecretKey()
-
       val spec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
       cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
 
@@ -65,7 +64,7 @@ class KeyStoreCipher {
     }
   }
 
-  private fun getSecretKey(): SecretKey {
+  private fun getOrCreateSecretKey(): SecretKey {
     if (keyStore.containsAlias(KEY_ALIAS)) {
       val entry = keyStore.getEntry(KEY_ALIAS, null) as? KeyStore.SecretKeyEntry
       if (entry != null) {
