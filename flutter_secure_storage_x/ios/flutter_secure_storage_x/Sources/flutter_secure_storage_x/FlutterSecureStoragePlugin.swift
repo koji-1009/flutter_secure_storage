@@ -16,16 +16,16 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
     FlutterSecureStorage()
   private var secStoreAvailabilitySink: FlutterEventSink?
   private let serialQueue = DispatchQueue(
-    label: "plugins.it_nomads.com/flutter_secure_storage_queue"
+    label: "plugins.dr1009.com/flutter_secure_storage_queue"
   )
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
-      name: "plugins.it_nomads.com/flutter_secure_storage",
+      name: "plugins.dr1009.com/flutter_secure_storage",
       binaryMessenger: registrar.messenger()
     )
     let eventChannel = FlutterEventChannel(
-      name: "plugins.it_nomads.com/flutter_secure_storage/events",
+      name: "plugins.dr1009.com/flutter_secure_storage/events",
       binaryMessenger: registrar.messenger()
     )
     let instance = FlutterSecureStoragePlugin()

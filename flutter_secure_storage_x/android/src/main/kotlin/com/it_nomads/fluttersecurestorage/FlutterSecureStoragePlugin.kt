@@ -230,7 +230,7 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   }
 
   companion object {
-    private const val METHOD_CHANNEL_NAME = "plugins.it_nomads.com/flutter_secure_storage"
+    private const val METHOD_CHANNEL_NAME = "plugins.dr1009.com/flutter_secure_storage"
 
     private const val PARAM_KEY = "key"
     private const val PARAM_VALUE = "value"

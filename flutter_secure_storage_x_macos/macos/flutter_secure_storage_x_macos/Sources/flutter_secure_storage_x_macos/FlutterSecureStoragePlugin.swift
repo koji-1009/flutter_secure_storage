@@ -11,12 +11,12 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
   private let flutterSecureStorageManager: FlutterSecureStorage =
     FlutterSecureStorage()
   private let serialQueue = DispatchQueue(
-    label: "plugins.it_nomads.com/flutter_secure_storage_queue"
+    label: "plugins.dr1009.com/flutter_secure_storage_queue"
   )
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
-      name: "plugins.it_nomads.com/flutter_secure_storage",
+      name: "plugins.dr1009.com/flutter_secure_storage",
       binaryMessenger: registrar.messenger
     )
     let instance = FlutterSecureStoragePlugin()
