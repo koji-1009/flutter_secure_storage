@@ -6,7 +6,7 @@
 
 This repository is a fork of the popular [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) package. The original project aims to provide a comprehensive set of features and options to cover a wide range of needs.
 
-In contrast, this fork takes a more focused approach. The philosophy is to ensure long-term stability and maintainability by offering a minimal, robust API for the most common encrypted storage use cases. This pragmatic direction provides a simple and reliable solution for developers who prioritize these aspects.
+In contrast, this fork takes a more focused approach. Its philosophy is to ensure long-term stability and maintainability by offering a minimal, robust API for the most common encrypted storage use cases. This pragmatic direction provides a simple and reliable solution for developers who prioritize these aspects.
 
 This monorepo contains the following packages:
 
