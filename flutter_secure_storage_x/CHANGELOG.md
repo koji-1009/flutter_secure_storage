@@ -1,3 +1,15 @@
+## 12.0.0
+
+ - This major version update introduces several significant internal changes to enhance security and performance. On the Android platform, the encryption process, previously implemented independently, has been fully unified into the more secure Android-standard KeyStore system. Existing data saved by the app will be automatically migrated to the new encryption format upon first access. However, please note that this migration support is scheduled to be removed in a future version. Furthermore, Keychain access processing has been comprehensively improved on both iOS and macOS, leading to more efficient and stable operation.
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+ - **REFACTOR**: Update ios code. ([ccc9a22d](https://github.com/koji-1009/flutter_secure_storage/commit/ccc9a22deac5b20af5159d63c2fa5ad6a09cd7ad))
+ - **FIX**: Modify secretKey. ([5eac7c24](https://github.com/koji-1009/flutter_secure_storage/commit/5eac7c2428330aaf8f5e290ccd1fb374aa4668d5))
+ - **FIX**: deleteAll and write. ([3a79e85d](https://github.com/koji-1009/flutter_secure_storage/commit/3a79e85dc24db0031273a44bbaf3d1df4c25d2e3))
+ - **FIX**: Remove old code. ([8cfeb9c9](https://github.com/koji-1009/flutter_secure_storage/commit/8cfeb9c96abbb8bdbd7ec4b923073bd7dc7b29f5))
+ - **FEAT**: Update datastore-preferences. ([c3b507cc](https://github.com/koji-1009/flutter_secure_storage/commit/c3b507cc4e366b94f4144d74c318d8291e123e65))
+ - **FEAT**: Add new KeyStore encryption. ([af1ed0ac](https://github.com/koji-1009/flutter_secure_storage/commit/af1ed0acc2918f77d8e15f1d03c460afd6667fd5))
+
 ## 11.3.0
 
  - **REFACTOR**: Code cleanup and improve error handling. ([16702f78](https://github.com/koji-1009/flutter_secure_storage/commit/16702f7825bb4f9b071f52d2fe6f1d9a49e5046f))

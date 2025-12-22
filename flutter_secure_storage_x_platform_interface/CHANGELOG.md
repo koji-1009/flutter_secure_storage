@@ -1,3 +1,7 @@
+## 1.4.2
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+
 ## 1.4.1
 
  - **FIX**: Fix linux implementation to pass test. ([869eddbc](https://github.com/koji-1009/flutter_secure_storage/commit/869eddbc09f200be104aa63f03aa196bb1040f8f))

@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x_web
 description: Web implementation of the flutter_secure_storage_x plugin.
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_web
-version: 2.1.4
+version: 2.1.5
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_secure_storage_x_platform_interface: ^1.4.1
+  flutter_secure_storage_x_platform_interface: ^1.4.2
   flutter_web_plugins:
     sdk: flutter
   web: ^1.0.0

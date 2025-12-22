@@ -1,3 +1,7 @@
+## 3.3.7
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+
 ## 3.3.6
 
  - **FIX**: ignore deprecated member use warning. ([ea0f58d8](https://github.com/koji-1009/flutter_secure_storage/commit/ea0f58d88d35478552cc52ab03c278c2a72a9d2e))

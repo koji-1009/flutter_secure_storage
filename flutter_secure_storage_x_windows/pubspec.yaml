@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x_windows
 description: Windows implementation of the flutter_secure_storage_x plugin.
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_windows
-version: 3.3.6
+version: 3.3.7
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -11,7 +11,7 @@ dependencies:
   ffi: ^2.0.0
   flutter:
     sdk: flutter
-  flutter_secure_storage_x_platform_interface: ^1.4.1
+  flutter_secure_storage_x_platform_interface: ^1.4.2
   path: ^1.8.0
   path_provider: ^2.0.0
   win32: ^5.5.1

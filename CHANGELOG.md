@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-12-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v12.0.0`](#flutter_secure_storage_x---v1200)
+ - [`flutter_secure_storage_x_linux` - `v1.4.5`](#flutter_secure_storage_x_linux---v145)
+ - [`flutter_secure_storage_x_macos` - `v3.4.4`](#flutter_secure_storage_x_macos---v344)
+ - [`flutter_secure_storage_x_platform_interface` - `v1.4.2`](#flutter_secure_storage_x_platform_interface---v142)
+ - [`flutter_secure_storage_x_windows` - `v3.3.7`](#flutter_secure_storage_x_windows---v337)
+ - [`flutter_secure_storage_x_web` - `v2.1.5`](#flutter_secure_storage_x_web---v215)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x_web` - `v2.1.5`
+
+---
+
+#### `flutter_secure_storage_x` - `v12.0.0`
+
+ - This major version update introduces several significant internal changes to enhance security and performance. On the Android platform, the encryption process, previously implemented independently, has been fully unified into the more secure Android-standard KeyStore system. Existing data saved by the app will be automatically migrated to the new encryption format upon first access. However, please note that this migration support is scheduled to be removed in a future version. Furthermore, Keychain access processing has been comprehensively improved on both iOS and macOS, leading to more efficient and stable operation.
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+ - **REFACTOR**: Update ios code. ([ccc9a22d](https://github.com/koji-1009/flutter_secure_storage/commit/ccc9a22deac5b20af5159d63c2fa5ad6a09cd7ad))
+ - **FIX**: Modify secretKey. ([5eac7c24](https://github.com/koji-1009/flutter_secure_storage/commit/5eac7c2428330aaf8f5e290ccd1fb374aa4668d5))
+ - **FIX**: deleteAll and write. ([3a79e85d](https://github.com/koji-1009/flutter_secure_storage/commit/3a79e85dc24db0031273a44bbaf3d1df4c25d2e3))
+ - **FIX**: Remove old code. ([8cfeb9c9](https://github.com/koji-1009/flutter_secure_storage/commit/8cfeb9c96abbb8bdbd7ec4b923073bd7dc7b29f5))
+ - **FEAT**: Update datastore-preferences. ([c3b507cc](https://github.com/koji-1009/flutter_secure_storage/commit/c3b507cc4e366b94f4144d74c318d8291e123e65))
+ - **FEAT**: Add new KeyStore encryption. ([af1ed0ac](https://github.com/koji-1009/flutter_secure_storage/commit/af1ed0acc2918f77d8e15f1d03c460afd6667fd5))
+
+#### `flutter_secure_storage_x_linux` - `v1.4.5`
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+ - **FIX**: Add APPLICATION_ID. ([385f381e](https://github.com/koji-1009/flutter_secure_storage/commit/385f381e8cc2036d24281437bd39d6fd532a60c9))
+
+#### `flutter_secure_storage_x_macos` - `v3.4.4`
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+ - **REFACTOR**: Update macos code. ([644f66ea](https://github.com/koji-1009/flutter_secure_storage/commit/644f66ea0dfd008474f76995ca590c488ccf6571))
+
+#### `flutter_secure_storage_x_platform_interface` - `v1.4.2`
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+
+#### `flutter_secure_storage_x_windows` - `v3.3.7`
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+
+
 ## 2025-07-14
 
 ### Changes

@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x_macos
 description: macOS implementation of flutter_secure_storage_x
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_macos
-version: 3.4.3
+version: 3.4.4
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_secure_storage_x_platform_interface: ^1.4.1
+  flutter_secure_storage_x_platform_interface: ^1.4.2
 
 flutter:
   plugin:

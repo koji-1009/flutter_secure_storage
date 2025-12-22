@@ -1,3 +1,8 @@
+## 3.4.4
+
+ - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))
+ - **REFACTOR**: Update macos code. ([644f66ea](https://github.com/koji-1009/flutter_secure_storage/commit/644f66ea0dfd008474f76995ca590c488ccf6571))
+
 ## 3.4.3
 
  - Update a dependency to the latest release.
