@@ -44,17 +44,18 @@ void main() {
     FlutterSecureStoragePlatform createTarget() {
       TestWidgetsFlutterBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('plugins.dr1009.com/flutter_secure_storage'),
-        (methodCall) async {
-          assert(false, 'MethodChanel is called.');
-          return null;
-        },
-      );
+            const MethodChannel('plugins.dr1009.com/flutter_secure_storage'),
+            (methodCall) async {
+              assert(false, 'MethodChanel is called.');
+              return null;
+            },
+          );
       return ffi.FlutterSecureStorageWindows();
     }
 
-    Map<String, String> createOptions() =>
-        {'useBackwardCompatibility': 'false'};
+    Map<String, String> createOptions() => {
+      'useBackwardCompatibility': 'false',
+    };
 
     test(
       'readAll - empty',
@@ -131,10 +132,7 @@ void main() {
         const key = 'KEY';
         const value = 'VALUE';
         await target.write(key: key, value: value, options: options);
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
       }),
     );
 
@@ -144,10 +142,7 @@ void main() {
         final target = createTarget();
         final options = createOptions();
         const key = 'KEY';
-        expect(
-          await target.containsKey(key: key, options: options),
-          isFalse,
-        );
+        expect(await target.containsKey(key: key, options: options), isFalse);
       }),
     );
 
@@ -170,11 +165,7 @@ void main() {
         final content = file.readAsBytesSync();
         expect(
           content,
-          isNot(
-            Uint8List.fromList(
-              utf8.encode('{"$key":"$value"}'),
-            ),
-          ),
+          isNot(Uint8List.fromList(utf8.encode('{"$key":"$value"}'))),
         );
         try {
           final map = jsonDecode(utf8.decode(content));
@@ -218,16 +209,10 @@ void main() {
         const key = 'KEY';
         const value = 'VALUE';
         await target.write(key: key, value: value, options: options);
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
 
         await target.delete(key: key, options: options);
-        expect(
-          await target.containsKey(key: key, options: options),
-          isFalse,
-        );
+        expect(await target.containsKey(key: key, options: options), isFalse);
       }),
     );
 
@@ -237,17 +222,11 @@ void main() {
         final target = createTarget();
         final options = createOptions();
         const key = 'KEY';
-        expect(
-          await target.containsKey(key: key, options: options),
-          isFalse,
-        );
+        expect(await target.containsKey(key: key, options: options), isFalse);
 
         await target.delete(key: key, options: options);
 
-        expect(
-          await target.containsKey(key: key, options: options),
-          isFalse,
-        );
+        expect(await target.containsKey(key: key, options: options), isFalse);
       }),
     );
 
@@ -257,10 +236,7 @@ void main() {
         final target = createTarget();
         final options = createOptions();
         await target.deleteAll(options: options);
-        expect(
-          await target.readAll(options: options),
-          isEmpty,
-        );
+        expect(await target.readAll(options: options), isEmpty);
       }),
     );
 
@@ -273,10 +249,7 @@ void main() {
         const value = 'VALUE';
         await target.write(key: key, value: value, options: options);
         await target.deleteAll(options: options);
-        expect(
-          await target.readAll(options: options),
-          isEmpty,
-        );
+        expect(await target.readAll(options: options), isEmpty);
       }),
     );
 
@@ -292,10 +265,7 @@ void main() {
         await target.write(key: key1, value: value1, options: options);
         await target.write(key: key2, value: value2, options: options);
         await target.deleteAll(options: options);
-        expect(
-          await target.readAll(options: options),
-          isEmpty,
-        );
+        expect(await target.readAll(options: options), isEmpty);
       }),
     );
   });
@@ -308,9 +278,9 @@ void main() {
     ) {
       TestWidgetsFlutterBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('plugins.dr1009.com/flutter_secure_storage'),
-        handler,
-      );
+            const MethodChannel('plugins.dr1009.com/flutter_secure_storage'),
+            handler,
+          );
       return ffi.createFlutterSecureStorageWindows(
         MethodChannelFlutterSecureStorage(),
         ffi.DpapiJsonFileMapStorage(),
@@ -450,8 +420,8 @@ void main() {
               return deleteAllCalled > 0
                   ? null
                   : (call.arguments as Map<String, dynamic>)['key'] == oldKey
-                      ? oldValue
-                      : null;
+                  ? oldValue
+                  : null;
             case 'readAll':
               readAllCalled++;
               return deleteAllCalled > 0 ? {} : {oldKey: oldValue};
@@ -752,17 +722,11 @@ void main() {
         final options = createOptions();
         await target.write(key: key, value: newValue, options: options);
         expect(deleteCalled, 1);
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
         expect(containsKeyCalled, 0);
         expect(deleteCalled, 1);
 
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
         expect(containsKeyCalled, 0);
         expect(deleteCalled, 1);
       }),
@@ -784,16 +748,10 @@ void main() {
           }
         });
         final options = createOptions();
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
         expect(containsKeyCalled, 1);
 
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
         expect(containsKeyCalled, 2);
       }),
     );
@@ -821,16 +779,10 @@ void main() {
         final options = createOptions();
         await target.write(key: key, value: newValue, options: options);
         onInit = false;
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
         expect(containsKeyCalled, 0);
 
-        expect(
-          await target.containsKey(key: key, options: options),
-          isTrue,
-        );
+        expect(await target.containsKey(key: key, options: options), isTrue);
         expect(containsKeyCalled, 0);
       }),
     );
@@ -851,72 +803,60 @@ void main() {
           }
         });
         final options = createOptions();
-        expect(
-          await target.containsKey(key: key, options: options),
-          isFalse,
-        );
+        expect(await target.containsKey(key: key, options: options), isFalse);
         expect(containsKeyCalled, 1);
 
-        expect(
-          await target.containsKey(key: key, options: options),
-          isFalse,
-        );
+        expect(await target.containsKey(key: key, options: options), isFalse);
         expect(containsKeyCalled, 2);
       }),
     );
 
-    test(
-      'write - new',
-      () async {
-        const key = 'KEY';
-        const value = 'VALUE';
+    test('write - new', () async {
+      const key = 'KEY';
+      const value = 'VALUE';
 
-        var deleteCalled = 0;
-        final target = createTarget((call) async {
-          if (call.method == 'delete') {
-            deleteCalled++;
-            return null;
-          }
+      var deleteCalled = 0;
+      final target = createTarget((call) async {
+        if (call.method == 'delete') {
+          deleteCalled++;
+          return null;
+        }
 
-          fail('Unexpected method call: ${call.method}');
-        });
-        final options = createOptions();
-        await target.write(key: key, value: value, options: options);
-        expect(deleteCalled, 1);
+        fail('Unexpected method call: ${call.method}');
+      });
+      final options = createOptions();
+      await target.write(key: key, value: value, options: options);
+      expect(deleteCalled, 1);
 
-        final result = await target.read(key: key, options: options);
-        expect(result, value);
-        expect(deleteCalled, 2);
-      },
-    );
+      final result = await target.read(key: key, options: options);
+      expect(result, value);
+      expect(deleteCalled, 2);
+    });
 
-    test(
-      'write - overwrite',
-      () async {
-        const key = 'KEY';
-        const value1 = 'VALUE1';
-        const value2 = 'VALUE2';
+    test('write - overwrite', () async {
+      const key = 'KEY';
+      const value1 = 'VALUE1';
+      const value2 = 'VALUE2';
 
-        var deleteCalled = 0;
-        final target = createTarget((call) async {
-          if (call.method == 'delete') {
-            deleteCalled++;
-            return null;
-          }
+      var deleteCalled = 0;
+      final target = createTarget((call) async {
+        if (call.method == 'delete') {
+          deleteCalled++;
+          return null;
+        }
 
-          fail('Unexpected method call: ${call.method}');
-        });
-        final options = createOptions();
-        await target.write(key: key, value: value1, options: options);
-        expect(deleteCalled, 1);
-        await target.write(key: key, value: value2, options: options);
-        expect(deleteCalled, 2);
+        fail('Unexpected method call: ${call.method}');
+      });
+      final options = createOptions();
+      await target.write(key: key, value: value1, options: options);
+      expect(deleteCalled, 1);
+      await target.write(key: key, value: value2, options: options);
+      expect(deleteCalled, 2);
 
-        final result = await target.read(key: key, options: options);
-        expect(result, value2);
-        expect(deleteCalled, 3);
-      },
-    );
+      final result = await target.read(key: key, options: options);
+      expect(result, value2);
+      expect(deleteCalled, 3);
+    });
 
     test(
       'delete - exists, any',
@@ -1009,49 +949,40 @@ void main() {
   });
 
   group('Stub does not work at all', () {
-    test(
-      'constructor',
-      () async {
-        expect(
-          () => stub.FlutterSecureStorageWindows(),
-          throwsAssertionError,
-        );
-      },
-    );
+    test('constructor', () async {
+      expect(() => stub.FlutterSecureStorageWindows(), throwsAssertionError);
+    });
   });
 
   group('Special charactors handling', () {
     FlutterSecureStoragePlatform createTarget() {
       TestWidgetsFlutterBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('plugins.dr1009.com/flutter_secure_storage'),
-        (methodCall) async {
-          switch (methodCall.method) {
-            case 'read':
-              return null;
-            case 'readAll':
-              return <String, String>{};
-            case 'containsKey':
-              return false;
-            case 'write':
-              fail('write on MethodChanel causes error for special chars.');
-            case 'delete':
-            case 'deleteAll':
-              return null;
-            default:
-              fail('Unexpected method call: $methodCall');
-          }
-        },
-      );
+            const MethodChannel('plugins.dr1009.com/flutter_secure_storage'),
+            (methodCall) async {
+              switch (methodCall.method) {
+                case 'read':
+                  return null;
+                case 'readAll':
+                  return <String, String>{};
+                case 'containsKey':
+                  return false;
+                case 'write':
+                  fail('write on MethodChanel causes error for special chars.');
+                case 'delete':
+                case 'deleteAll':
+                  return null;
+                default:
+                  fail('Unexpected method call: $methodCall');
+              }
+            },
+          );
       return ffi.FlutterSecureStorageWindows();
     }
 
     Map<String, String> createOptions() => {'useBackwardCompatibility': 'true'};
 
-    Future<void> testSpecialCharactor(
-      String key, {
-      String? value,
-    }) async {
+    Future<void> testSpecialCharactor(String key, {String? value}) async {
       final target = createTarget();
       final options = createOptions();
 
@@ -1070,14 +1001,8 @@ void main() {
       await target.write(key: '$key#1', value: realValue, options: options);
       await target.write(key: '$key#2', value: realValue, options: options);
 
-      expect(
-        await target.containsKey(key: '$key#1', options: options),
-        isTrue,
-      );
-      expect(
-        await target.containsKey(key: '$key#2', options: options),
-        isTrue,
-      );
+      expect(await target.containsKey(key: '$key#1', options: options), isTrue);
+      expect(await target.containsKey(key: '$key#2', options: options), isTrue);
       await target.deleteAll(options: options);
 
       expect(
@@ -1097,10 +1022,7 @@ void main() {
         String.fromCharCodes(Iterable.generate(256, (_) => 65 /* 'A' */)),
       ),
     );
-    test(
-      'Empty key & value',
-      () => testSpecialCharactor('', value: ''),
-    );
+    test('Empty key & value', () => testSpecialCharactor('', value: ''));
 
     test('Only casing is differ', () async {
       final target = createTarget();
@@ -1147,9 +1069,7 @@ bool canTest() {
   return true;
 }
 
-FutureOr<void> withFfi(
-  FutureOr<void> Function() test,
-) async {
+FutureOr<void> withFfi(FutureOr<void> Function() test) async {
   if (!canTest()) {
     return;
   }

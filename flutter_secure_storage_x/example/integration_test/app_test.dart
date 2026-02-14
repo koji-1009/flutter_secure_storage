@@ -10,11 +10,7 @@ void main() {
   binding.testTextInput.register();
 
   testWidgets('Secure Storage Example', (tester) async {
-    await tester.pumpWidget(
-      const MaterialApp(
-        home: ItemsWidget(),
-      ),
-    );
+    await tester.pumpWidget(const MaterialApp(home: ItemsWidget()));
     await tester.pumpAndSettle();
 
     final pageObject = HomePageObject(tester);

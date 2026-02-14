@@ -22,9 +22,8 @@ part of '../flutter_secure_storage_x.dart';
 /// );
 /// ```
 class WindowsOptions extends Options {
-  const WindowsOptions({
-    bool useBackwardCompatibility = false,
-  }) : _useBackwardCompatibility = useBackwardCompatibility;
+  const WindowsOptions({bool useBackwardCompatibility = false})
+    : _useBackwardCompatibility = useBackwardCompatibility;
 
   static const WindowsOptions defaultOptions = WindowsOptions();
 
@@ -32,14 +31,11 @@ class WindowsOptions extends Options {
 
   @override
   Map<String, String> toMap() => <String, String>{
-        'useBackwardCompatibility': _useBackwardCompatibility.toString(),
-      };
+    'useBackwardCompatibility': _useBackwardCompatibility.toString(),
+  };
 
-  WindowsOptions copyWith({
-    bool? useBackwardCompatibility,
-  }) =>
-      WindowsOptions(
-        useBackwardCompatibility:
-            useBackwardCompatibility ?? _useBackwardCompatibility,
-      );
+  WindowsOptions copyWith({bool? useBackwardCompatibility}) => WindowsOptions(
+    useBackwardCompatibility:
+        useBackwardCompatibility ?? _useBackwardCompatibility,
+  );
 }

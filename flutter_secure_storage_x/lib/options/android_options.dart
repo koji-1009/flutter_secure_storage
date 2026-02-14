@@ -41,23 +41,21 @@ class AndroidOptions extends Options {
 
   @override
   Map<String, String> toMap() => <String, String>{
-        'dataStore': '$dataStore',
-        'resetOnError': '$resetOnError',
-        'sharedPreferencesName': sharedPreferencesName ?? '',
-        'preferencesKeyPrefix': preferencesKeyPrefix ?? '',
-      };
+    'dataStore': '$dataStore',
+    'resetOnError': '$resetOnError',
+    'sharedPreferencesName': sharedPreferencesName ?? '',
+    'preferencesKeyPrefix': preferencesKeyPrefix ?? '',
+  };
 
   AndroidOptions copyWith({
     bool? dataStore,
     bool? resetOnError,
     String? preferencesKeyPrefix,
     String? sharedPreferencesName,
-  }) =>
-      AndroidOptions(
-        dataStore: dataStore ?? this.dataStore,
-        resetOnError: resetOnError ?? this.resetOnError,
-        sharedPreferencesName:
-            sharedPreferencesName ?? this.sharedPreferencesName,
-        preferencesKeyPrefix: preferencesKeyPrefix ?? this.preferencesKeyPrefix,
-      );
+  }) => AndroidOptions(
+    dataStore: dataStore ?? this.dataStore,
+    resetOnError: resetOnError ?? this.resetOnError,
+    sharedPreferencesName: sharedPreferencesName ?? this.sharedPreferencesName,
+    preferencesKeyPrefix: preferencesKeyPrefix ?? this.preferencesKeyPrefix,
+  );
 }

@@ -16,11 +16,10 @@ class IOSOptions extends AppleOptions {
     String? accountName,
     KeychainAccessibility? accessibility,
     bool? synchronizable,
-  }) =>
-      IOSOptions(
-        groupId: groupId ?? _groupId,
-        accountName: accountName ?? _accountName,
-        accessibility: accessibility ?? _accessibility,
-        synchronizable: synchronizable ?? _synchronizable,
-      );
+  }) => IOSOptions(
+    groupId: groupId ?? _groupId,
+    accountName: accountName ?? _accountName,
+    accessibility: accessibility ?? _accessibility,
+    synchronizable: synchronizable ?? _synchronizable,
+  );
 }

@@ -145,18 +145,17 @@ class FlutterSecureStorage {
     WebOptions? webOptions,
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
-  }) =>
-      _platform.read(
-        key: key,
-        options: _selectOptions(
-          iOptions,
-          aOptions,
-          lOptions,
-          webOptions,
-          mOptions,
-          wOptions,
-        ),
-      );
+  }) => _platform.read(
+    key: key,
+    options: _selectOptions(
+      iOptions,
+      aOptions,
+      lOptions,
+      webOptions,
+      mOptions,
+      wOptions,
+    ),
+  );
 
   /// Returns true if the storage contains the given [key].
   ///
@@ -176,18 +175,17 @@ class FlutterSecureStorage {
     WebOptions? webOptions,
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
-  }) =>
-      _platform.containsKey(
-        key: key,
-        options: _selectOptions(
-          iOptions,
-          aOptions,
-          lOptions,
-          webOptions,
-          mOptions,
-          wOptions,
-        ),
-      );
+  }) => _platform.containsKey(
+    key: key,
+    options: _selectOptions(
+      iOptions,
+      aOptions,
+      lOptions,
+      webOptions,
+      mOptions,
+      wOptions,
+    ),
+  );
 
   /// Deletes associated value for the given [key].
   ///
@@ -252,17 +250,16 @@ class FlutterSecureStorage {
     WebOptions? webOptions,
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
-  }) =>
-      _platform.readAll(
-        options: _selectOptions(
-          iOptions,
-          aOptions,
-          lOptions,
-          webOptions,
-          mOptions,
-          wOptions,
-        ),
-      );
+  }) => _platform.readAll(
+    options: _selectOptions(
+      iOptions,
+      aOptions,
+      lOptions,
+      webOptions,
+      mOptions,
+      wOptions,
+    ),
+  );
 
   /// Deletes all keys with associated values.
   ///
@@ -333,9 +330,9 @@ class FlutterSecureStorage {
   /// On all unsupported platforms returns null
   Stream<bool>? get onCupertinoProtectedDataAvailabilityChanged =>
       _platform is MethodChannelFlutterSecureStorage
-          ? (_platform as MethodChannelFlutterSecureStorage)
-              .onCupertinoProtectedDataAvailabilityChanged
-          : null;
+      ? (_platform as MethodChannelFlutterSecureStorage)
+            .onCupertinoProtectedDataAvailabilityChanged
+      : null;
 
   /// iOS and macOS only feature.
   ///
@@ -346,14 +343,15 @@ class FlutterSecureStorage {
   /// macOS: https://developer.apple.com/documentation/appkit/nsapplication/3752992-isprotecteddataavailable
   Future<bool?> isCupertinoProtectedDataAvailable() async =>
       _platform is MethodChannelFlutterSecureStorage
-          ? await (_platform as MethodChannelFlutterSecureStorage)
-              .isCupertinoProtectedDataAvailable()
-          : null;
+      ? await (_platform as MethodChannelFlutterSecureStorage)
+            .isCupertinoProtectedDataAvailable()
+      : null;
 
   /// Initializes the shared preferences with mock values for testing.
   @visibleForTesting
   static void setMockInitialValues(Map<String, String> values) {
-    FlutterSecureStoragePlatform.instance =
-        TestFlutterSecureStoragePlatform(values);
+    FlutterSecureStoragePlatform.instance = TestFlutterSecureStoragePlatform(
+      values,
+    );
   }
 }

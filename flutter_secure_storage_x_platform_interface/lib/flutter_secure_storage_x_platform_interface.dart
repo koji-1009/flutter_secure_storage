@@ -51,11 +51,7 @@ abstract class FlutterSecureStoragePlatform extends PlatformInterface {
     required Map<String, String> options,
   });
 
-  Future<Map<String, String>> readAll({
-    required Map<String, String> options,
-  });
+  Future<Map<String, String>> readAll({required Map<String, String> options});
 
-  Future<void> deleteAll({
-    required Map<String, String> options,
-  });
+  Future<void> deleteAll({required Map<String, String> options});
 }

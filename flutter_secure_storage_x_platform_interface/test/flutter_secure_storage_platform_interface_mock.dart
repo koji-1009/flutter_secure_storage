@@ -17,15 +17,13 @@ class ExtendsFlutterSecureStoragePlatform extends FlutterSecureStoragePlatform {
   Future<bool> containsKey({
     required String key,
     required Map<String, String> options,
-  }) =>
-      Future.value(true);
+  }) => Future.value(true);
 
   @override
   Future<void> delete({
     required String key,
     required Map<String, String> options,
-  }) =>
-      Future<void>.value();
+  }) => Future<void>.value();
 
   @override
   Future<void> deleteAll({required Map<String, String> options}) =>
@@ -35,8 +33,7 @@ class ExtendsFlutterSecureStoragePlatform extends FlutterSecureStoragePlatform {
   Future<String?> read({
     required String key,
     required Map<String, String> options,
-  }) =>
-      Future<String?>.value();
+  }) => Future<String?>.value();
 
   @override
   Future<Map<String, String>> readAll({required Map<String, String> options}) =>
@@ -47,6 +44,5 @@ class ExtendsFlutterSecureStoragePlatform extends FlutterSecureStoragePlatform {
     required String key,
     required String value,
     required Map<String, String> options,
-  }) =>
-      Future<void>.value();
+  }) => Future<void>.value();
 }

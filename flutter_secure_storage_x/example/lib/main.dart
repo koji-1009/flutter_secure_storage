@@ -6,24 +6,12 @@ import 'package:flutter_secure_storage_x/flutter_secure_storage_x.dart';
 import 'package:platform/platform.dart';
 
 void main() {
-  runApp(
-    const MaterialApp(
-      home: ItemsWidget(),
-    ),
-  );
+  runApp(const MaterialApp(home: ItemsWidget()));
 }
 
-enum _Actions {
-  deleteAll,
-  isProtectedDataAvailable,
-}
+enum _Actions { deleteAll, isProtectedDataAvailable }
 
-enum _ItemActions {
-  delete,
-  edit,
-  containsKey,
-  read,
-}
+enum _ItemActions { delete, edit, containsKey, read }
 
 class ItemsWidget extends StatefulWidget {
   const ItemsWidget({super.key});
@@ -101,13 +89,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
     await _readAll();
   }
 
-  IOSOptions _getIOSOptions() => IOSOptions(
-        accountName: _getAccountName(),
-      );
+  IOSOptions _getIOSOptions() => IOSOptions(accountName: _getAccountName());
 
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        dataStore: true,
-      );
+  AndroidOptions _getAndroidOptions() => const AndroidOptions(dataStore: true);
 
   String? _getAccountName() =>
       _accountNameController.text.isEmpty ? null : _accountNameController.text;
@@ -181,17 +165,11 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: _ItemActions.delete,
-                    child: Text(
-                      'Delete',
-                      key: Key('delete_row_$index'),
-                    ),
+                    child: Text('Delete', key: Key('delete_row_$index')),
                   ),
                   PopupMenuItem(
                     value: _ItemActions.edit,
-                    child: Text(
-                      'Edit',
-                      key: Key('edit_row_$index'),
-                    ),
+                    child: Text('Edit', key: Key('edit_row_$index')),
                   ),
                   PopupMenuItem(
                     value: _ItemActions.containsKey,
@@ -202,17 +180,11 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                   ),
                   PopupMenuItem(
                     value: _ItemActions.read,
-                    child: Text(
-                      'Read',
-                      key: Key('contains_row_$index'),
-                    ),
+                    child: Text('Read', key: Key('contains_row_$index')),
                   ),
                 ],
               ),
-              title: Text(
-                _items[index].value,
-                key: Key('title_row_$index'),
-              ),
+              title: Text(_items[index].value, key: Key('title_row_$index')),
               subtitle: Text(
                 _items[index].key,
                 key: Key('subtitle_row_$index'),
@@ -290,9 +262,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
           aOptions: _getAndroidOptions(),
         );
         scaffoldMessenger.showSnackBar(
-          SnackBar(
-            content: Text('value: $result'),
-          ),
+          SnackBar(content: Text('value: $result')),
         );
     }
   }
@@ -324,9 +294,7 @@ class _EditTextInputDialogState extends State<_EditTextInputDialog> {
   @override
   void initState() {
     super.initState();
-    _editTextDialogController = TextEditingController(
-      text: widget.value,
-    );
+    _editTextDialogController = TextEditingController(text: widget.value);
   }
 
   @override
@@ -382,9 +350,7 @@ class _DisplayTextInputDialogState extends State<_DisplayTextInputDialog> {
   @override
   void initState() {
     super.initState();
-    _displayTextDialogController = TextEditingController(
-      text: widget.value,
-    );
+    _displayTextDialogController = TextEditingController(text: widget.value);
   }
 
   @override
@@ -407,14 +373,9 @@ class _DisplayTextInputDialogState extends State<_DisplayTextInputDialog> {
           child: const Text('OK'),
         ),
       ],
-      content: TextField(
-        controller: _displayTextDialogController,
-      ),
+      content: TextField(controller: _displayTextDialogController),
     );
   }
 }
 
-typedef _SecItem = ({
-  String key,
-  String value,
-});
+typedef _SecItem = ({String key, String value});

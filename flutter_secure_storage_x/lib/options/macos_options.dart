@@ -20,19 +20,18 @@ class MacOsOptions extends AppleOptions {
     KeychainAccessibility? accessibility,
     bool? synchronizable,
     bool? useDataProtectionKeyChain,
-  }) =>
-      MacOsOptions(
-        groupId: groupId ?? _groupId,
-        accountName: accountName ?? _accountName,
-        accessibility: accessibility ?? _accessibility,
-        synchronizable: synchronizable ?? _synchronizable,
-        useDataProtectionKeyChain:
-            useDataProtectionKeyChain ?? _useDataProtectionKeyChain,
-      );
+  }) => MacOsOptions(
+    groupId: groupId ?? _groupId,
+    accountName: accountName ?? _accountName,
+    accessibility: accessibility ?? _accessibility,
+    synchronizable: synchronizable ?? _synchronizable,
+    useDataProtectionKeyChain:
+        useDataProtectionKeyChain ?? _useDataProtectionKeyChain,
+  );
 
   @override
   Map<String, String> toMap() => <String, String>{
-        ...super.toMap(),
-        'useDataProtectionKeyChain': '$_useDataProtectionKeyChain',
-      };
+    ...super.toMap(),
+    'useDataProtectionKeyChain': '$_useDataProtectionKeyChain',
+  };
 }

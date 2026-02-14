@@ -31,10 +31,10 @@ abstract class AppleOptions extends Options {
     String? accountName = AppleOptions.defaultAccountName,
     KeychainAccessibility? accessibility = KeychainAccessibility.unlocked,
     bool synchronizable = false,
-  })  : _groupId = groupId,
-        _accessibility = accessibility,
-        _accountName = accountName,
-        _synchronizable = synchronizable;
+  }) : _groupId = groupId,
+       _accessibility = accessibility,
+       _accountName = accountName,
+       _synchronizable = synchronizable;
 
   static const defaultAccountName = 'flutter_secure_storage_service';
 
@@ -60,9 +60,9 @@ abstract class AppleOptions extends Options {
 
   @override
   Map<String, String> toMap() => <String, String>{
-        if (_accessibility != null) 'accessibility': _accessibility.name,
-        if (_accountName != null) 'accountName': _accountName,
-        if (_groupId != null) 'groupId': _groupId,
-        'synchronizable': '$_synchronizable',
-      };
+    if (_accessibility != null) 'accessibility': _accessibility.name,
+    if (_accountName != null) 'accountName': _accountName,
+    if (_groupId != null) 'groupId': _groupId,
+    'synchronizable': '$_synchronizable',
+  };
 }

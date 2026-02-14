@@ -16,13 +16,10 @@ void main() {
     });
 
     test('Cannot be implemented with `implements`', () {
-      expect(
-        () {
-          FlutterSecureStoragePlatform.instance =
-              ImplementsFlutterSecureStoragePlatform();
-        },
-        throwsA(isInstanceOf<AssertionError>()),
-      );
+      expect(() {
+        FlutterSecureStoragePlatform.instance =
+            ImplementsFlutterSecureStoragePlatform();
+      }, throwsA(isInstanceOf<AssertionError>()));
     });
 
     test('Can be mocked with `implements`', () {
@@ -67,35 +64,26 @@ void main() {
     test('read', () async {
       await storage.read(key: key, options: options);
 
-      expect(
-        log,
-        <Matcher>[
-          isMethodCall(
-            'read',
-            arguments: <String, Object>{
-              'key': key,
-              'options': options,
-            },
-          ),
-        ],
-      );
+      expect(log, <Matcher>[
+        isMethodCall(
+          'read',
+          arguments: <String, Object>{'key': key, 'options': options},
+        ),
+      ]);
     });
 
     test('write', () async {
       await storage.write(key: key, value: 'test', options: options);
-      expect(
-        log,
-        <Matcher>[
-          isMethodCall(
-            'write',
-            arguments: <String, Object>{
-              'key': key,
-              'value': 'test',
-              'options': options,
-            },
-          ),
-        ],
-      );
+      expect(log, <Matcher>[
+        isMethodCall(
+          'write',
+          arguments: <String, Object>{
+            'key': key,
+            'value': 'test',
+            'options': options,
+          },
+        ),
+      ]);
     });
 
     test('containsKey', () async {
@@ -109,41 +97,30 @@ void main() {
     test('delete', () async {
       await storage.write(key: key, value: 'test', options: options);
       await storage.delete(key: key, options: options);
-      expect(
-        log,
-        <Matcher>[
-          isMethodCall(
-            'write',
-            arguments: <String, Object>{
-              'key': key,
-              'value': 'test',
-              'options': options,
-            },
-          ),
-          isMethodCall(
-            'delete',
-            arguments: <String, Object>{
-              'key': key,
-              'options': options,
-            },
-          ),
-        ],
-      );
+      expect(log, <Matcher>[
+        isMethodCall(
+          'write',
+          arguments: <String, Object>{
+            'key': key,
+            'value': 'test',
+            'options': options,
+          },
+        ),
+        isMethodCall(
+          'delete',
+          arguments: <String, Object>{'key': key, 'options': options},
+        ),
+      ]);
     });
 
     test('deleteAll', () async {
       await storage.deleteAll(options: options);
-      expect(
-        log,
-        <Matcher>[
-          isMethodCall(
-            'deleteAll',
-            arguments: <String, Object>{
-              'options': options,
-            },
-          ),
-        ],
-      );
+      expect(log, <Matcher>[
+        isMethodCall(
+          'deleteAll',
+          arguments: <String, Object>{'options': options},
+        ),
+      ]);
     });
 
     test('readAll', () async {
@@ -151,25 +128,20 @@ void main() {
 
       await storage.readAll(options: options);
 
-      expect(
-        log,
-        <Matcher>[
-          isMethodCall(
-            'write',
-            arguments: <String, Object>{
-              'key': key,
-              'value': 'test',
-              'options': options,
-            },
-          ),
-          isMethodCall(
-            'readAll',
-            arguments: <String, Object>{
-              'options': options,
-            },
-          ),
-        ],
-      );
+      expect(log, <Matcher>[
+        isMethodCall(
+          'write',
+          arguments: <String, Object>{
+            'key': key,
+            'value': 'test',
+            'options': options,
+          },
+        ),
+        isMethodCall(
+          'readAll',
+          arguments: <String, Object>{'options': options},
+        ),
+      ]);
     });
   });
 }

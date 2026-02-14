@@ -170,7 +170,8 @@ void main() {
     // readAll for delete
     await tester.tap(find.text('ReadAll'));
     await checkSuccess(
-      tester, state,
+      tester,
+      state,
       // Standard map's order and toString() result should be stable
       // even if there are no guarantee nand backward compatibility.
       expectedDetail: (key2 == null ? {} : {key2: value2}).toString(),
@@ -202,7 +203,8 @@ void main() {
     // readAll for delete
     await tester.tap(find.text('ReadAll'));
     await checkSuccess(
-      tester, state,
+      tester,
+      state,
       // Standard map's order and toString() result should be stable
       // even if there are no guarantee nand backward compatibility.
       expectedDetail: {}.toString(),
@@ -244,10 +246,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         await tester.tap(find.text('ReadAll'));
         await tester.pumpAndSettle();
@@ -268,10 +267,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key1;
@@ -301,10 +297,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -333,10 +326,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -362,10 +352,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -385,51 +372,54 @@ void main() {
         await checkMigration(tester, state);
       });
 
-      testWidgets('readAll - 2 entries, 2 entries, same keys and diffrent keys',
-          (tester) async {
-        const key1 = 'key1';
-        const key2 = 'key2';
-        const key3 = 'key3';
+      testWidgets(
+        'readAll - 2 entries, 2 entries, same keys and diffrent keys',
+        (tester) async {
+          const key1 = 'key1';
+          const key2 = 'key2';
+          const key3 = 'key3';
 
-        app.main();
-        await tester.pumpAndSettle();
+          app.main();
+          await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+          final state = getState(tester, useBackwardCompatibility: true);
 
-        // Prepare
-        state.keyFieldController.text = key1;
-        await tester.tap(find.text('Write'));
-        final value1 = await checkSuccess(tester, state);
+          // Prepare
+          state.keyFieldController.text = key1;
+          await tester.tap(find.text('Write'));
+          final value1 = await checkSuccess(tester, state);
 
-        state.keyFieldController.text = key2;
-        await tester.tap(find.text('Write'));
-        final value2 = await checkSuccess(tester, state);
+          state.keyFieldController.text = key2;
+          await tester.tap(find.text('Write'));
+          final value2 = await checkSuccess(tester, state);
 
-        state.keyFieldController.text = key3;
-        await tester.tap(find.text('LegacyWrite'));
-        final value3 = await checkSuccess(tester, state);
+          state.keyFieldController.text = key3;
+          await tester.tap(find.text('LegacyWrite'));
+          final value3 = await checkSuccess(tester, state);
 
-        state.keyFieldController.text = key1;
-        await tester.tap(find.text('LegacyWrite'));
-        final value4 = await checkSuccess(tester, state);
+          state.keyFieldController.text = key1;
+          await tester.tap(find.text('LegacyWrite'));
+          final value4 = await checkSuccess(tester, state);
 
-        assert(value1 != value4);
+          assert(value1 != value4);
 
-        // Do test
-        await tester.tap(find.text('ReadAll'));
-        await tester.pumpAndSettle();
-        await checkSuccess(
-          tester,
-          state,
-          // Standard map's order and toString() result should be stable
-          // even if there are no guarantee nand backward compatibility.
-          expectedDetail: {key1: value1, key2: value2, key3: value3}.toString(),
-        );
-        await checkMigration(tester, state);
-      });
+          // Do test
+          await tester.tap(find.text('ReadAll'));
+          await tester.pumpAndSettle();
+          await checkSuccess(
+            tester,
+            state,
+            // Standard map's order and toString() result should be stable
+            // even if there are no guarantee nand backward compatibility.
+            expectedDetail: {
+              key1: value1,
+              key2: value2,
+              key3: value3,
+            }.toString(),
+          );
+          await checkMigration(tester, state);
+        },
+      );
 
       testWidgets('read - exists, exists', (tester) async {
         const key = 'key';
@@ -437,10 +427,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -463,10 +450,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -486,10 +470,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -509,10 +490,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Do test
         state.keyFieldController.text = key;
@@ -528,10 +506,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -554,10 +529,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -577,10 +549,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -594,17 +563,15 @@ void main() {
         // containsKey does not execute auto-migration
       });
 
-      testWidgets('containsKey - does not exist, does not exist',
-          (tester) async {
+      testWidgets('containsKey - does not exist, does not exist', (
+        tester,
+      ) async {
         const key = 'key';
 
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Do test
         state.keyFieldController.text = key;
@@ -620,10 +587,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Do test
         state.keyFieldController.text = key;
@@ -644,10 +608,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Do test
         state.keyFieldController.text = key;
@@ -675,10 +636,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -706,10 +664,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -737,10 +692,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -765,10 +717,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -793,10 +742,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Do test
         state.keyFieldController.text = key;
@@ -814,10 +760,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         await tester.tap(find.text('DeleteAll'));
         await checkSuccess(tester, state);
@@ -834,18 +777,16 @@ void main() {
         );
       });
 
-      testWidgets('deleteAll - 1 entry, 1 entry, different keys',
-          (tester) async {
+      testWidgets('deleteAll - 1 entry, 1 entry, different keys', (
+        tester,
+      ) async {
         const key1 = 'key1';
         const key2 = 'key2';
 
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key1;
@@ -878,10 +819,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -913,10 +851,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -945,10 +880,7 @@ void main() {
         app.main();
         await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+        final state = getState(tester, useBackwardCompatibility: true);
 
         // Prepare
         state.keyFieldController.text = key;
@@ -972,52 +904,50 @@ void main() {
       });
 
       testWidgets(
-          'deleteAll - 2 entries, 2 entries, same keys and diffrent keys',
-          (tester) async {
-        const key1 = 'key1';
-        const key2 = 'key2';
-        const key3 = 'key3';
+        'deleteAll - 2 entries, 2 entries, same keys and diffrent keys',
+        (tester) async {
+          const key1 = 'key1';
+          const key2 = 'key2';
+          const key3 = 'key3';
 
-        app.main();
-        await tester.pumpAndSettle();
+          app.main();
+          await tester.pumpAndSettle();
 
-        final state = getState(
-          tester,
-          useBackwardCompatibility: true,
-        );
+          final state = getState(tester, useBackwardCompatibility: true);
 
-        // Prepare
-        state.keyFieldController.text = key1;
-        await tester.tap(find.text('Write'));
-        await checkSuccess(tester, state);
+          // Prepare
+          state.keyFieldController.text = key1;
+          await tester.tap(find.text('Write'));
+          await checkSuccess(tester, state);
 
-        state.keyFieldController.text = key2;
-        await tester.tap(find.text('Write'));
-        await checkSuccess(tester, state);
+          state.keyFieldController.text = key2;
+          await tester.tap(find.text('Write'));
+          await checkSuccess(tester, state);
 
-        state.keyFieldController.text = key3;
-        await tester.tap(find.text('LegacyWrite'));
-        await checkSuccess(tester, state);
+          state.keyFieldController.text = key3;
+          await tester.tap(find.text('LegacyWrite'));
+          await checkSuccess(tester, state);
 
-        state.keyFieldController.text = key1;
-        await tester.tap(find.text('LegacyWrite'));
-        await checkSuccess(tester, state);
+          state.keyFieldController.text = key1;
+          await tester.tap(find.text('LegacyWrite'));
+          await checkSuccess(tester, state);
 
-        // Do test
-        await tester.tap(find.text('DeleteAll'));
-        await checkSuccess(tester, state);
-        await checkMigration(tester, state);
+          // Do test
+          await tester.tap(find.text('DeleteAll'));
+          await checkSuccess(tester, state);
+          await checkMigration(tester, state);
 
-        await tester.tap(find.text('ReadAll'));
-        await tester.pumpAndSettle();
-        await checkSuccess(
-          tester,
-          state,
-          // Standard map's order and toString() result should be stable
-          // even if there are no guarantee nand backward compatibility.
-          expectedDetail: {}.toString(),
-        );
-      });
+          await tester.tap(find.text('ReadAll'));
+          await tester.pumpAndSettle();
+          await checkSuccess(
+            tester,
+            state,
+            // Standard map's order and toString() result should be stable
+            // even if there are no guarantee nand backward compatibility.
+            expectedDetail: {}.toString(),
+          );
+        },
+      );
     },
     skip: kIsWeb || !Platform.isWindows
         ? 'These tests only work on Windows'
@@ -1036,27 +966,21 @@ void main() {
       });
 
       testWidgets('Double dot', (tester) async {
-        await doTestSuite(
-          tester,
-          key1: '/../a',
-        );
+        await doTestSuite(tester, key1: '/../a');
       });
 
       testWidgets('Long key', (tester) async {
         await doTestSuite(
           tester,
-          key1:
-              String.fromCharCodes(Iterable.generate(256, (_) => 65 /* 'A' */)),
+          key1: String.fromCharCodes(
+            Iterable.generate(256, (_) => 65 /* 'A' */),
+          ),
           useBackwardCompatibility: false,
         );
       });
 
       testWidgets('Empty key & value', (tester) async {
-        await doTestSuite(
-          tester,
-          key1: '',
-          writingValue1: '',
-        );
+        await doTestSuite(tester, key1: '', writingValue1: '');
       });
 
       for (final char in <String, int>{
@@ -1065,29 +989,29 @@ void main() {
         'Full-width space': 0x3000,
       }.entries) {
         testWidgets(
-            'Space key & value - ${char.key} (U+${char.value.toRadixString(16).padLeft(4, '0')})',
-            (tester) async {
-          await doTestSuite(
-            tester,
-            key1: String.fromCharCode(char.value),
-            writingValue1: String.fromCharCode(char.value),
-          );
-        });
+          'Space key & value - ${char.key} (U+${char.value.toRadixString(16).padLeft(4, '0')})',
+          (tester) async {
+            await doTestSuite(
+              tester,
+              key1: String.fromCharCode(char.value),
+              writingValue1: String.fromCharCode(char.value),
+            );
+          },
+        );
       }
 
-      for (final char in <String, int>{
-        'Horizontal tab': 0x09,
-      }.entries) {
+      for (final char in <String, int>{'Horizontal tab': 0x09}.entries) {
         testWidgets(
-            'Space key & value - ${char.key} (U+${char.value.toRadixString(16).padLeft(4, '0')})',
-            (tester) async {
-          await doTestSuite(
-            tester,
-            key1: String.fromCharCode(char.value),
-            writingValue1: String.fromCharCode(char.value),
-            useBackwardCompatibility: false,
-          );
-        });
+          'Space key & value - ${char.key} (U+${char.value.toRadixString(16).padLeft(4, '0')})',
+          (tester) async {
+            await doTestSuite(
+              tester,
+              key1: String.fromCharCode(char.value),
+              writingValue1: String.fromCharCode(char.value),
+              useBackwardCompatibility: false,
+            );
+          },
+        );
       }
 
       for (final char in <String, String>{
@@ -1105,11 +1029,7 @@ void main() {
       }
 
       testWidgets('Only casing is differ', (tester) async {
-        await doTestSuite(
-          tester,
-          key1: 'key',
-          key2: 'KEY',
-        );
+        await doTestSuite(tester, key1: 'key', key2: 'KEY');
       });
     },
     skip: kIsWeb || !Platform.isWindows
