@@ -28,7 +28,6 @@ melos:
         ffi: ^2.0.0
         path: ^1.8.0
         path_provider: ^2.0.0
-        platform: ^3.0.0
         web: ^1.0.0
         win32: ^5.5.1
       dev_dependencies:

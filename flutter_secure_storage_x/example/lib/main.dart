@@ -1,9 +1,9 @@
 import 'dart:math' show Random;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage_x/flutter_secure_storage_x.dart';
-import 'package:platform/platform.dart';
 
 void main() {
   runApp(const MaterialApp(home: ItemsWidget()));
@@ -136,7 +136,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
       ),
       body: CustomScrollView(
         slivers: [
-          if (!kIsWeb && const LocalPlatform().isIOS)
+          if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS)
             SliverToBoxAdapter(
               child: Card(
                 child: Padding(

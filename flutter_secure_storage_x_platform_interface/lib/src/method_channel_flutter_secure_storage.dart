@@ -18,9 +18,12 @@ class MethodChannelFlutterSecureStorage extends FlutterSecureStoragePlatform {
     if (kIsWeb) {
       return null;
     }
-    const platform = LocalPlatform();
-    if (!(platform.isIOS || platform.isMacOS)) {
-      return null;
+
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.iOS || TargetPlatform.macOS:
+        break;
+      default:
+        return null;
     }
 
     final result = await _channel.invokeMethod<bool>(
