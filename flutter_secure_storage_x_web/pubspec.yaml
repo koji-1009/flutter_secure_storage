@@ -3,6 +3,8 @@ description: Web implementation of the flutter_secure_storage_x plugin.
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_web
 version: 2.1.5
 
+resolution: workspace
+
 environment:
   sdk: ">=3.9.0 <4.0.0"
   flutter: ">=3.35.0"
