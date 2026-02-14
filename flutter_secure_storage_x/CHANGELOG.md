@@ -1,3 +1,9 @@
+## 12.1.0
+
+ - **REFACTOR**: Remove platform package. ([4a2804b5](https://github.com/koji-1009/flutter_secure_storage/commit/4a2804b5fa1ba327dde91f87993413beedde21df))
+ - **REFACTOR**: dart format. ([7bff643c](https://github.com/koji-1009/flutter_secure_storage/commit/7bff643c7c9392546a6a006328bdfaa6d6db71bd))
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
 ## 12.0.0
 
  - This major version update introduces several significant internal changes to enhance security and performance. On the Android platform, the encryption process, previously implemented independently, has been fully unified into the more secure Android-standard KeyStore system. Existing data saved by the app will be automatically migrated to the new encryption format upon first access. However, please note that this migration support is scheduled to be removed in a future version. Furthermore, Keychain access processing has been comprehensively improved on both iOS and macOS, leading to more efficient and stable operation.

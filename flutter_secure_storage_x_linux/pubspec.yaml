@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x_linux
 description: Linux implementation of flutter_secure_storage_x
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_linux
-version: 1.4.5
+version: 1.5.0
 
 resolution: workspace
 
@@ -12,7 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_secure_storage_x_platform_interface: ^1.4.2
+  flutter_secure_storage_x_platform_interface: ^1.5.0
 
 flutter:
   plugin:

@@ -1,3 +1,7 @@
+## 1.5.0
+
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
 ## 1.4.5
 
  - **REFACTOR**: Update method channel names to use new domain. ([6109404d](https://github.com/koji-1009/flutter_secure_storage/commit/6109404d8b97f883746bb70cc4a76d18619f62f0))

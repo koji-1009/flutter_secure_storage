@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v12.1.0`](#flutter_secure_storage_x---v1210)
+ - [`flutter_secure_storage_x_linux` - `v1.5.0`](#flutter_secure_storage_x_linux---v150)
+ - [`flutter_secure_storage_x_macos` - `v3.5.0`](#flutter_secure_storage_x_macos---v350)
+ - [`flutter_secure_storage_x_platform_interface` - `v1.5.0`](#flutter_secure_storage_x_platform_interface---v150)
+ - [`flutter_secure_storage_x_web` - `v2.2.0`](#flutter_secure_storage_x_web---v220)
+ - [`flutter_secure_storage_x_windows` - `v3.4.0`](#flutter_secure_storage_x_windows---v340)
+
+---
+
+#### `flutter_secure_storage_x` - `v12.1.0`
+
+ - **REFACTOR**: Remove platform package. ([4a2804b5](https://github.com/koji-1009/flutter_secure_storage/commit/4a2804b5fa1ba327dde91f87993413beedde21df))
+ - **REFACTOR**: dart format. ([7bff643c](https://github.com/koji-1009/flutter_secure_storage/commit/7bff643c7c9392546a6a006328bdfaa6d6db71bd))
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
+#### `flutter_secure_storage_x_linux` - `v1.5.0`
+
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
+#### `flutter_secure_storage_x_macos` - `v3.5.0`
+
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
+#### `flutter_secure_storage_x_platform_interface` - `v1.5.0`
+
+ - **REFACTOR**: Remove platform package. ([4a2804b5](https://github.com/koji-1009/flutter_secure_storage/commit/4a2804b5fa1ba327dde91f87993413beedde21df))
+ - **REFACTOR**: dart format. ([7bff643c](https://github.com/koji-1009/flutter_secure_storage/commit/7bff643c7c9392546a6a006328bdfaa6d6db71bd))
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
+#### `flutter_secure_storage_x_web` - `v2.2.0`
+
+ - **REFACTOR**: dart format. ([7bff643c](https://github.com/koji-1009/flutter_secure_storage/commit/7bff643c7c9392546a6a006328bdfaa6d6db71bd))
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
+#### `flutter_secure_storage_x_windows` - `v3.4.0`
+
+ - **REFACTOR**: dart format. ([7bff643c](https://github.com/koji-1009/flutter_secure_storage/commit/7bff643c7c9392546a6a006328bdfaa6d6db71bd))
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
+
 ## 2025-12-22
 
 ### Changes

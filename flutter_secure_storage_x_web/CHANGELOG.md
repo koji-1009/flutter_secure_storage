@@ -1,3 +1,8 @@
+## 2.2.0
+
+ - **REFACTOR**: dart format. ([7bff643c](https://github.com/koji-1009/flutter_secure_storage/commit/7bff643c7c9392546a6a006328bdfaa6d6db71bd))
+ - **FEAT**: Flutter 3.35. ([8fbc402f](https://github.com/koji-1009/flutter_secure_storage/commit/8fbc402fa57790553fe9ab9410ebc6d874b36f8f))
+
 ## 2.1.5
 
  - Update a dependency to the latest release.
