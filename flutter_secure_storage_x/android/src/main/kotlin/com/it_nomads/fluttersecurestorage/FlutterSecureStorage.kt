@@ -2,26 +2,15 @@ package com.it_nomads.fluttersecurestorage
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Base64
 import androidx.core.content.edit
 import com.it_nomads.fluttersecurestorage.ciphers.KeyStoreCipher
-import com.it_nomads.fluttersecurestorage.ciphers.StorageCipher
-import com.it_nomads.fluttersecurestorage.ciphers.StorageCipherFactory
 import com.it_nomads.fluttersecurestorage.storage.DataStoreStorage
-import com.it_nomads.fluttersecurestorage.storage.StoreType
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
 
 class FlutterSecureStorage(
   private val applicationContext: Context,
 ) {
   private var preferences: SharedPreferences? = null
-  private val storageCipherFactory: StorageCipherFactory by lazy {
-    StorageCipherFactory()
-  }
-  private val storageCipher: StorageCipher by lazy {
-    storageCipherFactory.getCurrentStorageCipher(applicationContext)
-  }
+
   private val keyStoreCipher: KeyStoreCipher by lazy {
     KeyStoreCipher()
   }
@@ -44,12 +33,8 @@ class FlutterSecureStorage(
     useDataStore = options[OPTION_DATA_STORE] == OPTION_VALUE_TRUE
   }
 
-  private val dataStoreStorageOld: DataStoreStorage by lazy {
-    DataStoreStorage(applicationContext, StoreType.PREVIOUS)
-  }
-
   private val dataStoreStorage: DataStoreStorage by lazy {
-    DataStoreStorage(applicationContext, StoreType.KEY_STORE)
+    DataStoreStorage(applicationContext)
   }
 
   private var elementPreferencesKeyPrefix: String = DEFAULT_ELEMENT_PREFERENCES_KEY_PREFIX
@@ -179,17 +164,6 @@ class FlutterSecureStorage(
 
     preferences = newPreferences
     if (getUseDataStore()) {
-      val oldDataStoreValues = dataStoreStorageOld.readAll()
-      if (oldDataStoreValues.isNotEmpty()) {
-        val newValues = oldDataStoreValues.map { (key, value) ->
-          key to encodeRawValue(decodeRawValueOld(value))
-        }.toMap()
-
-        dataStoreStorage.writeAll(newValues)
-        dataStoreStorageOld.deleteAll()
-        return
-      }
-
       val entries = preferences!!.all
       if (entries.isNullOrEmpty()) {
         // No migration required
@@ -207,51 +181,11 @@ class FlutterSecureStorage(
           continue
         }
 
-        try {
-          decodeRawValue(value)
-          values[key] = value
-        } catch (_: Exception) {
-          values[key] = encodeRawValue(decodeRawValueOld(value))
-        }
+        values[key] = value
       }
 
       dataStoreStorage.writeAll(values)
       preferences!!.edit { clear() }
-      return
-    }
-
-    val isKeyStoreMigrationFinished = storageCipherFactory.isFinishKeyStoreMigration(preferences!!)
-    if (isKeyStoreMigrationFinished) {
-      return
-    }
-
-    val entries = preferences!!.all
-    val values = mutableMapOf<String, String>()
-    for (entry in entries.entries) {
-      val key = entry.key
-      if (!key.contains(elementPreferencesKeyPrefix)) {
-        continue
-      }
-
-      val value = entry.value
-      if (value !is String) {
-        continue
-      }
-
-      try {
-        decodeRawValue(value)
-      } catch (_: Exception) {
-        val newValue = encodeRawValue(decodeRawValueOld(value))
-        values[key] = newValue
-      }
-    }
-
-
-    preferences!!.edit {
-      for (entry in values) {
-        putString(entry.key, entry.value)
-      }
-      storageCipherFactory.setFinishKeyStoreMigration(this)
     }
   }
 
@@ -261,20 +195,6 @@ class FlutterSecureStorage(
 
   private fun decodeRawValue(value: String): String {
     return keyStoreCipher.decrypt(value)
-  }
-
-  private fun encodeRawValueOld(value: String): String {
-    val data = value.toByteArray(charset)
-    val result = storageCipher.encrypt(data)
-
-    return Base64.encodeToString(result, 0)
-  }
-
-  private fun decodeRawValueOld(value: String): String {
-    val data = Base64.decode(value, 0)
-    val result = storageCipher.decrypt(data)
-
-    return String(result, charset)
   }
 
   companion object {
@@ -289,7 +209,5 @@ class FlutterSecureStorage(
     private const val DEFAULT_ELEMENT_PREFERENCES_KEY_PREFIX =
       "VGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg"
     private const val KEY_SEPARATOR = "_"
-
-    private val charset: Charset = StandardCharsets.UTF_8
   }
 }
