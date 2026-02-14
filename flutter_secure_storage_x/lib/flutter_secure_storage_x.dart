@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage_x/test/test_flutter_secure_storage_platform.dart';
 import 'package:flutter_secure_storage_x_platform_interface/flutter_secure_storage_x_platform_interface.dart';
-import 'package:platform/platform.dart';
 
 part './options/android_options.dart';
 part './options/apple_options.dart';
@@ -309,20 +308,14 @@ class FlutterSecureStorage {
       return webOptions?.params ?? this.webOptions.params;
     }
 
-    const platform = LocalPlatform();
-    if (platform.isLinux) {
-      return lOptions?.params ?? this.lOptions.params;
-    } else if (platform.isIOS) {
-      return iOptions?.params ?? this.iOptions.params;
-    } else if (platform.isAndroid) {
-      return aOptions?.params ?? this.aOptions.params;
-    } else if (platform.isWindows) {
-      return wOptions?.params ?? this.wOptions.params;
-    } else if (platform.isMacOS) {
-      return mOptions?.params ?? this.mOptions.params;
-    } else {
-      throw UnsupportedError(kUnsupportedPlatform);
-    }
+    return switch (defaultTargetPlatform) {
+      TargetPlatform.linux => lOptions?.params ?? this.lOptions.params,
+      TargetPlatform.iOS => iOptions?.params ?? this.iOptions.params,
+      TargetPlatform.android => aOptions?.params ?? this.aOptions.params,
+      TargetPlatform.windows => wOptions?.params ?? this.wOptions.params,
+      TargetPlatform.macOS => mOptions?.params ?? this.mOptions.params,
+      _ => throw UnsupportedError(kUnsupportedPlatform),
+    };
   }
 
   /// iOS only feature
