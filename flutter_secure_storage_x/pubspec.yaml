@@ -4,8 +4,8 @@ repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutte
 version: 12.0.0
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
-  flutter: ">=3.22.0"
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
 
 flutter:
   plugin:
@@ -38,7 +38,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0 
+  flutter_lints: ^6.0.0 
 
 # We need to manually declare supported platforms, because pub.dev won't find them.
 platforms:
