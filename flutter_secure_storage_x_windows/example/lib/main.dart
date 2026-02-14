@@ -42,9 +42,7 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
+        appBar: AppBar(title: const Text('Plugin example app')),
         body: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
@@ -175,20 +173,22 @@ class MyAppState extends State<MyApp> {
 
                     resultDetailFieldController.text =
                         snapshot.error?.toString() ??
-                            snapshot.data!.detail ??
-                            '<null>';
+                        snapshot.data!.detail ??
+                        '<null>';
 
                     return Column(
                       children: [
                         TextField(
                           controller: resultSummaryFieldController,
-                          decoration:
-                              const InputDecoration(label: Text('Result')),
+                          decoration: const InputDecoration(
+                            label: Text('Result'),
+                          ),
                         ),
                         TextField(
                           controller: resultDetailFieldController,
-                          decoration:
-                              const InputDecoration(label: Text('Detail')),
+                          decoration: const InputDecoration(
+                            label: Text('Detail'),
+                          ),
                         ),
                       ],
                     );
@@ -223,109 +223,89 @@ class MyAppState extends State<MyApp> {
   }
 
   void doRead() => doTest(() async {
-        final key = keyFieldController.text;
-        return TestResult(
-          success: true,
-          detail: await _flutterSecureStorageWindowsPlugin.read(
-            key: key,
-            options: _options,
-          ),
-        );
-      });
+    final key = keyFieldController.text;
+    return TestResult(
+      success: true,
+      detail: await _flutterSecureStorageWindowsPlugin.read(
+        key: key,
+        options: _options,
+      ),
+    );
+  });
 
   void doReadAll() => doTest(() async {
-        return TestResult(
-          success: true,
-          detail: (await _flutterSecureStorageWindowsPlugin.readAll(
-            options: _options,
-          ))
-              .toString(),
-        );
-      });
+    return TestResult(
+      success: true,
+      detail: (await _flutterSecureStorageWindowsPlugin.readAll(
+        options: _options,
+      )).toString(),
+    );
+  });
 
   void doContainsKey() => doTest(() async {
-        final key = keyFieldController.text;
-        return TestResult(
-          success: true,
-          detail: (await _flutterSecureStorageWindowsPlugin.containsKey(
-            key: key,
-            options: _options,
-          ))
-              .toString(),
-        );
-      });
+    final key = keyFieldController.text;
+    return TestResult(
+      success: true,
+      detail: (await _flutterSecureStorageWindowsPlugin.containsKey(
+        key: key,
+        options: _options,
+      )).toString(),
+    );
+  });
 
   void doWrite() => doTest(() async {
-        final key = keyFieldController.text;
-        final value = valueFieldController.text.isNotEmpty
-            ? valueFieldController.text
-            : DateTime.now().toIso8601String();
-        await _flutterSecureStorageWindowsPlugin.write(
-          key: key,
-          value: value,
-          options: _options,
-        );
-        return TestResult(success: true, detail: value);
-      });
+    final key = keyFieldController.text;
+    final value = valueFieldController.text.isNotEmpty
+        ? valueFieldController.text
+        : DateTime.now().toIso8601String();
+    await _flutterSecureStorageWindowsPlugin.write(
+      key: key,
+      value: value,
+      options: _options,
+    );
+    return TestResult(success: true, detail: value);
+  });
 
   void doDelete() => doTest(() async {
-        final key = keyFieldController.text;
-        await _flutterSecureStorageWindowsPlugin.delete(
-          key: key,
-          options: _options,
-        );
-        return TestResult(
-          success: true,
-          detail: null,
-        );
-      });
+    final key = keyFieldController.text;
+    await _flutterSecureStorageWindowsPlugin.delete(
+      key: key,
+      options: _options,
+    );
+    return TestResult(success: true, detail: null);
+  });
 
   void doDeleteAll() => doTest(() async {
-        await _flutterSecureStorageWindowsPlugin.deleteAll(
-          options: _options,
-        );
-        return TestResult(
-          success: true,
-          detail: null,
-        );
-      });
+    await _flutterSecureStorageWindowsPlugin.deleteAll(options: _options);
+    return TestResult(success: true, detail: null);
+  });
 
   void doLegacyWrite() => doTest(() async {
-        final key = keyFieldController.text;
-        final value = valueFieldController.text.isNotEmpty
-            ? valueFieldController.text
-            : DateTime.now().toIso8601String();
-        // call MethodChannelFlutterSecureStorage directly
-        final legacyStorage = MethodChannelFlutterSecureStorage();
-        await legacyStorage.write(
-          key: key,
-          value: value,
-          options: _options,
-        );
-        return TestResult(success: true, detail: value);
-      });
+    final key = keyFieldController.text;
+    final value = valueFieldController.text.isNotEmpty
+        ? valueFieldController.text
+        : DateTime.now().toIso8601String();
+    // call MethodChannelFlutterSecureStorage directly
+    final legacyStorage = MethodChannelFlutterSecureStorage();
+    await legacyStorage.write(key: key, value: value, options: _options);
+    return TestResult(success: true, detail: value);
+  });
 
   void doLegacyReadAll() => doTest(() async {
-        // call MethodChannelFlutterSecureStorage directly
-        final legacyStorage = MethodChannelFlutterSecureStorage();
-        return TestResult(
-          success: true,
-          detail: (await legacyStorage.readAll(
-            options: _options,
-          ))
-              .toString(),
-        );
-      });
+    // call MethodChannelFlutterSecureStorage directly
+    final legacyStorage = MethodChannelFlutterSecureStorage();
+    return TestResult(
+      success: true,
+      detail: (await legacyStorage.readAll(options: _options)).toString(),
+    );
+  });
 }
 
 class TestResult {
   final bool success;
   final String? detail;
 
-  TestResult({
-    required this.success,
-    required this.detail,
-  });
+  TestResult({required this.success, required this.detail});
 }
 
 class LabeledCheckbox extends StatefulWidget {
@@ -369,24 +349,24 @@ class LabeledCheckboxState extends State<LabeledCheckbox> {
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: () {
-          value = !value;
-        },
-        child: Padding(
-          padding: widget.padding,
-          child: Row(
-            children: [
-              Expanded(child: Text(widget.label)),
-              Checkbox(
-                value: value,
-                onChanged: (newValue) {
-                  if (newValue != null) {
-                    value = newValue;
-                  }
-                },
-              ),
-            ],
+    onTap: () {
+      value = !value;
+    },
+    child: Padding(
+      padding: widget.padding,
+      child: Row(
+        children: [
+          Expanded(child: Text(widget.label)),
+          Checkbox(
+            value: value,
+            onChanged: (newValue) {
+              if (newValue != null) {
+                value = newValue;
+              }
+            },
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 }

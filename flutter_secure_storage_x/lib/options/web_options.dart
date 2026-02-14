@@ -18,9 +18,9 @@ class WebOptions extends Options {
 
   @override
   Map<String, String> toMap() => <String, String>{
-        'dbName': dbName,
-        'publicKey': publicKey,
-        'wrapKey': wrapKey,
-        'wrapKeyIv': wrapKeyIv,
-      };
+    'dbName': dbName,
+    'publicKey': publicKey,
+    'wrapKey': wrapKey,
+    'wrapKeyIv': wrapKeyIv,
+  };
 }

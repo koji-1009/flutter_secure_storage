@@ -9,15 +9,13 @@ class TestFlutterSecureStoragePlatform extends FlutterSecureStoragePlatform {
   Future<bool> containsKey({
     required String key,
     required Map<String, String> options,
-  }) async =>
-      data.containsKey(key);
+  }) async => data.containsKey(key);
 
   @override
   Future<void> delete({
     required String key,
     required Map<String, String> options,
-  }) async =>
-      data.remove(key);
+  }) async => data.remove(key);
 
   @override
   Future<void> deleteAll({required Map<String, String> options}) async =>
@@ -27,20 +25,17 @@ class TestFlutterSecureStoragePlatform extends FlutterSecureStoragePlatform {
   Future<String?> read({
     required String key,
     required Map<String, String> options,
-  }) async =>
-      data[key];
+  }) async => data[key];
 
   @override
   Future<Map<String, String>> readAll({
     required Map<String, String> options,
-  }) async =>
-      data;
+  }) async => data;
 
   @override
   Future<void> write({
     required String key,
     required String value,
     required Map<String, String> options,
-  }) async =>
-      data[key] = value;
+  }) async => data[key] = value;
 }
