@@ -1,3 +1,7 @@
+## 12.1.1
+
+ - **DOCS**: Add detailed roadmap for Android, Windows, and Linux. ([58c39ca7](https://github.com/koji-1009/flutter_secure_storage/commit/58c39ca7fbe3db7e3f4bc59adccc4df183d095be))
+
 ## 12.1.0
 
  - **REFACTOR**: Remove platform package. ([4a2804b5](https://github.com/koji-1009/flutter_secure_storage/commit/4a2804b5fa1ba327dde91f87993413beedde21df))

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v12.1.1`](#flutter_secure_storage_x---v1211)
+
+---
+
+#### `flutter_secure_storage_x` - `v12.1.1`
+
+ - **DOCS**: Add detailed roadmap for Android, Windows, and Linux. ([58c39ca7](https://github.com/koji-1009/flutter_secure_storage/commit/58c39ca7fbe3db7e3f4bc59adccc4df183d095be))
+
+
 ## 2026-02-14
 
 ### Changes
