@@ -26,13 +26,31 @@ For more detailed information and usage examples, please refer to the example ap
 
 The following table outlines the evolution of storage and encryption on Android, and the recommended migration path.
 
-| Version           | Storage Backend                                         | Encryption                                                | Migration Status                                                                                                             |
-|:----------------- |:------------------------------------------------------- |:--------------------------------------------------------- |:---------------------------------------------------------------------------------------------------------------------------- |
-| **v10**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> & _EncryptedSharedPreferences_ | **Migration Bridge.** Essential for v9 users. Ensures data accessibility before _EncryptedSharedPreferences_ removal in v11. |
-| **v11**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> (RSA/AES)                      | **Stabilization.** Removed unstable EncryptedSharedPreferences.                                                              |
-| **v12**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | **Android KeyStore** <br> (OS Standard)                   | **Modernization.** Migrates from custom implementation to OS-standard KeyStore. Safe upgrade from v11.                       |
-| **v13** (Planned) | **DataStore (Default)** <br> SharedPreferences (Legacy) | **Android KeyStore**                                      | **Transition.** DataStore becomes default. Encryption is fully managed by the OS.                                            |
-| **v14** (Planned) | **DataStore ONLY**                                      | **Android KeyStore**                                      | **Finalization.** SharedPreferences support is completely removed.                                                           |
+| Version           | Storage Backend                                         | Encryption                                                | Migration Status                                                                                                                                                                                                           |
+|:----------------- |:------------------------------------------------------- |:--------------------------------------------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v10**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> & _EncryptedSharedPreferences_ | **Migration Bridge.** Essential for v9 users. Ensures data accessibility before _EncryptedSharedPreferences_ removal in v11.                                                                                               |
+| **v11**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> (RSA/AES)                      | **Stabilization.** Removed unstable EncryptedSharedPreferences.                                                                                                                                                            |
+| **v12**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | **Android KeyStore** <br> (OS Standard)                   | **MANDATORY MIGRATION BRIDGE.** <br> **IMPORTANT:** This is the **LAST** version that supports migrating data from Custom Implementation. Users MUST upgrade to v12 and launch the app to migrate data to KeyStore format. |
+| **v13** (Target)  | **DataStore (Default)** <br> SharedPreferences (Legacy) | **Android KeyStore ONLY**                                 | **BREAKING CHANGE.** <br> Support for Custom Implementation logic is **REMOVED**. Any data not already migrated to KeyStore (via v12) will be **LOST/UNREADABLE**. <br> Default backend switches to DataStore.             |
+| **v14** (Planned) | **DataStore ONLY**                                      | **Android KeyStore**                                      | **Finalization.** SharedPreferences support is completely removed.                                                                                                                                                         |
+
+> [!IMPORTANT]
+> **Android Migration Warning (v12 -> v13)**
+>
+> **In v13, the decryption logic for "Custom Implementation (RSA/AES)" used in v11 and earlier will be completely removed.**
+> v13 can only read data encrypted with "Android KeyStore".
+>
+> Therefore, **if you update directly from v11 to v13 without going through v12, all existing encrypted data will become unreadable and lost.**
+>
+> Developers must follow these steps:
+>
+> 1. Update the app to **v12** and release it.
+> 2. Ensure users launch the v12 app to complete the internal data migration to KeyStore (migration happens automatically on first launch in v12).
+> 3. After a sufficient migration period, update to **v13** (DataStore default).
+>
+> **Recommended Configuration:**
+> In v13, `DataStore` becomes the default storage backend.
+> We recommend explicitly enabling `AndroidOptions(dataStore: true)` in v12 (instead of `encryptedSharedPreferences: true`). This allows you to complete both data migration and backend modernization in the v12 phase, making the transition to v13 smoother.
 
 ### Summary
 
