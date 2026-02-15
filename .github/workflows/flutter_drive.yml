@@ -6,6 +6,10 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   drive_android:
     name: Android
@@ -53,15 +57,16 @@ jobs:
           channel: stable
           cache: true
       - uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf # v3.4.0
-      - uses: futureware-tech/simulator-action@dab10d813144ef59b48d401cd95da151222ef8cd # v4
-        with:
-          wait_for_boot: true
-          os: iOS
-          os_version: ${{ matrix.simulator.os }}
-          model: ${{ matrix.simulator.model }}
       - name: Pre-build the app
         working-directory: flutter_secure_storage_x/example
         run: flutter build ios --simulator --target=integration_test/app_test.dart
+      - uses: futureware-tech/simulator-action@6a2cef2c27540a25595e53c969fd85988700d451
+        with:
+          os: iOS
+          os_version: ${{ matrix.simulator.os }}
+          model: ${{ matrix.simulator.model }}
+          wait_for_boot: true
+          boot_timeout_seconds: 180
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: flutter test integration_test -d iphone
