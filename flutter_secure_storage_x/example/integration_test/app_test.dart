@@ -145,18 +145,12 @@ Future<void> pumpUntilFound(
   Finder finder, {
   Duration timeout = const Duration(seconds: 30),
 }) async {
-  bool timerDone = false;
-  final timer = Timer(
-    timeout,
-    () => throw TimeoutException('Pump until has timed out'),
-  );
-  while (timerDone != true) {
-    await tester.pump();
+  final end = DateTime.now().add(timeout);
 
-    final found = tester.any(finder);
-    if (found) {
-      timerDone = true;
+  do {
+    if (DateTime.now().isAfter(end)) {
+      throw TimeoutException('Pump until has timed out');
     }
-  }
-  timer.cancel();
+    await tester.pump(const Duration(milliseconds: 100));
+  } while (!tester.any(finder));
 }
