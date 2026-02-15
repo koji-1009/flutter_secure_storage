@@ -1,3 +1,5 @@
+## 2.2.1
+
 ## 2.2.0
 
  - **REFACTOR**: dart format. ([7bff643c](https://github.com/koji-1009/flutter_secure_storage/commit/7bff643c7c9392546a6a006328bdfaa6d6db71bd))

@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x_web
 description: Web implementation of the flutter_secure_storage_x plugin
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_web
-version: 2.2.0
+version: 2.2.1
 
 resolution: workspace
 

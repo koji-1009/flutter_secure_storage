@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x_macos
 description: macOS implementation of flutter_secure_storage_x
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x_macos
-version: 3.5.0
+version: 3.5.1
 
 resolution: workspace
 

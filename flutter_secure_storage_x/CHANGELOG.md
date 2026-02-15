@@ -1,3 +1,9 @@
+## 12.1.2
+
+ - Update README to document migration strategy and versioning roadmap.
+
+ - **DOCS**: Add critical Android migration warnings and steps for v12 and v13. ([d7c7581b](https://github.com/koji-1009/flutter_secure_storage/commit/d7c7581b87a789cb31d96a257e71c034f67d66d3))
+
 ## 12.1.1
 
  - **DOCS**: Add detailed roadmap for Android, Windows, and Linux. ([58c39ca7](https://github.com/koji-1009/flutter_secure_storage/commit/58c39ca7fbe3db7e3f4bc59adccc4df183d095be))

@@ -15,6 +15,41 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_secure_storage_x` - `v12.1.2`](#flutter_secure_storage_x---v1212)
+ - [`flutter_secure_storage_x_linux` - `v1.5.1`](#flutter_secure_storage_x_linux---v151)
+ - [`flutter_secure_storage_x_macos` - `v3.5.1`](#flutter_secure_storage_x_macos---v351)
+ - [`flutter_secure_storage_x_web` - `v2.2.1`](#flutter_secure_storage_x_web---v221)
+ - [`flutter_secure_storage_x_windows` - `v3.4.1`](#flutter_secure_storage_x_windows---v341)
+
+---
+
+#### `flutter_secure_storage_x` - `v12.1.2`
+
+ - Update README to document migration strategy and versioning roadmap.
+
+ - **DOCS**: Add critical Android migration warnings and steps for v12 and v13. ([d7c7581b](https://github.com/koji-1009/flutter_secure_storage/commit/d7c7581b87a789cb31d96a257e71c034f67d66d3))
+
+#### `flutter_secure_storage_x_linux` - `v1.5.1`
+
+#### `flutter_secure_storage_x_macos` - `v3.5.1`
+
+#### `flutter_secure_storage_x_web` - `v2.2.1`
+
+#### `flutter_secure_storage_x_windows` - `v3.4.1`
+
+
+## 2026-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_secure_storage_x` - `v12.1.1`](#flutter_secure_storage_x---v1211)
 
 ---
