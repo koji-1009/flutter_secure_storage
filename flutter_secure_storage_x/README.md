@@ -1,34 +1,68 @@
 # flutter_secure_storage_x
 
-[![style: lint](https://img.shields.io/badge/style-flutter_lints-4BC0F5.svg)](https://pub.dev/packages/flutter_lints)
 [![pub package](https://img.shields.io/pub/v/flutter_secure_storage_x.svg)](https://pub.dev/packages/flutter_secure_storage_x)
 [![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml)
-[![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml)
+[![integration test](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml)
 
-This package is a fork of the popular [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) package. The original project aims to provide a comprehensive set of features and options to cover a wide range of needs.
+This package is a fork of the popular [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) package.
 
-This fork builds upon the original work with a more focused approach. The philosophy is to ensure long-term stability and maintainability by offering a minimal, robust API for the most common encrypted storage use cases. This pragmatic direction provides a simple and reliable solution for developers who prioritize these aspects.
+## Philosophy
 
-The plugin utilizes platform-specific secure storage mechanisms:
+`flutter_secure_storage_x` is designed with a focus on long-term stability and maintainability for the most common use cases.
 
-- On iOS, [Keychain](https://developer.apple.com/library/content/documentation/Security/Conceptual/keychainServConcepts/01introduction/introduction.html#//apple_ref/doc/uid/TP30000897-CH203-TP1) is used.
-- On Android, AES encryption with [KeyStore](https://developer.android.com/training/articles/keystore.html) is used.
-- For Linux, [`libsecret`](https://wiki.gnome.org/Projects/Libsecret) is utilized.
+Rather than offering an exhaustive feature set, we aim to provide a minimal, transparent layer that respects and utilizes the native security primitives provided by the OS (such as **Android KeyStore**, **Jetpack DataStore**, and **Apple Keychain**).
+
+### Note on Specialized Requirements
+
+Specialized features, such as biometric authentication, require holistic design—from checking prerequisites and handling failure recovery to balancing user experience (UX) with strict security requirements.
+
+For these specialized use cases or applications requiring extreme security levels, we recommend that developers implement their own native code. This ensures the implementation is fully optimized and tailored to the specific needs of the application, rather than relying on generalized library options.
 
 For more detailed information and usage examples, please refer to the example app.
+
+## Roadmap & History
+
+### Android
+
+The following table outlines the evolution of storage and encryption on Android, and the recommended migration path.
+
+| Version           | Storage Backend                                         | Encryption                                                | Migration Status                                                                                                             |
+|:----------------- |:------------------------------------------------------- |:--------------------------------------------------------- |:---------------------------------------------------------------------------------------------------------------------------- |
+| **v10**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> & _EncryptedSharedPreferences_ | **Migration Bridge.** Essential for v9 users. Ensures data accessibility before _EncryptedSharedPreferences_ removal in v11. |
+| **v11**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> (RSA/AES)                      | **Stabilization.** Removed unstable EncryptedSharedPreferences.                                                              |
+| **v12**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | **Android KeyStore** <br> (OS Standard)                   | **Modernization.** Migrates from custom implementation to OS-standard KeyStore. Safe upgrade from v11.                       |
+| **v13** (Planned) | **DataStore (Default)** <br> SharedPreferences (Legacy) | **Android KeyStore**                                      | **Transition.** DataStore becomes default. Encryption is fully managed by the OS.                                            |
+| **v14** (Planned) | **DataStore ONLY**                                      | **Android KeyStore**                                      | **Finalization.** SharedPreferences support is completely removed.                                                           |
+
+### Summary
+
+* **v10 & v11**: Focus on stability and preparing for **DataStore**.
+* **v12 (Current)**: Unifies encryption to the standard **Android KeyStore**. All legacy custom implementations (RSA/AES) are removed to improve security and maintainability.
+* **v13 (Planned)**: **DataStore** becomes the default backend.
+* **v14 (Planned)**: **DataStore** becomes the only supported backend. **SharedPreferences** support is removed.
+
+> **Note**: Direct upgrades from v12 or earlier to v14 will not be supported. Users must upgrade to v13 first to migrate their data.
+
+### Windows & Linux
+
+**Planned for v15+**.
+The current priority is to resolve stability issues on Android (v12-v14). Major updates for Windows and Linux will be addressed in v15 or later.
+
+* **Windows**: [Issue #88](https://github.com/koji-1009/flutter_secure_storage/issues/88)
+* **Linux**: [Issue #87](https://github.com/koji-1009/flutter_secure_storage/issues/87)
 
 ## Platform Implementation
 
 Please note that this table represents the functions implemented in this repository and it is possible that changes haven't yet been released on pub.dev
 
 |         | read               | write              | delete             | containsKey        | readAll            | deleteAll          | isCupertinoProtectedDataAvailable | onCupertinoProtectedDataAvailabilityChanged |
-|---------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|-----------------------------------|---------------------------------------------|
-| Android | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |
+| ------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | --------------------------------- | ------------------------------------------- |
+| Android | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |                                             |
 | iOS     | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:                | :white_check_mark:                          |
-| Windows | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |
-| Linux   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |
+| Windows | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |                                             |
+| Linux   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |                                             |
 | macOS   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:                | :white_check_mark: (on macOS 12 and newer)  |
-| Web     | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |
+| Web     | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                   |                                             |
 
 ## Getting Started
 
@@ -70,6 +104,7 @@ If your application requires background access to the storage, you must configur
 Use the `iOptions` parameter with an appropriate `KeychainAccessibility` value, such as `KeychainAccessibility.first_unlock_this_device`.
 
 An example using `KeychainAccessibility.first_unlock`:
+
 ```dart
 final options = IOSOptions(
   accessibility: KeychainAccessibility.first_unlock,
@@ -106,8 +141,8 @@ android {
 _Note_: By default, Android backs up data on Google Drive. This can cause an exception: `java.security.InvalidKeyException: Failed to unwrap key`.
 You need to:
 
-- [disable autobackup](https://developer.android.com/guide/topics/data/autobackup#EnablingAutoBackup), [details](https://github.com/mogol/flutter_secure_storage/issues/13#issuecomment-421083742)
-- [exclude sharedprefs](https://developer.android.com/guide/topics/data/autobackup#IncludingFiles) `FlutterSecureStorage` used by the plugin, [details](https://github.com/mogol/flutter_secure_storage/issues/43#issuecomment-471642126)
+* [disable autobackup](https://developer.android.com/guide/topics/data/autobackup#EnablingAutoBackup), [details](https://github.com/mogol/flutter_secure_storage/issues/13#issuecomment-421083742)
+* [exclude sharedprefs](https://developer.android.com/guide/topics/data/autobackup#IncludingFiles) `FlutterSecureStorage` used by the plugin, [details](https://github.com/mogol/flutter_secure_storage/issues/43#issuecomment-471642126)
 
 DataStore support has been available since v10.0.0. When using DataStore, set the options as follows.
 
@@ -127,8 +162,8 @@ The intent is for the browser to create the private key, and as a result, the en
 
 Please see:
 
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-- https://www.netsparker.com/blog/web-security/http-security-headers/
+* [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
+* [https://www.netsparker.com/blog/web-security/http-security-headers/](https://www.netsparker.com/blog/web-security/http-security-headers/)
 
 #### WASM support
 
@@ -148,7 +183,7 @@ final _storage = const FlutterSecureStorageX(
 ```
 
 This option encrypts the key stored in `localStorage` with [WebCrypto wrapKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/wrapKey). It is decrypted with [WebCrypto unwrapKey](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/unwrapKey) when used.
-Generating and managing application-specific keys requires careful attention from developers. See (https://github.com/mogol/flutter_secure_storage/issues/726) for more information.
+Generating and managing application-specific keys requires careful attention from developers. See ([https://github.com/mogol/flutter_secure_storage/issues/726](https://github.com/mogol/flutter_secure_storage/issues/726)) for more information.
 
 ### Linux
 
@@ -172,7 +207,7 @@ In addition to `libsecret`, you also need a keyring service. For this, you can u
 
 ### macOS
 
-You also need to add the Keychain Sharing capability to your macOS runner. To achieve this, please add the following in *both* `macos/Runner/DebugProfile.entitlements` and `macos/Runner/Release.entitlements` (you need to change both files).
+You also need to add the Keychain Sharing capability to your macOS runner. To achieve this, please add the following in _both_ `macos/Runner/DebugProfile.entitlements` and `macos/Runner/Release.entitlements` (you need to change both files).
 
 ```xml
 <key>keychain-access-groups</key>
@@ -201,4 +236,5 @@ Run the following command from `flutter_secure_storage_x/example` directory:
 ```shell
 flutter test integration_test
 ```
+
 This command runs tests on the currently active device.
