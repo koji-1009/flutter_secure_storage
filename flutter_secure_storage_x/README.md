@@ -4,6 +4,8 @@
 [![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml)
 [![integration test](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml)
 
+This package is a fork of the popular [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) package.
+
 ## Philosophy
 
 `flutter_secure_storage_x` is designed with a focus on long-term stability and maintainability for the most common use cases.
