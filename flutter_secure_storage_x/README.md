@@ -4,15 +4,17 @@
 [![flutter_secure_storage_x](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter.yml)
 [![integration test](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml/badge.svg)](https://github.com/koji-1009/flutter_secure_storage/actions/workflows/flutter_drive.yml)
 
-This package is a fork of the popular [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) package. The original project aims to provide a comprehensive set of features and options to cover a wide range of needs.
+## Philosophy
 
-This fork builds upon the original work with a more focused approach. The philosophy is to ensure long-term stability and maintainability by offering a minimal, robust API for the most common encrypted storage use cases. This pragmatic direction provides a simple and reliable solution for developers who prioritize these aspects.
+`flutter_secure_storage_x` is designed with a focus on long-term stability and maintainability for the most common use cases.
 
-The plugin utilizes platform-specific secure storage mechanisms:
+Rather than offering an exhaustive feature set, we aim to provide a minimal, transparent layer that respects and utilizes the native security primitives provided by the OS (such as **Android KeyStore**, **Jetpack DataStore**, and **Apple Keychain**).
 
-* On iOS, [Keychain](https://developer.apple.com/library/content/documentation/Security/Conceptual/keychainServConcepts/01introduction/introduction.html#//apple_ref/doc/uid/TP30000897-CH203-TP1) is used.
-* On Android, AES encryption with [KeyStore](https://developer.android.com/training/articles/keystore.html) is used.
-* For Linux, [`libsecret`](https://wiki.gnome.org/Projects/Libsecret) is utilized.
+### Note on Specialized Requirements
+
+Specialized features, such as biometric authentication, require holistic design—from checking prerequisites and handling failure recovery to balancing user experience (UX) with strict security requirements.
+
+For these specialized use cases or applications requiring extreme security levels, we recommend that developers implement their own native code. This ensures the implementation is fully optimized and tailored to the specific needs of the application, rather than relying on generalized library options.
 
 For more detailed information and usage examples, please refer to the example app.
 
