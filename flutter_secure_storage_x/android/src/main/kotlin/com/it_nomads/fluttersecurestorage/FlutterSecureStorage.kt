@@ -207,8 +207,12 @@ class FlutterSecureStorage(
           continue
         }
 
-        val newValue = encodeRawValue(decodeRawValueOld(value))
-        values[key] = newValue
+        try {
+          decodeRawValue(value)
+          values[key] = value
+        } catch (_: Exception) {
+          values[key] = encodeRawValue(decodeRawValueOld(value))
+        }
       }
 
       dataStoreStorage.writeAll(values)
