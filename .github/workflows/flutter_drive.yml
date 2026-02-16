@@ -54,6 +54,7 @@ jobs:
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: stable
+      - run: flutter config --enable-swift-package-manager
       - uses: bluefireteam/melos-action@8cca19067d5bc4021b5a9f4656955d8b386583bf # v3.4.0
       - name: Pre-build the app
         working-directory: flutter_secure_storage_x/example
