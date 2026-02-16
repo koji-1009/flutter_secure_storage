@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v12.1.3`](#flutter_secure_storage_x---v1213)
+
+---
+
+#### `flutter_secure_storage_x` - `v12.1.3`
+
+ - **FIX**: Ensure backward compatibility for value decoding. ([32d98470](https://github.com/koji-1009/flutter_secure_storage/commit/32d984703c926d386a913056cb3b5f568ff284c7))
+
+
 ## 2026-02-15
 
 ### Changes

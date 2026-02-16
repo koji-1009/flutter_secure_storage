@@ -1,3 +1,7 @@
+## 12.1.3
+
+ - **FIX**: Ensure backward compatibility for value decoding. ([32d98470](https://github.com/koji-1009/flutter_secure_storage/commit/32d984703c926d386a913056cb3b5f568ff284c7))
+
 ## 12.1.2
 
  - Update README to document migration strategy and versioning roadmap.
