@@ -9,24 +9,13 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
-enum class StoreType {
-  PREVIOUS,
-  KEY_STORE,
-}
-
-private val Context.dataStorePrefs: DataStore<Preferences> by preferencesDataStore(
-  name = "FlutterSecureStorage",
-)
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
   name = "FlutterSecureStorageX",
 )
 
-internal class DataStoreStorage(context: Context, type: StoreType) {
+internal class DataStoreStorage(context: Context) {
   private val dataStore: DataStore<Preferences> by lazy {
-    when (type) {
-      StoreType.PREVIOUS -> context.dataStorePrefs
-      StoreType.KEY_STORE -> context.dataStore
-    }
+    context.dataStore
   }
 
   suspend fun containsKey(key: String): Boolean {
