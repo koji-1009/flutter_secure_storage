@@ -14,10 +14,15 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
 
   private let flutterSecureStorageManager: FlutterSecureStorage =
     FlutterSecureStorage()
-  private var secStoreAvailabilitySink: FlutterEventSink?
   private let serialQueue = DispatchQueue(
     label: "plugins.dr1009.com/flutter_secure_storage_queue"
   )
+  private var protectedDataAvailableObserver: NSObjectProtocol?
+  private var protectedDataUnavailableObserver: NSObjectProtocol?
+
+  deinit {
+    removeProtectedDataObservers()
+  }
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
@@ -30,7 +35,6 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
     )
     let instance = FlutterSecureStoragePlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
-    registrar.addApplicationDelegate(instance)
     eventChannel.setStreamHandler(instance)
   }
 
@@ -67,37 +71,42 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
     }
   }
 
-  public func applicationProtectedDataDidBecomeAvailable(
-    _ application: UIApplication
-  ) {
-    guard let sink = secStoreAvailabilitySink else {
-      return
-    }
-
-    sink(true)
-  }
-
-  public func applicationProtectedDataWillBecomeUnavailable(
-    _ application: UIApplication
-  ) {
-    guard let sink = secStoreAvailabilitySink else {
-      return
-    }
-
-    sink(false)
-  }
-
   public func onListen(
     withArguments arguments: Any?,
     eventSink: @escaping FlutterEventSink
   ) -> FlutterError? {
-    self.secStoreAvailabilitySink = eventSink
+    protectedDataAvailableObserver = NotificationCenter.default.addObserver(
+      forName: UIApplication.protectedDataDidBecomeAvailableNotification,
+      object: nil,
+      queue: .main
+    ) { _ in
+      eventSink(true)
+    }
+
+    protectedDataUnavailableObserver = NotificationCenter.default.addObserver(
+      forName: UIApplication.protectedDataWillBecomeUnavailableNotification,
+      object: nil,
+      queue: .main
+    ) { _ in
+      eventSink(false)
+    }
     return nil
   }
 
   public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-    self.secStoreAvailabilitySink = nil
+    removeProtectedDataObservers()
     return nil
+  }
+
+  private func removeProtectedDataObservers() {
+    if let observer = protectedDataAvailableObserver {
+      NotificationCenter.default.removeObserver(observer)
+      protectedDataAvailableObserver = nil
+    }
+    if let observer = protectedDataUnavailableObserver {
+      NotificationCenter.default.removeObserver(observer)
+      protectedDataUnavailableObserver = nil
+    }
   }
 
   private func read(
