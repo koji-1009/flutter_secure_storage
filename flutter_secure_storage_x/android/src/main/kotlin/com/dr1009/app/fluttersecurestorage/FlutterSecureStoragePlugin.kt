@@ -1,4 +1,4 @@
-package com.it_nomads.fluttersecurestorage
+package com.dr1009.app.fluttersecurestorage
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
