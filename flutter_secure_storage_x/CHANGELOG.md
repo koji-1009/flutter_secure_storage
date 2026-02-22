@@ -1,3 +1,7 @@
+## 12.1.4
+
+ - **REFACTOR**: replace UIApplicationDelegate callbacks with NotificationCenter. ([7ee12c5e](https://github.com/koji-1009/flutter_secure_storage/commit/7ee12c5e22460b8f6ae5dd3197da8196a65ab60a))
+
 ## 12.1.3
 
  - **FIX**: Ensure backward compatibility for value decoding. ([32d98470](https://github.com/koji-1009/flutter_secure_storage/commit/32d984703c926d386a913056cb3b5f568ff284c7))

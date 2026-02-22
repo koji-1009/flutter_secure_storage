@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v12.1.4`](#flutter_secure_storage_x---v1214)
+
+---
+
+#### `flutter_secure_storage_x` - `v12.1.4`
+
+ - **REFACTOR**: replace UIApplicationDelegate callbacks with NotificationCenter. ([7ee12c5e](https://github.com/koji-1009/flutter_secure_storage/commit/7ee12c5e22460b8f6ae5dd3197da8196a65ab60a))
+
+
 ## 2026-02-16
 
 ### Changes
