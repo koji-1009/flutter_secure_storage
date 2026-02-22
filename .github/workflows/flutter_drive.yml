@@ -14,7 +14,7 @@ jobs:
   drive_android:
     name: Android
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     strategy:
       matrix:
         api-level: [29]
@@ -44,7 +44,7 @@ jobs:
   drive_ios:
     name: iOS
     runs-on: macos-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     strategy:
       matrix:
         simulator: [{os: "26.2", model: "iPhone 16e"}]
@@ -73,7 +73,7 @@ jobs:
   drive_linux:
     name: Linux
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Install linux dependencies
@@ -93,7 +93,7 @@ jobs:
   drive_windows:
     name: Windows
     runs-on: windows-latest
-    timeout-minutes: 25
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
@@ -109,7 +109,7 @@ jobs:
   drive_web:
     name: Web
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 10
     strategy:
       matrix:
         option: ["", "--wasm"]
