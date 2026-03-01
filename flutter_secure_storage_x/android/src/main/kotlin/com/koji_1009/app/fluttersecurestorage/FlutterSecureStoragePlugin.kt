@@ -1,4 +1,4 @@
-package com.dr1009.app.fluttersecurestorage
+package com.koji_1009.app.fluttersecurestorage
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
@@ -230,7 +230,7 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   }
 
   companion object {
-    private const val METHOD_CHANNEL_NAME = "plugins.dr1009.com/flutter_secure_storage"
+    private const val METHOD_CHANNEL_NAME = "plugins.koji-1009.com/flutter_secure_storage"
 
     private const val PARAM_KEY = "key"
     private const val PARAM_VALUE = "value"
