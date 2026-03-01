@@ -1,10 +1,10 @@
-package com.dr1009.app.fluttersecurestorage
+package com.koji_1009.app.fluttersecurestorage
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.dr1009.app.fluttersecurestorage.ciphers.KeyStoreCipher
-import com.dr1009.app.fluttersecurestorage.storage.DataStoreStorage
+import com.koji_1009.app.fluttersecurestorage.ciphers.KeyStoreCipher
+import com.koji_1009.app.fluttersecurestorage.storage.DataStoreStorage
 
 class FlutterSecureStorage(
   private val applicationContext: Context,

@@ -34,7 +34,9 @@ void main() {
   });
 
   group('MethodChannelFutterSecureStorage', () {
-    const channel = MethodChannel('plugins.dr1009.com/flutter_secure_storage');
+    const channel = MethodChannel(
+      'plugins.koji-1009.com/flutter_secure_storage',
+    );
 
     final log = <MethodCall>[];
 
