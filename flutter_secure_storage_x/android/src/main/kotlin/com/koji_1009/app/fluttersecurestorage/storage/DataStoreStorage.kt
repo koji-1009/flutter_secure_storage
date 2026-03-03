@@ -1,4 +1,4 @@
-package com.dr1009.app.fluttersecurestorage.storage
+package com.koji_1009.app.fluttersecurestorage.storage
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -13,7 +13,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.dr1009.app.fluttersecurestorage
+        package: com.koji_1009.app.fluttersecurestorage
         pluginClass: FlutterSecureStoragePlugin
       ios:
         pluginClass: FlutterSecureStoragePlugin
