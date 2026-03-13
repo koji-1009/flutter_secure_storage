@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-03-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_secure_storage_x` - `v12.1.5`](#flutter_secure_storage_x---v1215)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_secure_storage_x` - `v12.1.5`
+
+ - **FIX**: Downgrade datastore-preferences to 1.1.7 for 16KB compatibility. ([0d05f0d7](https://github.com/koji-1009/flutter_secure_storage/commit/0d05f0d7923fe43820b2a601df51c7f4ec970bbf))
+ 
+
 ## 2026-02-22
 
 ### Changes

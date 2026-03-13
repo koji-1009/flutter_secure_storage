@@ -1,3 +1,9 @@
+## 12.1.5
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Downgrade datastore-preferences to 1.1.7 for 16KB compatibility. ([0d05f0d7](https://github.com/koji-1009/flutter_secure_storage/commit/0d05f0d7923fe43820b2a601df51c7f4ec970bbf))
+
 ## 12.1.4
 
  - **REFACTOR**: replace UIApplicationDelegate callbacks with NotificationCenter. ([7ee12c5e](https://github.com/koji-1009/flutter_secure_storage/commit/7ee12c5e22460b8f6ae5dd3197da8196a65ab60a))
