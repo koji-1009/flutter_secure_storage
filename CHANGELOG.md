@@ -11,11 +11,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
- - [`flutter_secure_storage_x` - `v12.1.5`](#flutter_secure_storage_x---v1215)
+ - There are no breaking changes in this release.
 
 Packages with other changes:
 
- - There are no other changes in this release.
+ - [`flutter_secure_storage_x` - `v12.1.5`](#flutter_secure_storage_x---v1215)
 
 ---
 
