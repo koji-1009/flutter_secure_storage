@@ -1,3 +1,7 @@
+## 12.1.5+0
+
+ - Fix changelog
+
 ## 12.1.5
 
  - **FIX**: Downgrade datastore-preferences to 1.1.7 for 16KB compatibility. ([0d05f0d7](https://github.com/koji-1009/flutter_secure_storage/commit/0d05f0d7923fe43820b2a601df51c7f4ec970bbf))

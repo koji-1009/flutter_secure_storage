@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`flutter_secure_storage_x` - `v12.1.5+0`](#flutter_secure_storage_x---v12150)
+
+---
+
+#### `flutter_secure_storage_x` - `v12.1.5+0`
+
+ - Fix changelog
+
+
+## 2026-03-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`flutter_secure_storage_x` - `v12.1.5`](#flutter_secure_storage_x---v1215)
 
 ---
