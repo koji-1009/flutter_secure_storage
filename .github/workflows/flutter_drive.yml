@@ -42,7 +42,7 @@ jobs:
   drive_ios:
     name: iOS
     runs-on: macos-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       matrix:
         simulator: [{os: "26.2", model: "iPhone 16e"}]
@@ -64,7 +64,7 @@ jobs:
           boot_timeout_seconds: 180
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
-        run: flutter test integration_test -d iphone
+        run: flutter test integration_test -d iphone --verbose
 
   drive_linux:
     name: Linux
