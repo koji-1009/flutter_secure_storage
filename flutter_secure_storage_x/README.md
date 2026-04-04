@@ -31,7 +31,7 @@ The following table outlines the evolution of storage and encryption on Android,
 | **v10**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> & _EncryptedSharedPreferences_ | **Migration Bridge.** Essential for v9 users. Ensures data accessibility before _EncryptedSharedPreferences_ removal in v11.                                                                                               |
 | **v11**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | Custom Implementation <br> (RSA/AES)                      | **Stabilization.** Removed unstable EncryptedSharedPreferences.                                                                                                                                                            |
 | **v12**           | _SharedPreferences_ (Default) <br> DataStore (Opt-in)   | **Android KeyStore** <br> (OS Standard)                   | **MANDATORY MIGRATION BRIDGE.** <br> **IMPORTANT:** This is the **LAST** version that supports migrating data from Custom Implementation. Users MUST upgrade to v12 and launch the app to migrate data to KeyStore format. |
-| **v13** (Target)  | **DataStore (Default)** <br> SharedPreferences (Legacy) | **Android KeyStore ONLY**                                 | **BREAKING CHANGE.** <br> Support for Custom Implementation logic is **REMOVED**. Any data not already migrated to KeyStore (via v12) will be **LOST/UNREADABLE**. <br> Default backend switches to DataStore.             |
+| **v13** (Current) | **DataStore (Default)** <br> SharedPreferences (Legacy)  | **Android KeyStore ONLY**                                 | **BREAKING CHANGE.** <br> Support for Custom Implementation logic is **REMOVED**. Any data not already migrated to KeyStore (via v12) will be **LOST/UNREADABLE**. <br> Default backend switches to DataStore.             |
 | **v14** (Planned) | **DataStore ONLY**                                      | **Android KeyStore**                                      | **Finalization.** SharedPreferences support is completely removed.                                                                                                                                                         |
 
 > [!IMPORTANT]
@@ -55,8 +55,8 @@ The following table outlines the evolution of storage and encryption on Android,
 ### Summary
 
 * **v10 & v11**: Focus on stability and preparing for **DataStore**.
-* **v12 (Current)**: Unifies encryption to the standard **Android KeyStore**. All legacy custom implementations (RSA/AES) are removed to improve security and maintainability.
-* **v13 (Planned)**: **DataStore** becomes the default backend.
+* **v12**: Unifies encryption to the standard **Android KeyStore**. All legacy custom implementations (RSA/AES) are removed to improve security and maintainability.
+* **v13 (Current)**: **DataStore** becomes the default backend. Support for Custom Implementation logic is completely removed.
 * **v14 (Planned)**: **DataStore** becomes the only supported backend. **SharedPreferences** support is removed.
 
 > **Note**: Direct upgrades from v12 or earlier to v14 will not be supported. Users must upgrade to v13 first to migrate their data.
@@ -162,11 +162,11 @@ You need to:
 * [disable autobackup](https://developer.android.com/guide/topics/data/autobackup#EnablingAutoBackup), [details](https://github.com/mogol/flutter_secure_storage/issues/13#issuecomment-421083742)
 * [exclude sharedprefs](https://developer.android.com/guide/topics/data/autobackup#IncludingFiles) `FlutterSecureStorage` used by the plugin, [details](https://github.com/mogol/flutter_secure_storage/issues/43#issuecomment-471642126)
 
-DataStore support has been available since v10.0.0. When using DataStore, set the options as follows.
+DataStore is the default storage backend since v13.0.0. To use SharedPreferences instead, set the options as follows.
 
 ```dart
 AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  dataStore: true,
+  dataStore: false,
 );
 ```
 
