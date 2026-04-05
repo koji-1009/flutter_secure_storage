@@ -4,15 +4,16 @@ part of '../flutter_secure_storage_x.dart';
 
 class AndroidOptions extends Options {
   const AndroidOptions({
-    this.dataStore = false,
+    this.dataStore = true,
     this.resetOnError = false,
     this.sharedPreferencesName,
     this.preferencesKeyPrefix,
   });
 
-  /// Use DataStore instead of SharedPreferences. This feature is default in future releases.
+  /// Use DataStore instead of SharedPreferences.
   ///
-  /// At the first run, data migration from the previous SharedPreferences to DataStore will be done.
+  /// Defaults to true. At the first run, data migration from the previous
+  /// SharedPreferences to DataStore will be done.
   final bool dataStore;
 
   /// When an error is detected, automatically reset all data. This will prevent

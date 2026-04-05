@@ -1,11 +1,11 @@
 part of '../flutter_secure_storage_x_platform_interface.dart';
 
 const MethodChannel _channel = MethodChannel(
-  'plugins.dr1009.com/flutter_secure_storage',
+  'plugins.koji-1009.com/flutter_secure_storage',
 );
 
 const EventChannel _eventChannel = EventChannel(
-  'plugins.dr1009.com/flutter_secure_storage/events',
+  'plugins.koji-1009.com/flutter_secure_storage/events',
 );
 
 class MethodChannelFlutterSecureStorage extends FlutterSecureStoragePlatform {
