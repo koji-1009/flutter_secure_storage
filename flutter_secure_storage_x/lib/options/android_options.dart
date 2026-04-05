@@ -5,6 +5,10 @@ part of '../flutter_secure_storage_x.dart';
 class AndroidOptions extends Options {
   const AndroidOptions({
     this.resetOnError = false,
+    @Deprecated('This option will be removed in v15. '
+        'If you use a custom prefix, keep it during v14 so that '
+        'existing data can be automatically migrated on first launch. '
+        'After migration, the prefix is no longer used.')
     this.preferencesKeyPrefix,
   });
 
@@ -15,11 +19,16 @@ class AndroidOptions extends Options {
   /// Defaults to false.
   final bool resetOnError;
 
-  /// The prefix for a shared preference key. The prefix is used to make sure
-  /// the key is unique to your application. If not provided, a default prefix
-  /// will be used.
+  /// The prefix for a key. If not provided, the default prefix will be used
+  /// for migrating legacy data on first launch.
   ///
-  /// WARNING: If you change this you can't retrieve already saved preferences.
+  /// If you use a custom prefix, keep this value during v14 to ensure
+  /// migration completes. Changing prefix at runtime is not supported.
+  /// This option will be removed in v15.
+  @Deprecated('This option will be removed in v15. '
+      'If you use a custom prefix, keep it during v14 so that '
+      'existing data can be automatically migrated on first launch. '
+      'After migration, the prefix is no longer used.')
   final String? preferencesKeyPrefix;
 
   static const AndroidOptions defaultOptions = AndroidOptions();
@@ -32,6 +41,8 @@ class AndroidOptions extends Options {
 
   AndroidOptions copyWith({
     bool? resetOnError,
+    @Deprecated('This option will be removed in v15. '
+        'Keep custom prefix during v14 for migration.')
     String? preferencesKeyPrefix,
   }) => AndroidOptions(
     resetOnError: resetOnError ?? this.resetOnError,
