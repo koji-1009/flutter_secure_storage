@@ -27,57 +27,55 @@ class FlutterSecureStorage(
   }
 
   private var elementPreferencesKeyPrefix: String = DEFAULT_ELEMENT_PREFERENCES_KEY_PREFIX
+  private var migrated = false
 
   fun getResetOnError(): Boolean {
     return resetOnError
   }
 
-  fun addPrefixToKey(key: String): String {
-    return elementPreferencesKeyPrefix + KEY_SEPARATOR + key
-  }
+  private suspend fun migrateLegacyKeys() {
+    if (migrated) return
+    migrated = true
 
-  private fun removePrefixFromKey(keyWithPrefix: String): String {
-    val prefixWithSeparator = elementPreferencesKeyPrefix + KEY_SEPARATOR
-    return keyWithPrefix.replaceFirst(prefixWithSeparator.toRegex(), "")
+    val legacyPrefix = elementPreferencesKeyPrefix + KEY_SEPARATOR
+    val values = dataStoreStorage.readAll()
+    for ((key, value) in values) {
+      if (key.startsWith(legacyPrefix)) {
+        val cleanKey = key.removePrefix(legacyPrefix)
+        if (!dataStoreStorage.containsKey(cleanKey)) {
+          dataStoreStorage.write(cleanKey, value)
+        }
+        dataStoreStorage.delete(key)
+      }
+    }
   }
 
   suspend fun containsKey(key: String): Boolean {
-    val keyWithPrefix = addPrefixToKey(key)
-    return dataStoreStorage.containsKey(keyWithPrefix)
+    migrateLegacyKeys()
+    return dataStoreStorage.containsKey(key)
   }
 
   suspend fun read(key: String): String? {
-    val keyWithPrefix = addPrefixToKey(key)
-    val value = dataStoreStorage.read(keyWithPrefix)
-    if (value.isNullOrEmpty()) {
-      return null
-    }
-
+    migrateLegacyKeys()
+    val value = dataStoreStorage.read(key) ?: return null
     return decodeRawValue(value)
   }
 
   suspend fun readAll(): Map<String, String> {
+    migrateLegacyKeys()
     val values = dataStoreStorage.readAll()
-    val result = mutableMapOf<String, String>()
-    for ((keyWithPrefix, value) in values) {
-      if (keyWithPrefix.startsWith(elementPreferencesKeyPrefix + KEY_SEPARATOR)) {
-        val cleanKey = removePrefixFromKey(keyWithPrefix)
-        result[cleanKey] = decodeRawValue(value)
-      }
-    }
-
-    return result
+    return values.mapValues { (_, value) -> decodeRawValue(value) }
   }
 
   suspend fun write(key: String, value: String) {
-    val keyWithPrefix = addPrefixToKey(key)
+    migrateLegacyKeys()
     val encodeValue = encodeRawValue(value)
-    dataStoreStorage.write(keyWithPrefix, encodeValue)
+    dataStoreStorage.write(key, encodeValue)
   }
 
   suspend fun delete(key: String) {
-    val keyWithPrefix = addPrefixToKey(key)
-    dataStoreStorage.delete(keyWithPrefix)
+    migrateLegacyKeys()
+    dataStoreStorage.delete(key)
   }
 
   suspend fun deleteAll() {
