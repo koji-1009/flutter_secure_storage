@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-04-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_secure_storage_x` - `v13.0.0`](#flutter_secure_storage_x---v1300)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `flutter_secure_storage_x` - `v13.0.0`
+
+ - **BREAKING** **FEAT**: Set AndroidOptions dataStore default value to true. ([d0ad0355](https://github.com/koji-1009/flutter_secure_storage/commit/d0ad0355faebaff329439725b0ab21e2ab750f9a))
+ - **BREAKING** **FEAT**: Change package name. ([dec7eea0](https://github.com/koji-1009/flutter_secure_storage/commit/dec7eea08ba9771950dbc0584ad42b105a4bb331))
+ - **BREAKING** **FEAT**: Remove deprecated ciphering and storage migration mechanisms. ([1d8b2ea2](https://github.com/koji-1009/flutter_secure_storage/commit/1d8b2ea2ccefb30b49d6c889151d2b786754c858))
+
+
 ## 2026-03-14
 
 ### Changes

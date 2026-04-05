@@ -1,3 +1,14 @@
+## 13.0.0
+
+> Note: This release has breaking changes.
+
+This release removes support for legacy Custom Implementation (RSA/AES) encryption.
+Data not migrated to Android KeyStore format via v12 will be permanently   unreadable. Users MUST upgrade to v12 first and ensure the app is launched to complete migration before upgrading to v13.
+
+ - **BREAKING** **FEAT**: Set AndroidOptions dataStore default value to true. ([d0ad0355](https://github.com/koji-1009/flutter_secure_storage/commit/d0ad0355faebaff329439725b0ab21e2ab750f9a))
+ - **BREAKING** **FEAT**: Change package name. ([dec7eea0](https://github.com/koji-1009/flutter_secure_storage/commit/dec7eea08ba9771950dbc0584ad42b105a4bb331))
+ - **BREAKING** **FEAT**: Remove deprecated ciphering and storage migration mechanisms. ([1d8b2ea2](https://github.com/koji-1009/flutter_secure_storage/commit/1d8b2ea2ccefb30b49d6c889151d2b786754c858))
+
 ## 12.1.5+0
 
  - Fix changelog
