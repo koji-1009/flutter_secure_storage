@@ -46,7 +46,7 @@ void main() {
   });
 
   // API-level golden tests (see helpers/groups at the bottom of this file).
-  // Android is covered by the common suite (DataStore, the default backend).
+  // Android is covered by the common suite (DataStore backend).
   _commonTests();
   _appleTests();
   _webTests();

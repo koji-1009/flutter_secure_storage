@@ -340,7 +340,7 @@ class FlutterSecureStorage {
             .isCupertinoProtectedDataAvailable()
       : null;
 
-  /// Initializes the shared preferences with mock values for testing.
+  /// Initializes the storage with mock values for testing.
   @visibleForTesting
   static void setMockInitialValues(Map<String, String> values) {
     FlutterSecureStoragePlatform.instance = TestFlutterSecureStoragePlatform(
