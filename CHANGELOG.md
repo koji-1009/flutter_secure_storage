@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-04-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x_platform_interface` - `v2.0.0`](#flutter_secure_storage_x_platform_interface---v200)
+ - [`flutter_secure_storage_x` - `v13.0.1`](#flutter_secure_storage_x---v1301)
+ - [`flutter_secure_storage_x_linux` - `v1.5.2`](#flutter_secure_storage_x_linux---v152)
+ - [`flutter_secure_storage_x_macos` - `v3.5.2`](#flutter_secure_storage_x_macos---v352)
+ - [`flutter_secure_storage_x_web` - `v2.2.2`](#flutter_secure_storage_x_web---v222)
+ - [`flutter_secure_storage_x_windows` - `v3.4.2`](#flutter_secure_storage_x_windows---v342)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x` - `v13.0.1`
+ - `flutter_secure_storage_x_linux` - `v1.5.2`
+ - `flutter_secure_storage_x_macos` - `v3.5.2`
+ - `flutter_secure_storage_x_web` - `v2.2.2`
+ - `flutter_secure_storage_x_windows` - `v3.4.2`
+
+---
+
+#### `flutter_secure_storage_x_platform_interface` - `v2.0.0`
+
+
 ## 2026-04-05
 
 ### Changes

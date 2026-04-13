@@ -1,3 +1,5 @@
+## 2.0.0
+
 ## 1.5.0
 
  - **REFACTOR**: Remove platform package. ([4a2804b5](https://github.com/koji-1009/flutter_secure_storage/commit/4a2804b5fa1ba327dde91f87993413beedde21df))
