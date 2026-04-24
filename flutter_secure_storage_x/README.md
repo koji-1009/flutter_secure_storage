@@ -156,19 +156,55 @@ android {
 }
 ```
 
-_Note_: By default, Android backs up data on Google Drive. This can cause an exception: `java.security.InvalidKeyException: Failed to unwrap key`.
-You need to:
+#### Excluding data from Auto Backup and device transfer
 
-* [disable autobackup](https://developer.android.com/guide/topics/data/autobackup#EnablingAutoBackup), [details](https://github.com/mogol/flutter_secure_storage/issues/13#issuecomment-421083742)
-* [exclude sharedprefs](https://developer.android.com/guide/topics/data/autobackup#IncludingFiles) `FlutterSecureStorage` used by the plugin, [details](https://github.com/mogol/flutter_secure_storage/issues/43#issuecomment-471642126)
+By default, Android backs up app data via Auto Backup (Google Drive) and allows it to be carried over via device-to-device transfer.
 
-DataStore is the default storage backend since v13.0.0. To use SharedPreferences instead, set the options as follows.
+Encryption keys used by `flutter_secure_storage_x` are managed by **Android KeyStore**, which binds them to the device hardware. **KeyStore keys cannot be restored to another device**, so any encrypted values that get restored from a backup or transfer will become unreadable.
 
-```dart
-AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  dataStore: false,
-);
+To prevent this, exclude the DataStore directory from backup and transfer.
+
+Create `android/app/src/main/res/xml/data_extraction_rules.xml`:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://developer.android.com/identity/data/autobackup#xml-syntax-android-12 -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude
+            domain="file"
+            path="datastore/" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude
+            domain="file"
+            path="datastore/" />
+    </device-transfer>
+    <cross-platform-transfer platform="ios">
+        <exclude
+            domain="file"
+            path="datastore/" />
+    </cross-platform-transfer>
+</data-extraction-rules>
 ```
+
+Then reference it from `android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<application
+    ...
+    android:dataExtractionRules="@xml/data_extraction_rules">
+```
+
+The example above excludes the whole `datastore/` directory, which is convenient if you only use DataStore through this package. If you also rely on other libraries that share the same directory — for example, recent versions of the `shared_preferences` Flutter plugin, which use DataStore as the Android backend — and you want their data to remain backed up, target the file used by this package instead:
+
+```xml
+<exclude
+    domain="file"
+    path="datastore/FlutterSecureStorageX.preferences_pb" />
+```
+
+> **Note**: `android:dataExtractionRules` is honored on Android 12 (API 31) and above. To cover backups on Android 11 and below, also configure [`android:fullBackupContent`](https://developer.android.com/guide/topics/data/autobackup#IncludingFiles).
 
 ### Web
 
