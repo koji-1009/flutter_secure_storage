@@ -47,10 +47,6 @@ The following table outlines the evolution of storage and encryption on Android,
 > 1. Update the app to **v12** and release it.
 > 2. Ensure users launch the v12 app to complete the internal data migration to KeyStore (migration happens automatically on first launch in v12).
 > 3. After a sufficient migration period, update to **v13** (DataStore default).
->
-> **Recommended Configuration:**
-> In v13, `DataStore` becomes the default storage backend.
-> We recommend explicitly enabling `AndroidOptions(dataStore: true)` in v12 (instead of `encryptedSharedPreferences: true`). This allows you to complete both data migration and backend modernization in the v12 phase, making the transition to v13 smoother.
 
 ### Summary
 
