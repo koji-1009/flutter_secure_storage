@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+
 ## 2.0.0
 
 ## 1.5.0

@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-06-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v13.1.0`](#flutter_secure_storage_x---v1310)
+ - [`flutter_secure_storage_x_linux` - `v1.6.0`](#flutter_secure_storage_x_linux---v160)
+ - [`flutter_secure_storage_x_macos` - `v3.6.0`](#flutter_secure_storage_x_macos---v360)
+ - [`flutter_secure_storage_x_platform_interface` - `v2.1.0`](#flutter_secure_storage_x_platform_interface---v210)
+ - [`flutter_secure_storage_x_web` - `v2.3.0`](#flutter_secure_storage_x_web---v230)
+ - [`flutter_secure_storage_x_windows` - `v3.5.0`](#flutter_secure_storage_x_windows---v350)
+
+---
+
+#### `flutter_secure_storage_x` - `v13.1.0`
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+ - **DOCS**(android): drop stale v12-era Recommended Configuration note. ([080e68b1](https://github.com/koji-1009/flutter_secure_storage/commit/080e68b1b59cbf2835ea565a8d675d1f606b10d1))
+ - **DOCS**(android): document Auto Backup exclusion for DataStore. ([f1b3331e](https://github.com/koji-1009/flutter_secure_storage/commit/f1b3331e80eb8b5f84d1f8ca9630de810631c2ce))
+
+#### `flutter_secure_storage_x_linux` - `v1.6.0`
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+
+#### `flutter_secure_storage_x_macos` - `v3.6.0`
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+
+#### `flutter_secure_storage_x_platform_interface` - `v2.1.0`
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+
+#### `flutter_secure_storage_x_web` - `v2.3.0`
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+
+#### `flutter_secure_storage_x_windows` - `v3.5.0`
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+
+
 ## 2026-04-13
 
 ### Changes

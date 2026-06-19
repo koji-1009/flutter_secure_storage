@@ -1,3 +1,9 @@
+## 13.1.0
+
+ - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
+ - **DOCS**(android): drop stale v12-era Recommended Configuration note. ([080e68b1](https://github.com/koji-1009/flutter_secure_storage/commit/080e68b1b59cbf2835ea565a8d675d1f606b10d1))
+ - **DOCS**(android): document Auto Backup exclusion for DataStore. ([f1b3331e](https://github.com/koji-1009/flutter_secure_storage/commit/f1b3331e80eb8b5f84d1f8ca9630de810631c2ce))
+
 ## 13.0.1
 
  - Update a dependency to the latest release.
