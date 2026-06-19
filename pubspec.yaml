@@ -2,7 +2,7 @@ name: flutter_secure_storage_x_root
 repository: https://github.com/koji-1009/flutter_secure_storage
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 workspace:
   - flutter_secure_storage_x
@@ -22,13 +22,13 @@ melos:
   command:
     bootstrap:
       environment:
-        sdk: '>=3.9.0 <4.0.0'
-        flutter: '>=3.35.0'
+        sdk: '>=3.10.0 <4.0.0'
+        flutter: '>=3.38.0'
       dependencies:
         ffi: ^2.0.0
         path: ^1.8.0
         path_provider: ^2.0.0
         web: ^1.0.0
-        win32: ^5.5.1
+        win32: ^6.0.1
       dev_dependencies:
         flutter_lints: ^6.0.0

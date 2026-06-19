@@ -17,6 +17,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   FutureOr<void> cleanUpFiles() async {
+    if (!Platform.isWindows) {
+      return;
+    }
+
     // Clean up current & legacy files.
     final directory = await getApplicationSupportDirectory();
     if (directory.existsSync()) {
@@ -811,52 +815,58 @@ void main() {
       }),
     );
 
-    test('write - new', () async {
-      const key = 'KEY';
-      const value = 'VALUE';
+    test(
+      'write - new',
+      () => withFfi(() async {
+        const key = 'KEY';
+        const value = 'VALUE';
 
-      var deleteCalled = 0;
-      final target = createTarget((call) async {
-        if (call.method == 'delete') {
-          deleteCalled++;
-          return null;
-        }
+        var deleteCalled = 0;
+        final target = createTarget((call) async {
+          if (call.method == 'delete') {
+            deleteCalled++;
+            return null;
+          }
 
-        fail('Unexpected method call: ${call.method}');
-      });
-      final options = createOptions();
-      await target.write(key: key, value: value, options: options);
-      expect(deleteCalled, 1);
+          fail('Unexpected method call: ${call.method}');
+        });
+        final options = createOptions();
+        await target.write(key: key, value: value, options: options);
+        expect(deleteCalled, 1);
 
-      final result = await target.read(key: key, options: options);
-      expect(result, value);
-      expect(deleteCalled, 2);
-    });
+        final result = await target.read(key: key, options: options);
+        expect(result, value);
+        expect(deleteCalled, 2);
+      }),
+    );
 
-    test('write - overwrite', () async {
-      const key = 'KEY';
-      const value1 = 'VALUE1';
-      const value2 = 'VALUE2';
+    test(
+      'write - overwrite',
+      () => withFfi(() async {
+        const key = 'KEY';
+        const value1 = 'VALUE1';
+        const value2 = 'VALUE2';
 
-      var deleteCalled = 0;
-      final target = createTarget((call) async {
-        if (call.method == 'delete') {
-          deleteCalled++;
-          return null;
-        }
+        var deleteCalled = 0;
+        final target = createTarget((call) async {
+          if (call.method == 'delete') {
+            deleteCalled++;
+            return null;
+          }
 
-        fail('Unexpected method call: ${call.method}');
-      });
-      final options = createOptions();
-      await target.write(key: key, value: value1, options: options);
-      expect(deleteCalled, 1);
-      await target.write(key: key, value: value2, options: options);
-      expect(deleteCalled, 2);
+          fail('Unexpected method call: ${call.method}');
+        });
+        final options = createOptions();
+        await target.write(key: key, value: value1, options: options);
+        expect(deleteCalled, 1);
+        await target.write(key: key, value: value2, options: options);
+        expect(deleteCalled, 2);
 
-      final result = await target.read(key: key, options: options);
-      expect(result, value2);
-      expect(deleteCalled, 3);
-    });
+        final result = await target.read(key: key, options: options);
+        expect(result, value2);
+        expect(deleteCalled, 3);
+      }),
+    );
 
     test(
       'delete - exists, any',
@@ -983,6 +993,11 @@ void main() {
     Map<String, String> createOptions() => {'useBackwardCompatibility': 'true'};
 
     Future<void> testSpecialCharactor(String key, {String? value}) async {
+      // Exercises the real DPAPI storage path; Windows only (see canTest).
+      if (!canTest()) {
+        return;
+      }
+
       final target = createTarget();
       final options = createOptions();
 
@@ -1024,39 +1039,42 @@ void main() {
     );
     test('Empty key & value', () => testSpecialCharactor('', value: ''));
 
-    test('Only casing is differ', () async {
-      final target = createTarget();
-      final options = createOptions();
-      const key1 = 'KEY';
-      const key2 = 'key';
-      const value1 = 'Value1';
-      const value2 = 'Value2';
+    test(
+      'Only casing is differ',
+      () => withFfi(() async {
+        final target = createTarget();
+        final options = createOptions();
+        const key1 = 'KEY';
+        const key2 = 'key';
+        const value1 = 'Value1';
+        const value2 = 'Value2';
 
-      await target.write(key: key1, value: value1, options: options);
-      await target.write(key: key2, value: value2, options: options);
-      final results = await target.readAll(options: options);
-      expect(results.length, 2);
-      expect(results[key1], value1);
-      expect(results[key2], value2);
+        await target.write(key: key1, value: value1, options: options);
+        await target.write(key: key2, value: value2, options: options);
+        final results = await target.readAll(options: options);
+        expect(results.length, 2);
+        expect(results[key1], value1);
+        expect(results[key2], value2);
 
-      expect(await target.read(key: key1, options: options), value1);
-      expect(await target.read(key: key2, options: options), value2);
-      expect(await target.containsKey(key: key1, options: options), isTrue);
-      expect(await target.containsKey(key: key2, options: options), isTrue);
+        expect(await target.read(key: key1, options: options), value1);
+        expect(await target.read(key: key2, options: options), value2);
+        expect(await target.containsKey(key: key1, options: options), isTrue);
+        expect(await target.containsKey(key: key2, options: options), isTrue);
 
-      await target.delete(key: key1, options: options);
-      expect(await target.read(key: key1, options: options), isNull);
-      expect(await target.read(key: key2, options: options), value2);
-      expect(await target.containsKey(key: key1, options: options), isFalse);
-      expect(await target.containsKey(key: key2, options: options), isTrue);
+        await target.delete(key: key1, options: options);
+        expect(await target.read(key: key1, options: options), isNull);
+        expect(await target.read(key: key2, options: options), value2);
+        expect(await target.containsKey(key: key1, options: options), isFalse);
+        expect(await target.containsKey(key: key2, options: options), isTrue);
 
-      await target.write(key: key2, value: value2, options: options);
-      await target.deleteAll(options: options);
-      expect(await target.read(key: key1, options: options), isNull);
-      expect(await target.read(key: key2, options: options), isNull);
-      expect(await target.containsKey(key: key1, options: options), isFalse);
-      expect(await target.containsKey(key: key2, options: options), isFalse);
-    });
+        await target.write(key: key2, value: value2, options: options);
+        await target.deleteAll(options: options);
+        expect(await target.read(key: key1, options: options), isNull);
+        expect(await target.read(key: key2, options: options), isNull);
+        expect(await target.containsKey(key: key1, options: options), isFalse);
+        expect(await target.containsKey(key: key2, options: options), isFalse);
+      }),
+    );
   });
 }
 
