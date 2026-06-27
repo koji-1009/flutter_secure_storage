@@ -43,28 +43,37 @@ jobs:
     name: iOS
     runs-on: macos-latest
     timeout-minutes: 20
-    strategy:
-      matrix:
-        simulator: [{os: "26.2", model: "iPhone 16e"}]
-      fail-fast: false
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: koji-1009/setup-flutter@dd35dcb6aeccda37e5042e1a03aed95e46611a3d # v1.2.1
-      - run: flutter config --enable-swift-package-manager
       - uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5 # v3.8.0
+      - name: Select an available iPhone simulator on iOS 26.x
+        id: simulator
+        run: |
+          udid=$(xcrun simctl list devices --json \
+            | jq -r '[ .devices | to_entries[]
+                       | select(.key | contains("iOS-26-"))
+                       | .value[]
+                       | select(.isAvailable and (.name | contains("iPhone"))) ]
+                     | .[0].udid // empty')
+          if [ -z "$udid" ]; then
+            echo "::error::No available iPhone simulator found for iOS 26.x"
+            xcrun simctl list devices
+            exit 1
+          fi
+          echo "Selected iPhone simulator (iOS 26.x): $udid"
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
       - name: Pre-build the app
         working-directory: flutter_secure_storage_x/example
         run: flutter build ios --simulator --target=integration_test/app_test.dart
       - uses: futureware-tech/simulator-action@e89aa8f93d3aec35083ff49d2854d07f7186f7f5 # v5
         with:
-          os: iOS
-          os_version: ${{ matrix.simulator.os }}
-          model: ${{ matrix.simulator.model }}
+          udid: ${{ steps.simulator.outputs.udid }}
           wait_for_boot: true
           boot_timeout_seconds: 180
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
-        run: flutter test integration_test -d iphone --verbose
+        run: flutter test integration_test -d ${{ steps.simulator.outputs.udid }} --verbose
 
   drive_linux:
     name: Linux
