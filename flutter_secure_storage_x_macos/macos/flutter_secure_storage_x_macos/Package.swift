@@ -11,11 +11,15 @@ let package = Package(
   products: [
     .library(name: "flutter-secure-storage-x-macos", targets: ["flutter_secure_storage_x_macos"])
   ],
-  dependencies: [],
+  dependencies: [
+    .package(name: "FlutterFramework", path: "../FlutterFramework")
+  ],
   targets: [
     .target(
       name: "flutter_secure_storage_x_macos",
-      dependencies: [],
+      dependencies: [
+        .product(name: "FlutterFramework", package: "FlutterFramework")
+      ],
       resources: [
         .process("PrivacyInfo.xcprivacy")
       ]
