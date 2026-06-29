@@ -22,8 +22,7 @@ part of '../flutter_secure_storage_x.dart';
 /// );
 /// ```
 class WindowsOptions extends Options {
-  const WindowsOptions({bool useBackwardCompatibility = false})
-    : _useBackwardCompatibility = useBackwardCompatibility;
+  const WindowsOptions({this._useBackwardCompatibility = false});
 
   static const WindowsOptions defaultOptions = WindowsOptions();
 
