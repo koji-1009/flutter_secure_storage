@@ -1,3 +1,7 @@
+## 3.6.0
+
+ - Raised minimum supported Flutter to 3.44 or later.
+
 ## 3.5.0
 
  - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))

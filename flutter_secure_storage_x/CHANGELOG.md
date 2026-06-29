@@ -1,3 +1,11 @@
+## 13.2.0
+
+ - Raised minimum supported Flutter to 3.44 or later.
+
+ - **FEAT**: Update gadle.kts. ([925f56fe](https://github.com/koji-1009/flutter_secure_storage/commit/925f56fea8526338ecb907fc8d2e4a296060b4f7))
+ - **FEAT**(android): support AGP 9. ([d0a36e55](https://github.com/koji-1009/flutter_secure_storage/commit/d0a36e5570c9492d4e7625bdd257194cd47e110c))
+ - **FEAT**(ios,macos): add FlutterFramework SwiftPM dependency. ([83dcbb8d](https://github.com/koji-1009/flutter_secure_storage/commit/83dcbb8d1fbfa57a38b3d6605c887aed605f6f29))
+
 ## 13.1.0
 
  - **FEAT**(windows): migrate to win32 ^6.0.1. ([5aeb6c46](https://github.com/koji-1009/flutter_secure_storage/commit/5aeb6c46391f3a82f7f1eaf27ea8982814cf760d))
