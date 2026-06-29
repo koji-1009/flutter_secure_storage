@@ -7,8 +7,8 @@ class MacOsOptions extends AppleOptions {
     super.accountName,
     super.accessibility,
     super.synchronizable,
-    bool useDataProtectionKeyChain = true,
-  }) : _useDataProtectionKeyChain = useDataProtectionKeyChain;
+    this._useDataProtectionKeyChain = true,
+  });
 
   static const MacOsOptions defaultOptions = MacOsOptions();
 
