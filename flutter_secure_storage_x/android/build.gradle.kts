@@ -14,11 +14,6 @@ buildscript {
     }
 }
 
-plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-}
-
 allprojects {
     repositories {
         google()
@@ -26,12 +21,12 @@ allprojects {
     }
 }
 
+plugins {
+    id("com.android.library")
+}
+
 android {
     namespace = "com.koji_1009.app.fluttersecurestorage"
-
-    buildFeatures {
-        buildConfig = true
-    }
 
     compileSdk = 36
 
@@ -50,18 +45,22 @@ android {
     }
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 24
     }
 
     testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
+        unitTests {
+            isIncludeAndroidResources = true
+            all {
+                it.useJUnitPlatform()
 
-            it.testLogging {
-                events("passed", "skipped", "failed", "standardOut", "standardError")
-                showStandardStreams = true
+                it.outputs.upToDateWhen { false }
+
+                it.testLogging {
+                    events("passed", "skipped", "failed", "standardOut", "standardError")
+                    showStandardStreams = true
+                }
             }
-            it.outputs.upToDateWhen { false }
         }
     }
 }
