@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
         with:
           distribution: "temurin"
-          java-version: "17"
+          java-version: "21"
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -73,7 +73,7 @@ jobs:
           boot_timeout_seconds: 180
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
-        run: flutter test integration_test -d ${{ steps.simulator.outputs.udid }} --verbose
+        run: flutter test integration_test -d ${{ steps.simulator.outputs.udid }}
 
   drive_linux:
     name: Linux
