@@ -365,91 +365,83 @@ void _appleTests() {
     mOptions: mac(accountName: accountName),
   );
 
-  group(
-    'Apple Keychain — platform options',
-    () {
-      setUp(() => deleteAll());
-      tearDown(() => deleteAll());
+  group('Apple Keychain — platform options', () {
+    setUp(() => deleteAll());
+    tearDown(() => deleteAll());
 
-      for (final accessibility in const [
-        KeychainAccessibility.unlocked,
-        KeychainAccessibility.unlocked_this_device,
-        KeychainAccessibility.first_unlock,
-        KeychainAccessibility.first_unlock_this_device,
-      ]) {
-        testWidgets('round-trips with accessibility=${accessibility.name}', (
-          _,
-        ) async {
-          await write('acc', 'v', accessibility: accessibility);
-          expect(await read('acc'), 'v');
-        });
-      }
-
-      testWidgets('different accountName values are isolated', (_) async {
-        const a = 'service.a';
-        const b = 'service.b';
-        try {
-          await write('shared', 'fromA', accountName: a);
-          await write('shared', 'fromB', accountName: b);
-
-          expect(await read('shared', accountName: a), 'fromA');
-          expect(await read('shared', accountName: b), 'fromB');
-          expect(await readAll(accountName: a), {'shared': 'fromA'});
-        } finally {
-          await deleteAll(accountName: a);
-          await deleteAll(accountName: b);
-        }
-      });
-
-      testWidgets('round-trips a synchronizable item locally', (_) async {
-        // Reads use kSecAttrSynchronizableAny, so it is readable locally
-        // regardless of iCloud sign-in.
-        await write('sync', 'v', synchronizable: true);
-        expect(await read('sync'), 'v');
-      });
-
-      testWidgets('concurrent writes all persist (serial queue)', (_) async {
-        await Future.wait([for (var i = 0; i < 20; i++) write('c$i', 'v$i')]);
-        final all = await readAll();
-        expect(all.length, 20);
-        for (var i = 0; i < 20; i++) {
-          expect(all['c$i'], 'v$i');
-        }
-      });
-
-      testWidgets('isCupertinoProtectedDataAvailable returns a bool', (
+    for (final accessibility in const [
+      KeychainAccessibility.unlocked,
+      KeychainAccessibility.unlocked_this_device,
+      KeychainAccessibility.first_unlock,
+      KeychainAccessibility.first_unlock_this_device,
+    ]) {
+      testWidgets('round-trips with accessibility=${accessibility.name}', (
         _,
       ) async {
-        final available = await _storage.isCupertinoProtectedDataAvailable();
-        expect(available, isNotNull);
-        expect(available, isA<bool>());
+        await write('acc', 'v', accessibility: accessibility);
+        expect(await read('acc'), 'v');
       });
+    }
 
-      testWidgets(
-        'macOS: round-trips with useDataProtectionKeyChain=false',
-        (_) async {
-          await _storage.write(
-            key: 'dp',
-            value: 'v',
-            mOptions: mac(useDataProtectionKeyChain: false),
-          );
-          expect(
-            await _storage.read(
-              key: 'dp',
-              mOptions: mac(useDataProtectionKeyChain: false),
-            ),
-            'v',
-          );
-          await _storage.delete(
-            key: 'dp',
-            mOptions: mac(useDataProtectionKeyChain: false),
-          );
-        },
-        skip: defaultTargetPlatform != TargetPlatform.macOS,
+    testWidgets('different accountName values are isolated', (_) async {
+      const a = 'service.a';
+      const b = 'service.b';
+      try {
+        await write('shared', 'fromA', accountName: a);
+        await write('shared', 'fromB', accountName: b);
+
+        expect(await read('shared', accountName: a), 'fromA');
+        expect(await read('shared', accountName: b), 'fromB');
+        expect(await readAll(accountName: a), {'shared': 'fromA'});
+      } finally {
+        await deleteAll(accountName: a);
+        await deleteAll(accountName: b);
+      }
+    });
+
+    testWidgets('round-trips a synchronizable item locally', (_) async {
+      // Reads use kSecAttrSynchronizableAny, so it is readable locally
+      // regardless of iCloud sign-in.
+      await write('sync', 'v', synchronizable: true);
+      expect(await read('sync'), 'v');
+    });
+
+    testWidgets('concurrent writes all persist (serial queue)', (_) async {
+      await Future.wait([for (var i = 0; i < 20; i++) write('c$i', 'v$i')]);
+      final all = await readAll();
+      expect(all.length, 20);
+      for (var i = 0; i < 20; i++) {
+        expect(all['c$i'], 'v$i');
+      }
+    });
+
+    testWidgets('isCupertinoProtectedDataAvailable returns a bool', (_) async {
+      final available = await _storage.isCupertinoProtectedDataAvailable();
+      expect(available, isNotNull);
+      expect(available, isA<bool>());
+    });
+
+    testWidgets('macOS: round-trips with useDataProtectionKeyChain=false', (
+      _,
+    ) async {
+      await _storage.write(
+        key: 'dp',
+        value: 'v',
+        mOptions: mac(useDataProtectionKeyChain: false),
       );
-    },
-    skip: !isApple ? 'Apple (iOS/macOS) only' : false,
-  );
+      expect(
+        await _storage.read(
+          key: 'dp',
+          mOptions: mac(useDataProtectionKeyChain: false),
+        ),
+        'v',
+      );
+      await _storage.delete(
+        key: 'dp',
+        mOptions: mac(useDataProtectionKeyChain: false),
+      );
+    }, skip: defaultTargetPlatform != TargetPlatform.macOS);
+  }, skip: !isApple ? 'Apple (iOS/macOS) only' : false);
 }
 
 /// Web — localStorage namespace (publicKey) options.
