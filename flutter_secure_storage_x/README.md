@@ -137,18 +137,17 @@ The default Android settings generally allow background access as long as the de
 
 ### Android
 
-In `[project]/android/app/build.gradle` set `minSdkVersion` to >= 23.
+In `[project]/android/app/build.gradle.kts` set `minSdk` to >= 24.
 
-```groovy
+```kotlin
 android {
-    ...
+    // ...
 
     defaultConfig {
-        ...
-        minSdkVersion 23
-        ...
+        // ...
+        minSdk = 24
+        // ...
     }
-
 }
 ```
 
