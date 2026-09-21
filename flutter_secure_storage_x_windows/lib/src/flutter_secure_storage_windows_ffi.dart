@@ -346,9 +346,8 @@ class DpapiJsonFileMapStorage extends MapStorage {
         // Loop to handle race condition.
         while (true) {
           try {
-            await (await file.create(
-              recursive: true,
-            )).writeAsBytes(encryptedText, flush: true);
+            await (await file.create(recursive: true))
+                .writeAsBytes(encryptedText, flush: true);
             // If success, finish loop.
             break;
           } on FileSystemException catch (e) {

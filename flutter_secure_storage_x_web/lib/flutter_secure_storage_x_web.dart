@@ -203,10 +203,9 @@ class FlutterSecureStorageWeb extends FlutterSecureStoragePlatform {
     required String value,
     required Map<String, String> options,
   }) async {
-    final iv =
-        (web.window.crypto.getRandomValues(Uint8List(12).toJS)
-                as js_interop.JSUint8Array)
-            .toDart;
+    final iv = (web.window.crypto.getRandomValues(
+      Uint8List(12).toJS,
+    ) as js_interop.JSUint8Array).toDart;
 
     final algorithm = _getAlgorithm(iv);
 
