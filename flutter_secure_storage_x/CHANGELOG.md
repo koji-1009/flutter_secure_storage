@@ -1,3 +1,10 @@
+## 13.3.0
+
+ - Raised minimum supported Flutter to 3.47 or later.
+
+ - **FEAT**(android): Migrate to built-in Kotlin. ([d95b1f82](https://github.com/koji-1009/flutter_secure_storage/commit/d95b1f82931bd8115bfa91c72f233fa7f264a330))
+ - **DOCS**(android): Fix the minSdk requirement and use the Kotlin DSL. ([d6799839](https://github.com/koji-1009/flutter_secure_storage/commit/d6799839927fe3428e2e3b34bd6b047193d60e25))
+
 ## 13.2.0
 
  - Raised minimum supported Flutter to 3.44 or later.

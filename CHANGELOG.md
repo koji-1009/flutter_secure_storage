@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v13.3.0`](#flutter_secure_storage_x---v1330)
+
+---
+
+#### `flutter_secure_storage_x` - `v13.3.0`
+
+ - Raised minimum supported Flutter to 3.47 or later.
+
+ - **FEAT**(android): Migrate to built-in Kotlin. ([d95b1f82](https://github.com/koji-1009/flutter_secure_storage/commit/d95b1f82931bd8115bfa91c72f233fa7f264a330))
+ - **DOCS**(android): Fix the minSdk requirement and use the Kotlin DSL. ([d6799839](https://github.com/koji-1009/flutter_secure_storage/commit/d6799839927fe3428e2e3b34bd6b047193d60e25))
+
+
 ## 2026-06-29
 
 ### Changes
