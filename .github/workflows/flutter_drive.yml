@@ -54,7 +54,7 @@ jobs:
       - name: Run flutter integration tests
         timeout-minutes: 10
         working-directory: flutter_secure_storage_x/example
-        run: flutter test integration_test -d "$SIMULATOR_UDID" --verbose
+        run: flutter test integration_test -d "$SIMULATOR_UDID"
 
   drive_linux:
     name: Linux
