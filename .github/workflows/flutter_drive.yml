@@ -31,7 +31,7 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
       - uses: koji-1009/setup-flutter@8602f8dee92d2365ed4d9af298572fbb38ab8c69 # v1.4.1
-      - uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5 # v3.8.0
+      - uses: bluefireteam/melos-action@b79b63bcd183f823740a7976cbdb4b0fc95a0eb8 # v3.10.0
       - uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
         with:
           api-level: ${{ matrix.api-level }}
@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: koji-1009/setup-flutter@8602f8dee92d2365ed4d9af298572fbb38ab8c69 # v1.4.1
-      - uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5 # v3.8.0
+      - uses: bluefireteam/melos-action@b79b63bcd183f823740a7976cbdb4b0fc95a0eb8 # v3.10.0
       - uses: koji-1009/boot-simctl@59420d2a1284d7c4227e19e9bab3e11172c883a4 # v1.2.1
         with:
           device: iPhone
@@ -69,7 +69,7 @@ jobs:
       - name: Unlock Keyring
         uses: t1m0thyj/unlock-keyring@cbcf205c879ebd86add70bab3a6abfcce59a5cae # v1.2.0
       - uses: koji-1009/setup-flutter@8602f8dee92d2365ed4d9af298572fbb38ab8c69 # v1.4.1
-      - uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5 # v3.8.0
+      - uses: bluefireteam/melos-action@b79b63bcd183f823740a7976cbdb4b0fc95a0eb8 # v3.10.0
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: xvfb-run flutter test integration_test -d linux
@@ -85,7 +85,7 @@ jobs:
           channel: stable
       - name: Run flutter doctor
         run: flutter doctor
-      - uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5 # v3.8.0
+      - uses: bluefireteam/melos-action@b79b63bcd183f823740a7976cbdb4b0fc95a0eb8 # v3.10.0
       - name: Run flutter integration tests
         working-directory: flutter_secure_storage_x/example
         run: flutter test integration_test -d windows
@@ -103,7 +103,7 @@ jobs:
       - uses: koji-1009/setup-flutter@8602f8dee92d2365ed4d9af298572fbb38ab8c69 # v1.4.1
       - name: Run flutter doctor
         run: flutter doctor
-      - uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5 # v3.8.0
+      - uses: bluefireteam/melos-action@b79b63bcd183f823740a7976cbdb4b0fc95a0eb8 # v3.10.0
       - name: Setup chromedriver
         run: |
           npx @puppeteer/browsers install chromedriver@stable
