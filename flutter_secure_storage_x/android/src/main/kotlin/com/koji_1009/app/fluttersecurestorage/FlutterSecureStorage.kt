@@ -3,6 +3,8 @@ package com.koji_1009.app.fluttersecurestorage
 import android.content.Context
 import com.koji_1009.app.fluttersecurestorage.ciphers.KeyStoreCipher
 import com.koji_1009.app.fluttersecurestorage.storage.DataStoreStorage
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 class FlutterSecureStorage(
   private val applicationContext: Context,
@@ -28,6 +30,7 @@ class FlutterSecureStorage(
 
   private var elementPreferencesKeyPrefix: String = DEFAULT_ELEMENT_PREFERENCES_KEY_PREFIX
   private var migrated = false
+  private val migrationMutex = Mutex()
 
   fun getResetOnError(): Boolean {
     return resetOnError
@@ -35,18 +38,22 @@ class FlutterSecureStorage(
 
   private suspend fun migrateLegacyKeys() {
     if (migrated) return
-    migrated = true
+    migrationMutex.withLock {
+      if (migrated) return
 
-    val legacyPrefix = elementPreferencesKeyPrefix + KEY_SEPARATOR
-    val values = dataStoreStorage.readAll()
-    for ((key, value) in values) {
-      if (key.startsWith(legacyPrefix)) {
-        val cleanKey = key.removePrefix(legacyPrefix)
-        if (!dataStoreStorage.containsKey(cleanKey)) {
-          dataStoreStorage.write(cleanKey, value)
+      val legacyPrefix = elementPreferencesKeyPrefix + KEY_SEPARATOR
+      val values = dataStoreStorage.readAll()
+      for ((key, value) in values) {
+        if (key.startsWith(legacyPrefix)) {
+          val cleanKey = key.removePrefix(legacyPrefix)
+          if (!dataStoreStorage.containsKey(cleanKey)) {
+            dataStoreStorage.write(cleanKey, value)
+          }
+          dataStoreStorage.delete(key)
         }
-        dataStoreStorage.delete(key)
       }
+
+      migrated = true
     }
   }
 
