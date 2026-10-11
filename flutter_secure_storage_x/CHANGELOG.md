@@ -1,3 +1,16 @@
+## 14.0.0
+
+> Note: This release has breaking changes.
+
+ - Android: Upgrade through v14 before v15 to migrate keys stored with `preferencesKeyPrefix`. See the README for details.
+
+ - **REFACTOR**: Deprecate onCupertinoProtectedDataAvailabilityChanged. ([cca54f2a](https://github.com/koji-1009/flutter_secure_storage/commit/cca54f2a5d04cd7dc7cb3f08078fc2450d509955))
+ - **REFACTOR**: Deprecate preferencesKeyPrefix with migration. ([e808b993](https://github.com/koji-1009/flutter_secure_storage/commit/e808b993188454497ec5a33139f29b2533649b6e))
+ - **FIX**: Serialize legacy key migration with Mutex. ([5932075f](https://github.com/koji-1009/flutter_secure_storage/commit/5932075f515f9917df7e2035d5eab492a65c5f09))
+ - **DOCS**: Use workflow names as badge alt text. ([24783299](https://github.com/koji-1009/flutter_secure_storage/commit/24783299b90a7dac5b8046407bc3846c96bac645))
+ - **DOCS**: Add v14 key migration notes to README. ([d70938eb](https://github.com/koji-1009/flutter_secure_storage/commit/d70938eba7ba5d87ff6b8d5c1e278d369a48ab65))
+ - **BREAKING** **FEAT**: Remove SharedPreferences support. ([8a050cd1](https://github.com/koji-1009/flutter_secure_storage/commit/8a050cd178d509133193507dbc87a84326a38e41))
+
 ## 13.3.0
 
  - Raised minimum supported Flutter to 3.47 or later.

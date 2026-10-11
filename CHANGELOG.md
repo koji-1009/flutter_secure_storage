@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-10-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`flutter_secure_storage_x` - `v14.0.0`](#flutter_secure_storage_x---v1400)
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x_platform_interface` - `v2.3.0`](#flutter_secure_storage_x_platform_interface---v230)
+ - [`flutter_secure_storage_x_linux` - `v1.7.1`](#flutter_secure_storage_x_linux---v171)
+ - [`flutter_secure_storage_x_macos` - `v3.7.1`](#flutter_secure_storage_x_macos---v371)
+ - [`flutter_secure_storage_x_web` - `v2.4.1`](#flutter_secure_storage_x_web---v241)
+ - [`flutter_secure_storage_x_windows` - `v3.6.1`](#flutter_secure_storage_x_windows---v361)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x_linux` - `v1.7.1`
+ - `flutter_secure_storage_x_macos` - `v3.7.1`
+ - `flutter_secure_storage_x_web` - `v2.4.1`
+ - `flutter_secure_storage_x_windows` - `v3.6.1`
+
+---
+
+#### `flutter_secure_storage_x` - `v14.0.0`
+
+ - Android: Upgrade through v14 before v15 to migrate keys stored with `preferencesKeyPrefix`. See the README for details.
+
+ - **REFACTOR**: Deprecate onCupertinoProtectedDataAvailabilityChanged. ([cca54f2a](https://github.com/koji-1009/flutter_secure_storage/commit/cca54f2a5d04cd7dc7cb3f08078fc2450d509955))
+ - **REFACTOR**: Deprecate preferencesKeyPrefix with migration. ([e808b993](https://github.com/koji-1009/flutter_secure_storage/commit/e808b993188454497ec5a33139f29b2533649b6e))
+ - **FIX**: Serialize legacy key migration with Mutex. ([5932075f](https://github.com/koji-1009/flutter_secure_storage/commit/5932075f515f9917df7e2035d5eab492a65c5f09))
+ - **DOCS**: Use workflow names as badge alt text. ([24783299](https://github.com/koji-1009/flutter_secure_storage/commit/24783299b90a7dac5b8046407bc3846c96bac645))
+ - **DOCS**: Add v14 key migration notes to README. ([d70938eb](https://github.com/koji-1009/flutter_secure_storage/commit/d70938eba7ba5d87ff6b8d5c1e278d369a48ab65))
+ - **BREAKING** **FEAT**: Remove SharedPreferences support. ([8a050cd1](https://github.com/koji-1009/flutter_secure_storage/commit/8a050cd178d509133193507dbc87a84326a38e41))
+
+#### `flutter_secure_storage_x_platform_interface` - `v2.3.0`
+
+ - **REFACTOR**: Deprecate onCupertinoProtectedDataAvailabilityChanged in platform interface. ([c27675f9](https://github.com/koji-1009/flutter_secure_storage/commit/c27675f90b465b6b10176d1a0d2c1858ead64133))
+
+
 ## 2026-09-21
 
 ### Changes

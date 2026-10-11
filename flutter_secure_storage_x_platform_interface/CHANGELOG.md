@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **REFACTOR**: Deprecate onCupertinoProtectedDataAvailabilityChanged in platform interface. ([c27675f9](https://github.com/koji-1009/flutter_secure_storage/commit/c27675f90b465b6b10176d1a0d2c1858ead64133))
+
 ## 2.2.0
 
  - Raised minimum supported Flutter to 3.44 or later.

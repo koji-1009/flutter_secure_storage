@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - Update a dependency to the latest release.
+
 ## 2.4.0
 
  - Raised minimum supported Flutter to 3.44 or later.
