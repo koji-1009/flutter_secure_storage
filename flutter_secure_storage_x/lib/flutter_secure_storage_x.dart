@@ -318,20 +318,6 @@ class FlutterSecureStorage {
     };
   }
 
-  /// iOS only feature
-  ///
-  /// On all unsupported platforms returns null
-  @Deprecated(
-    'This API will be removed in v15. '
-    'If you need to observe protected data availability, '
-    'implement it in your app with native code.',
-  )
-  Stream<bool>? get onCupertinoProtectedDataAvailabilityChanged =>
-      _platform is MethodChannelFlutterSecureStorage
-      ? (_platform as MethodChannelFlutterSecureStorage)
-            .onCupertinoProtectedDataAvailabilityChanged
-      : null;
-
   /// iOS and macOS only feature.
   ///
   /// On macOS this is only available on macOS 12 or newer. On older versions always returns true.
