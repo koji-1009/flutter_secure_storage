@@ -91,7 +91,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   IOSOptions _getIOSOptions() => IOSOptions(accountName: _getAccountName());
 
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(dataStore: true);
+  AndroidOptions _getAndroidOptions() => const AndroidOptions();
 
   String? _getAccountName() =>
       _accountNameController.text.isEmpty ? null : _accountNameController.text;

@@ -49,14 +49,6 @@ internal class DataStoreStorage(context: Context) {
     }
   }
 
-  suspend fun writeAll(data: Map<String, String>) {
-    dataStore.edit { pref ->
-      data.forEach { (key, value) ->
-        pref[stringPreferencesKey(key)] = value
-      }
-    }
-  }
-
   suspend fun delete(key: String) {
     dataStore.edit { pref ->
       pref.remove(stringPreferencesKey(key))
