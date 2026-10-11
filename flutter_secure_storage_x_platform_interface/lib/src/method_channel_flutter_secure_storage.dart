@@ -9,6 +9,11 @@ const EventChannel _eventChannel = EventChannel(
 );
 
 class MethodChannelFlutterSecureStorage extends FlutterSecureStoragePlatform {
+  @Deprecated(
+    'This API will be removed in v15. '
+    'If you need to observe protected data availability, '
+    'implement it in your app with native code.',
+  )
   Stream<bool> get onCupertinoProtectedDataAvailabilityChanged => _eventChannel
       .receiveBroadcastStream()
       .where((event) => event is bool)
