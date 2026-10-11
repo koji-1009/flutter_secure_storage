@@ -3,8 +3,10 @@ package com.koji_1009.app.fluttersecurestorage
 import android.content.Context
 import com.koji_1009.app.fluttersecurestorage.ciphers.KeyStoreCipher
 import com.koji_1009.app.fluttersecurestorage.storage.DataStoreStorage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 class FlutterSecureStorage(
   private val applicationContext: Context,
@@ -65,18 +67,24 @@ class FlutterSecureStorage(
   suspend fun read(key: String): String? {
     migrateLegacyKeys()
     val value = dataStoreStorage.read(key) ?: return null
-    return decodeRawValue(value)
+    return withContext(Dispatchers.IO) {
+      decodeRawValue(value)
+    }
   }
 
   suspend fun readAll(): Map<String, String> {
     migrateLegacyKeys()
     val values = dataStoreStorage.readAll()
-    return values.mapValues { (_, value) -> decodeRawValue(value) }
+    return withContext(Dispatchers.IO) {
+      values.mapValues { (_, value) -> decodeRawValue(value) }
+    }
   }
 
   suspend fun write(key: String, value: String) {
     migrateLegacyKeys()
-    val encodeValue = encodeRawValue(value)
+    val encodeValue = withContext(Dispatchers.IO) {
+      encodeRawValue(value)
+    }
     dataStoreStorage.write(key, encodeValue)
   }
 
