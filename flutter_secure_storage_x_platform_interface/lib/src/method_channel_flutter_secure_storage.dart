@@ -4,21 +4,7 @@ const MethodChannel _channel = MethodChannel(
   'plugins.koji-1009.com/flutter_secure_storage',
 );
 
-const EventChannel _eventChannel = EventChannel(
-  'plugins.koji-1009.com/flutter_secure_storage/events',
-);
-
 class MethodChannelFlutterSecureStorage extends FlutterSecureStoragePlatform {
-  @Deprecated(
-    'This API will be removed in v15. '
-    'If you need to observe protected data availability, '
-    'implement it in your app with native code.',
-  )
-  Stream<bool> get onCupertinoProtectedDataAvailabilityChanged => _eventChannel
-      .receiveBroadcastStream()
-      .where((event) => event is bool)
-      .map((event) => event as bool);
-
   Future<bool?> isCupertinoProtectedDataAvailable() async {
     if (kIsWeb) {
       return null;
