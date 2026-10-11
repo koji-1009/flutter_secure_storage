@@ -1,0 +1,28 @@
+name: Analyze
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: koji-1009/setup-flutter@8602f8dee92d2365ed4d9af298572fbb38ab8c69 # v1.4.1
+      - run: flutter analyze
+
+  format:
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: koji-1009/setup-flutter@8602f8dee92d2365ed4d9af298572fbb38ab8c69 # v1.4.1
+      - run: dart format --output=none --set-exit-if-changed .
