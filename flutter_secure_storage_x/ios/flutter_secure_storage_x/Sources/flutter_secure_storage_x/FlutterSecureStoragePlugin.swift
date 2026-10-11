@@ -8,34 +8,21 @@
 import Flutter
 import UIKit
 
-public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
-  FlutterStreamHandler
-{
+public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin {
 
   private let flutterSecureStorageManager: FlutterSecureStorage =
     FlutterSecureStorage()
   private let serialQueue = DispatchQueue(
     label: "plugins.koji-1009.com/flutter_secure_storage_queue"
   )
-  private var protectedDataAvailableObserver: NSObjectProtocol?
-  private var protectedDataUnavailableObserver: NSObjectProtocol?
-
-  deinit {
-    removeProtectedDataObservers()
-  }
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
       name: "plugins.koji-1009.com/flutter_secure_storage",
       binaryMessenger: registrar.messenger()
     )
-    let eventChannel = FlutterEventChannel(
-      name: "plugins.koji-1009.com/flutter_secure_storage/events",
-      binaryMessenger: registrar.messenger()
-    )
     let instance = FlutterSecureStoragePlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
-    eventChannel.setStreamHandler(instance)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult)
@@ -68,44 +55,6 @@ public class FlutterSecureStoragePlugin: NSObject, FlutterPlugin,
       default:
         handleResult(FlutterMethodNotImplemented)
       }
-    }
-  }
-
-  public func onListen(
-    withArguments arguments: Any?,
-    eventSink: @escaping FlutterEventSink
-  ) -> FlutterError? {
-    protectedDataAvailableObserver = NotificationCenter.default.addObserver(
-      forName: UIApplication.protectedDataDidBecomeAvailableNotification,
-      object: nil,
-      queue: .main
-    ) { _ in
-      eventSink(true)
-    }
-
-    protectedDataUnavailableObserver = NotificationCenter.default.addObserver(
-      forName: UIApplication.protectedDataWillBecomeUnavailableNotification,
-      object: nil,
-      queue: .main
-    ) { _ in
-      eventSink(false)
-    }
-    return nil
-  }
-
-  public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-    removeProtectedDataObservers()
-    return nil
-  }
-
-  private func removeProtectedDataObservers() {
-    if let observer = protectedDataAvailableObserver {
-      NotificationCenter.default.removeObserver(observer)
-      protectedDataAvailableObserver = nil
-    }
-    if let observer = protectedDataUnavailableObserver {
-      NotificationCenter.default.removeObserver(observer)
-      protectedDataUnavailableObserver = nil
     }
   }
 
