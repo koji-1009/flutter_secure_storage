@@ -11,6 +11,30 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x` - `v14.0.1`](#flutter_secure_storage_x---v1401)
+
+---
+
+#### `flutter_secure_storage_x` - `v14.0.1`
+
+ - **FIX**: Handle method calls sequentially in arrival order. ([96e40055](https://github.com/koji-1009/flutter_secure_storage/commit/96e40055c5fcb34612d580966899694c4afcd61d))
+ - **FIX**: Use Dispatchers.Default for method call handling. ([4e0df1ab](https://github.com/koji-1009/flutter_secure_storage/commit/4e0df1abfa28e4df10aa19b0d058649c792bae07))
+ - **FIX**: Run method call handling on Dispatchers.IO. ([591502ae](https://github.com/koji-1009/flutter_secure_storage/commit/591502ae0ad277b1ea449ffb913749c2546b340d))
+ - **FIX**: Run KeyStore encryption and decryption off the main thread. ([880beb1a](https://github.com/koji-1009/flutter_secure_storage/commit/880beb1af659b05212fc181b6ba1ac7ce4e95d68))
+
+
+## 2026-10-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`flutter_secure_storage_x` - `v14.0.0`](#flutter_secure_storage_x---v1400)
 
 Packages with other changes:
