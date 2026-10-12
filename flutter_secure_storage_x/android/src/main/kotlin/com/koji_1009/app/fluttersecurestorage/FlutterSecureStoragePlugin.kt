@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
@@ -22,6 +23,9 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
   private var secureStorage: FlutterSecureStorage? = null
   private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
+  // Handles calls one at a time in arrival order, like the serial queue on iOS.
+  private val pendingCalls = Channel<Pair<MethodCall, MethodChannel.Result>>(Channel.UNLIMITED)
+
   override fun onAttachedToEngine(binding: FlutterPluginBinding) {
     channel = MethodChannel(binding.binaryMessenger, METHOD_CHANNEL_NAME).apply {
       setMethodCallHandler(this@FlutterSecureStoragePlugin)
@@ -29,19 +33,23 @@ class FlutterSecureStoragePlugin : MethodCallHandler, FlutterPlugin {
     secureStorage = FlutterSecureStorage(
       applicationContext = binding.applicationContext,
     )
+    coroutineScope.launch {
+      for ((call, result) in pendingCalls) {
+        handle(call, result)
+      }
+    }
   }
 
   override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
     coroutineScope.cancel()
+    pendingCalls.close()
     channel?.setMethodCallHandler(null)
     channel = null
     secureStorage = null
   }
 
   override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-    coroutineScope.launch {
-      handle(call, result)
-    }
+    pendingCalls.trySend(call to result)
   }
 
   private suspend fun handle(call: MethodCall, result: MethodChannel.Result) {
