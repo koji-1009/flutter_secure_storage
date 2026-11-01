@@ -1,3 +1,7 @@
+## 1.7.2
+
+ - **FIX**(linux): Replace nlohmann/json with FlJsonMessageCodec. ([56898230](https://github.com/koji-1009/flutter_secure_storage/commit/56898230ea426f36f9baff7e89c83fa66f8fb825))
+
 ## 1.7.1
 
  - Update a dependency to the latest release.

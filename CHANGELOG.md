@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-11-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`flutter_secure_storage_x_linux` - `v1.7.2`](#flutter_secure_storage_x_linux---v172)
+ - [`flutter_secure_storage_x` - `v14.0.2`](#flutter_secure_storage_x---v1402)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `flutter_secure_storage_x` - `v14.0.2`
+
+---
+
+#### `flutter_secure_storage_x_linux` - `v1.7.2`
+
+ - **FIX**(linux): Replace nlohmann/json with FlJsonMessageCodec. ([56898230](https://github.com/koji-1009/flutter_secure_storage/commit/56898230ea426f36f9baff7e89c83fa66f8fb825))
+
+
 ## 2026-10-12
 
 ### Changes

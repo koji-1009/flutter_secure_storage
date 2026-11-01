@@ -1,3 +1,7 @@
+## 14.0.2
+
+ - Update a dependency to the latest release.
+
 ## 14.0.1
 
  - **FIX**: Handle method calls sequentially in arrival order. ([96e40055](https://github.com/koji-1009/flutter_secure_storage/commit/96e40055c5fcb34612d580966899694c4afcd61d))

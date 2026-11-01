@@ -1,7 +1,7 @@
 name: flutter_secure_storage_x
 description: flutter_secure_storage_x provides API to store data in secure storage. Keychain is used in iOS, KeyStore based solution is used in Android.
 repository: https://github.com/koji-1009/flutter_secure_storage/tree/main/flutter_secure_storage_x
-version: 14.0.1
+version: 14.0.2
 
 resolution: workspace
 
@@ -30,7 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_secure_storage_x_linux: ^1.7.1
+  flutter_secure_storage_x_linux: ^1.7.2
   flutter_secure_storage_x_macos: ^3.7.1
   flutter_secure_storage_x_platform_interface: ^2.3.0
   flutter_secure_storage_x_web: ^2.4.1
