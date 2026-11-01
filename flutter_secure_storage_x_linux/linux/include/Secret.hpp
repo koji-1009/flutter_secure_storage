@@ -1,8 +1,13 @@
+#include <flutter_linux/flutter_linux.h>
 #include <libsecret/secret.h>
+
+#include <cstring>
+#include <map>
 #include <memory>
+#include <stdexcept>
+#include <string>
 
 #include "FHashTable.hpp"
-#include "json.hpp"
 
 #define secret_autofree _GLIB_CLEANUP(secret_cleanup_free)
 static inline void secret_cleanup_free(gchar **p) { secret_password_free(*p); }
@@ -68,17 +73,26 @@ public:
 
   bool storeToKeyring(const std::map<std::string, std::string> &value)
   {
-    nlohmann::json json;
+    g_autoptr(FlValue) json = fl_value_new_map();
     for (const auto &pair : value)
     {
-      json[pair.first] = pair.second;
+      fl_value_set_string_take(json, pair.first.c_str(),
+                               fl_value_new_string(pair.second.c_str()));
     }
-    const std::string output = json.dump(0);
+
+    g_autoptr(FlJsonMessageCodec) codec = fl_json_message_codec_new();
+    g_autoptr(GError) encode_err = nullptr;
+    g_autofree gchar *output = fl_json_message_codec_encode(codec, json, &encode_err);
+    if (output == nullptr)
+    {
+      throw std::runtime_error(std::string("storeToKeyring: ") + encode_err->message);
+    }
+
     g_autoptr(GError) err = nullptr;
 
     bool result = secret_password_storev_sync(
         &the_schema, m_attributes.getGHashTable(), nullptr, label.c_str(),
-        output.c_str(), nullptr, &err);
+        output, nullptr, &err);
 
     if (err)
     {
@@ -104,10 +118,34 @@ public:
     }
     if (result != NULL && strcmp(result, "") != 0)
     {
-      auto json_value = nlohmann::json::parse(result);
-      for (auto &el : json_value.items())
+      g_autoptr(FlJsonMessageCodec) codec = fl_json_message_codec_new();
+      g_autoptr(GError) decode_err = nullptr;
+      g_autoptr(FlValue) json = fl_json_message_codec_decode(codec, result, &decode_err);
+      if (json == nullptr)
       {
-        value[el.key()] = el.value();
+        throw std::runtime_error(std::string("readFromKeyring: ") + decode_err->message);
+      }
+
+      // Older versions stored "null" after deleteAll.
+      if (fl_value_get_type(json) == FL_VALUE_TYPE_NULL)
+      {
+        return value;
+      }
+      if (fl_value_get_type(json) != FL_VALUE_TYPE_MAP)
+      {
+        throw std::runtime_error("readFromKeyring: Stored data is not a JSON object");
+      }
+
+      for (size_t i = 0; i < fl_value_get_length(json); i++)
+      {
+        FlValue *k = fl_value_get_map_key(json, i);
+        FlValue *v = fl_value_get_map_value(json, i);
+        if (fl_value_get_type(k) != FL_VALUE_TYPE_STRING ||
+            fl_value_get_type(v) != FL_VALUE_TYPE_STRING)
+        {
+          throw std::runtime_error("readFromKeyring: Stored value is not a string");
+        }
+        value[fl_value_get_string(k)] = fl_value_get_string(v);
       }
     }
     return value;
